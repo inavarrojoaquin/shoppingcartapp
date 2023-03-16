@@ -1,34 +1,52 @@
-﻿namespace ShoppingCartApp
+﻿using System.Text;
+
+namespace ShoppingCartApp
 {
     internal class ShoppingCart : IShoppingCart
     {
-        private IEnumerable<Product> products;
-        private string promotion;
+        private List<Product> products;
 
         public ShoppingCart()
         {
             products = new List<Product>();
-            promotion = string.Empty;
         }
 
-        public List<Product> GetProducts()
+        public void AddProduct(Product product)
         {
-            return products.ToList();
+            products.Add(product);
         }
 
-        public string GetPromotion()
+        private string PrintProducts()
         {
-            return promotion;
+            if (!products.Any())            
+                return "No products";
+
+            StringBuilder productList = new();
+            productList.AppendLine("Products: ");
+            products.ForEach(x => productList.AppendLine(string.Format( "-> Name: {0} \t| Price: {1} \t| Quantity: {2}", x.Name, x.Price, x.Quantity )));
+
+            return productList.ToString();
         }
 
-        public int GetTotalOfProducts()
+        private string PrintTotalOfProducts()
         {
-            return products.Count();
+            return string.Format("Total of products: {0}", products.Count());
         }
 
-        public float GetTotalPrice()
+        private string PrintTotalPrice()
         {
-            return products.Sum(x => x.Price );
+            return string.Format("Total price: {0}", products.Sum(x => x.Price));
+        }
+
+        public string PrintShoppingCart()
+        {
+            StringBuilder shoppingCartBuilder = new();
+            shoppingCartBuilder.AppendLine(PrintProducts());
+            shoppingCartBuilder.AppendLine("No promotion");
+            shoppingCartBuilder.AppendLine(PrintTotalOfProducts());
+            shoppingCartBuilder.AppendLine(PrintTotalPrice());
+
+            return shoppingCartBuilder.ToString();
         }
     }
 }
