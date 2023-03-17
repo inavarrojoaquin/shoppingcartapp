@@ -27,13 +27,13 @@ namespace ShoppingCartApp
         [Test]
         public void AddProductsToShoppingCart()
         {
-            List<Product> products= new List<Product>
+            List<Product> products = new List<Product>
             {
-                new Product{ Name = "Iceberg", Price = 2.17, Quantity = 1 },
-                new Product{ Name = "Tomatoe", Price = 0.73, Quantity = 1 },
-                new Product{ Name = "Chicken", Price = 1.83, Quantity = 1 },
-                new Product{ Name = "Bread", Price = 0.88, Quantity = 1 },
-                new Product{ Name = "Corn", Price = 1.50, Quantity = 1 },
+                new Product("Iceberg", 2.17, 1 ),
+                new Product("Tomatoe", 0.73, 1),
+                new Product("Chicken", 1.83, 1),
+                new Product("Bread", 0.88, 1),
+                new Product("Corn", 1.50, 1),
             };
 
             shoppingCart.AddProducts(products);
@@ -53,14 +53,14 @@ namespace ShoppingCartApp
         {
             List<Product> products = new List<Product>
             {
-                new Product{ Name = "Iceberg", Price = 2.17, Quantity = 1 },
-                new Product{ Name = "Iceberg", Price = 2.17, Quantity = 1 },
-                new Product{ Name = "Iceberg", Price = 2.17, Quantity = 1 },
-                new Product{ Name = "Tomatoe", Price = 0.73, Quantity = 1 },
-                new Product{ Name = "Chicken", Price = 1.83, Quantity = 1 },
-                new Product{ Name = "Bread", Price = 0.88, Quantity = 1 },
-                new Product{ Name = "Bread", Price = 0.88, Quantity = 1 },
-                new Product{ Name = "Corn", Price = 1.50, Quantity = 1 },
+                new Product("Iceberg", 2.17, 1),
+                new Product("Iceberg", 2.17, 1),
+                new Product("Iceberg", 2.17, 1),
+                new Product("Tomatoe", 0.73, 1),
+                new Product("Chicken", 1.83, 1),
+                new Product("Bread", 0.88, 1),
+                new Product("Bread", 0.88, 1),
+                new Product("Corn", 1.50, 1),
             };
 
             shoppingCart.AddProducts(products);
@@ -72,7 +72,7 @@ namespace ShoppingCartApp
             Assert.That(shoppingCartResult, Does.Contain("No promotion"));
             int totalOfProducts = products.Sum(x => x.Quantity);
             Assert.That(shoppingCartResult, Does.Contain(string.Format("Total of products: {0}", totalOfProducts)));
-            double totalPrice = Math.Round(products.Sum(x => x.Price * x.Quantity), 2);
+            double totalPrice = Math.Round(products.Sum(x => x.CalculatePrice()), 2);
             Assert.That(shoppingCartResult, Does.Contain(string.Format("Total price: {0}", totalPrice)));
         }
     }

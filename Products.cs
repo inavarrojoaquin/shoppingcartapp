@@ -16,7 +16,7 @@ namespace ShoppingCartApp
             if (products.Exists(x => x.Name == product.Name))
             {
                 Product findedProduct = products.First(x => x.Name == product.Name);
-                findedProduct.Quantity++;
+                findedProduct.AddQuantity();
                 return;
             }
 
@@ -30,7 +30,7 @@ namespace ShoppingCartApp
 
             StringBuilder productList = new();
             productList.AppendLine("Products: ");
-            products.ForEach(x => productList.AppendLine(string.Format("-> Name: {0} \t| Price: {1} \t| Quantity: {2}", x.Name, x.Price, x.Quantity)));
+            products.ForEach(x => productList.AppendLine(x.ToString()));
 
             return productList.ToString();
         }
@@ -42,7 +42,7 @@ namespace ShoppingCartApp
 
         internal string PrintTotalPrice()
         {
-            return string.Format("Total price: {0}", Math.Round(products.Sum(x => x.Price * x.Quantity), 2));
+            return string.Format("Total price: {0}", Math.Round(products.Sum(x => x.CalculatePrice()), 2));
         }
     }
 }
