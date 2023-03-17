@@ -2,7 +2,7 @@
 {
     internal interface IShoppingCart
     {
-        void AddProduct(Product product);
+        void AddProducts(List<Product> productsToAdd);
         string PrintShoppingCart();
     }
 }

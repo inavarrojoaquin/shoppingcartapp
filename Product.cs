@@ -1,15 +1,21 @@
-﻿namespace ShoppingCartApp
+﻿using System.Runtime.CompilerServices;
+
+namespace ShoppingCartApp
 {
-    public class Product
+    public class Product : ICloneable<Product>
     {
-        public string Name { get; }
-        public double Price { get; }
-        public int Quantity { get; }
-        public Product(string name, double price, int quantity)
+        public string Name { get; set; }
+        public double Price { get; set; }
+        public int Quantity { get; set; }
+
+        public Product Clone()
         {
-            Name = name;
-            Price = price;
-            Quantity = quantity;
+            return new Product
+            {
+                Name = this.Name,
+                Price = this.Price,
+                Quantity = this.Quantity
+            };
         }
     }
 }

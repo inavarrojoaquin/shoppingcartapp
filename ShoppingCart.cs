@@ -11,8 +11,21 @@ namespace ShoppingCartApp
             products = new List<Product>();
         }
 
-        public void AddProduct(Product product)
+        public void AddProducts(List<Product> productsToAdd)
         {
+            List<Product> clonesProductsToAdd = productsToAdd.ConvertAll(x => x.Clone());
+            clonesProductsToAdd.ForEach(x => AddProduct(x));
+        }
+
+        private void AddProduct(Product product)
+        {
+            if (products.Exists(x => x.Name == product.Name))
+            {
+                Product findedProduct = products.First(x => x.Name == product.Name);
+                findedProduct.Quantity++;
+                return;
+            }
+
             products.Add(product);
         }
 
@@ -30,12 +43,12 @@ namespace ShoppingCartApp
 
         private string PrintTotalOfProducts()
         {
-            return string.Format("Total of products: {0}", products.Count());
+            return string.Format("Total of products: {0}", products.Sum(x => x.Quantity));
         }
 
         private string PrintTotalPrice()
         {
-            return string.Format("Total price: {0}", products.Sum(x => x.Price));
+            return string.Format("Total price: {0}", Math.Round(products.Sum(x => x.Price * x.Quantity), 2));
         }
 
         public string PrintShoppingCart()
