@@ -5,13 +5,12 @@ namespace ShoppingCartApp
     internal class Products
     {
         private List<Product> products;
-        private double discount;
-        private string promotion;
+        private Discount discount;
 
         public Products()
         {
             products = new List<Product>();
-            discount = 0;
+            discount = new Discount();
         }
 
         internal void AddProduct(Product product)
@@ -26,16 +25,9 @@ namespace ShoppingCartApp
             products.Add(product);
         }
 
-        internal void ApplyDiscount(string promo)
+        internal void ApplyDiscount(string promotion)
         {
-            promotion = promo;
-            
-            if (promotion == "PROMO_5")
-                discount = 5;
-            if (promotion == "PROMO_10")
-                discount = 10;
-            if (promotion == "PROMO_15")
-                discount = 15;
+            discount.ApplyPromotion(promotion);
         }
 
         internal string PrintProducts()
@@ -52,24 +44,34 @@ namespace ShoppingCartApp
 
         internal string PrintPromotion()
         {
-            if (discount == 0)
+            if (discount.AppliedDiscount == 0)
                 return "No promotion";
 
-            return string.Format("Promotion: {0}% off with code {1}", discount, promotion);
+            return string.Format("Promotion: {0}% off with code {1}", discount.AppliedDiscount, discount.AppliedPromotion);
         }
 
         internal string PrintTotalOfProducts()
         {
-            return string.Format("Total of products: {0}", products.Sum(x => x.Quantity));
+            return string.Format("Total of products: {0}", GetTotalOfProducts());
+        }
+
+        private int GetTotalOfProducts()
+        {
+            return products.Sum(x => x.Quantity);
         }
 
         internal string PrintTotalPrice()
         {
-            double totalPrice = products.Sum(x => x.CalculatePrice());
-            if (discount > 0)
-                totalPrice -= totalPrice * (discount / 100);
+            return string.Format("Total price: {0}", GetTotalPrice());
+        }
 
-            return string.Format("Total price: {0}", Math.Round(totalPrice, 2));
+        private double GetTotalPrice()
+        {
+            double totalPrice = products.Sum(x => x.CalculatePrice());
+            if (discount.AppliedDiscount > 0)
+                totalPrice -= totalPrice * (discount.AppliedDiscount / 100);
+            
+            return Math.Round(totalPrice, 2);
         }
     }
 }

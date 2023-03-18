@@ -104,5 +104,13 @@ namespace ShoppingCartApp
             Assert.That(shoppingCartResult, Does.Contain(string.Format("Total of products: {0}", 8)));
             Assert.That(shoppingCartResult, Does.Contain(string.Format("Total price: {0}", totalPrice)));
         }
+
+        [Test]
+        public void RaiseExWhenPromotionDoesNotExists()
+        {
+            var ex = Assert.Throws<Exception>(() => shoppingCart.ApplyDiscount("NOT_EXIST"));
+
+            Assert.That(ex.Message, Does.Contain("Promotion does not exists"));
+        }
     }
 }
