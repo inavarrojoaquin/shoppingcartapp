@@ -31,5 +31,10 @@
         {
             return new Product(Name, Price, Quantity);
         }
+
+        internal void DecreaseQuantity()
+        {
+            Quantity--;
+        }
     }
 }

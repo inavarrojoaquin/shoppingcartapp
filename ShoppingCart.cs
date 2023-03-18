@@ -22,6 +22,11 @@ namespace ShoppingCartApp
             products.ApplyDiscount(promo);
         }
 
+        public void DeleteProduct(string productName)
+        {
+            products.DeleteProduct(productName);
+        }
+
         public string PrintShoppingCart()
         {
             StringBuilder shoppingCartBuilder = new();

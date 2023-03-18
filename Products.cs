@@ -73,5 +73,15 @@ namespace ShoppingCartApp
             
             return Math.Round(totalPrice, 2);
         }
+
+        internal void DeleteProduct(string productName)
+        {
+            if (products.ContainsKey(productName)) { 
+                products[productName].DecreaseQuantity();
+                return;
+            }
+
+            products.Remove(productName);
+        }
     }
 }

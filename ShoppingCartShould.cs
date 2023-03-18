@@ -112,5 +112,29 @@ namespace ShoppingCartApp
 
             Assert.That(ex.Message, Does.Contain("Promotion does not exists"));
         }
+
+        [TestCase("Iceberg")]
+        [TestCase("Chicken")]
+        public void DeleteProductFromShoppingCart(string productName)
+        {
+            List<Product> products = new List<Product>
+            {
+                new Product("Iceberg", 2.17, 1),
+                new Product("Iceberg", 2.17, 1),
+                new Product("Iceberg", 2.17, 1),
+                new Product("Chicken", 1.83, 1),
+                new Product("Tomatoe", 0.73, 1)
+            };
+
+            shoppingCart.AddProducts(products);
+            shoppingCart.DeleteProduct(productName);
+
+            string shoppingCartResult = shoppingCart.PrintShoppingCart();
+
+            if(productName == "Iceberg")
+                Assert.That(shoppingCartResult, Does.Contain("Quantity: 2"));
+
+            Assert.That(shoppingCartResult, Does.Contain(string.Format("Total of products: {0}", 4)));
+        }
     }
 }
