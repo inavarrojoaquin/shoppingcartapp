@@ -4,11 +4,13 @@ namespace ShoppingCartApp
 {
     internal class Products
     {
-        List<Product> products;
+        private List<Product> products;
+        private double discount;
 
         public Products()
         {
             products = new List<Product>();
+            discount = 0;
         }
 
         internal void AddProduct(Product product)
@@ -23,6 +25,11 @@ namespace ShoppingCartApp
             products.Add(product);
         }
 
+        internal void ApplyDiscount(string promo)
+        {
+            discount = 5;
+        }
+
         internal string PrintProducts()
         {
             if (!products.Any())
@@ -35,6 +42,14 @@ namespace ShoppingCartApp
             return productList.ToString();
         }
 
+        internal string PrintPromotion()
+        {
+            if (discount == 0)
+                return "No promotion";
+
+            return string.Format("Promotion: {0}% off with code {1}", discount, "PROMO_5");
+        }
+
         internal string PrintTotalOfProducts()
         {
             return string.Format("Total of products: {0}", products.Sum(x => x.Quantity));
@@ -42,7 +57,11 @@ namespace ShoppingCartApp
 
         internal string PrintTotalPrice()
         {
-            return string.Format("Total price: {0}", Math.Round(products.Sum(x => x.CalculatePrice()), 2));
+            double totalPrice = products.Sum(x => x.CalculatePrice());
+            if (discount > 0)
+                totalPrice -= totalPrice * (discount / 100);
+
+            return string.Format("Total price: {0}", Math.Round(totalPrice, 2));
         }
     }
 }

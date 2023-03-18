@@ -75,5 +75,32 @@ namespace ShoppingCartApp
             double totalPrice = Math.Round(products.Sum(x => x.CalculatePrice()), 2);
             Assert.That(shoppingCartResult, Does.Contain(string.Format("Total price: {0}", totalPrice)));
         }
+
+        [Test]
+        public void ApplyDiscountToTheShoppingCart()
+        {
+            List<Product> products = new List<Product>
+            {
+                new Product("Iceberg", 2.17, 1),
+                new Product("Iceberg", 2.17, 1),
+                new Product("Iceberg", 2.17, 1),
+                new Product("Tomatoe", 0.73, 1),
+                new Product("Chicken", 1.83, 1),
+                new Product("Bread", 0.88, 1),
+                new Product("Bread", 0.88, 1),
+                new Product("Corn", 1.50, 1),
+            };
+
+            shoppingCart.AddProducts(products);
+            shoppingCart.ApplyDiscount("PROMO_5");
+
+            string shoppingCartResult = shoppingCart.PrintShoppingCart();
+
+            Assert.That(shoppingCartResult, Does.Contain("Products: "));
+            Assert.That(shoppingCartResult, Does.Contain("Quantity: 3"));
+            Assert.That(shoppingCartResult, Does.Contain("Promotion: 5% off with code PROMO_5"));
+            Assert.That(shoppingCartResult, Does.Contain(string.Format("Total of products: {0}", 8)));
+            Assert.That(shoppingCartResult, Does.Contain(string.Format("Total price: {0}", 11.71)));
+        }
     }
 }

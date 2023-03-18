@@ -17,11 +17,16 @@ namespace ShoppingCartApp
             clonesProductsToAdd.ForEach(x => products.AddProduct(x));
         }
 
+        public void ApplyDiscount(string promo)
+        {
+            products.ApplyDiscount(promo);
+        }
+
         public string PrintShoppingCart()
         {
             StringBuilder shoppingCartBuilder = new();
             shoppingCartBuilder.AppendLine(products.PrintProducts());
-            shoppingCartBuilder.AppendLine("No promotion");
+            shoppingCartBuilder.AppendLine(products.PrintPromotion());
             shoppingCartBuilder.AppendLine(products.PrintTotalOfProducts());
             shoppingCartBuilder.AppendLine(products.PrintTotalPrice());
 
