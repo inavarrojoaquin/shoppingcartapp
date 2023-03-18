@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/obj/Debug/net6.0/ref/ShoppingCartApp.dll
+/obj/Debug/net6.0/refint/ShoppingCartApp.dll
+/obj/Debug/net6.0/ShoppingCartApp.pdb
+/obj/Debug/net6.0/ShoppingCartApp.dll
+/bin/Debug/net6.0/ShoppingCartApp.pdb
+/bin/Debug/net6.0/ShoppingCartApp.dll
+/bin/Debug/net6.0/nunit_random_seed.tmp
