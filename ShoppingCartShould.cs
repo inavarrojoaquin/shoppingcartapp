@@ -76,8 +76,10 @@ namespace ShoppingCartApp
             Assert.That(shoppingCartResult, Does.Contain(string.Format("Total price: {0}", totalPrice)));
         }
 
-        [Test]
-        public void ApplyDiscountToTheShoppingCart()
+        [TestCase(5, "PROMO_5", 11.71)]
+        [TestCase(10, "PROMO_10", 11.1)]
+        [TestCase(15, "PROMO_15", 10.48)]
+        public void ApplyDiscountToTheShoppingCart(int discount, string promotion, double totalPrice)
         {
             List<Product> products = new List<Product>
             {
@@ -92,15 +94,15 @@ namespace ShoppingCartApp
             };
 
             shoppingCart.AddProducts(products);
-            shoppingCart.ApplyDiscount("PROMO_5");
+            shoppingCart.ApplyDiscount(promotion);
 
             string shoppingCartResult = shoppingCart.PrintShoppingCart();
 
             Assert.That(shoppingCartResult, Does.Contain("Products: "));
             Assert.That(shoppingCartResult, Does.Contain("Quantity: 3"));
-            Assert.That(shoppingCartResult, Does.Contain("Promotion: 5% off with code PROMO_5"));
+            Assert.That(shoppingCartResult, Does.Contain(string.Format("Promotion: {0}% off with code {1}", discount, promotion)));
             Assert.That(shoppingCartResult, Does.Contain(string.Format("Total of products: {0}", 8)));
-            Assert.That(shoppingCartResult, Does.Contain(string.Format("Total price: {0}", 11.71)));
+            Assert.That(shoppingCartResult, Does.Contain(string.Format("Total price: {0}", totalPrice)));
         }
     }
 }

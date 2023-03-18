@@ -6,6 +6,7 @@ namespace ShoppingCartApp
     {
         private List<Product> products;
         private double discount;
+        private string promotion;
 
         public Products()
         {
@@ -27,7 +28,14 @@ namespace ShoppingCartApp
 
         internal void ApplyDiscount(string promo)
         {
-            discount = 5;
+            promotion = promo;
+            
+            if (promotion == "PROMO_5")
+                discount = 5;
+            if (promotion == "PROMO_10")
+                discount = 10;
+            if (promotion == "PROMO_15")
+                discount = 15;
         }
 
         internal string PrintProducts()
@@ -47,7 +55,7 @@ namespace ShoppingCartApp
             if (discount == 0)
                 return "No promotion";
 
-            return string.Format("Promotion: {0}% off with code {1}", discount, "PROMO_5");
+            return string.Format("Promotion: {0}% off with code {1}", discount, promotion);
         }
 
         internal string PrintTotalOfProducts()
