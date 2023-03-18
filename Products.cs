@@ -4,25 +4,24 @@ namespace ShoppingCartApp
 {
     internal class Products
     {
-        private List<Product> products;
+        private Dictionary<string, Product> products;
         private Discount discount;
 
         public Products()
         {
-            products = new List<Product>();
+            products = new Dictionary<string, Product>();
             discount = new Discount();
         }
 
         internal void AddProduct(Product product)
         {
-            if (products.Exists(x => x.Name == product.Name))
+            if (products.ContainsKey(product.Name))
             {
-                Product findedProduct = products.First(x => x.Name == product.Name);
-                findedProduct.AddQuantity();
+                products[product.Name].AddQuantity();
                 return;
             }
 
-            products.Add(product);
+            products.Add(product.Name, product);
         }
 
         internal void ApplyDiscount(string promotion)
@@ -37,8 +36,9 @@ namespace ShoppingCartApp
 
             StringBuilder productList = new();
             productList.AppendLine("Products: ");
-            products.ForEach(x => productList.AppendLine(x.ToString()));
-
+            foreach (var item in products) 
+                productList.AppendLine(item.Value.ToString());
+            
             return productList.ToString();
         }
 
@@ -57,7 +57,7 @@ namespace ShoppingCartApp
 
         private int GetTotalOfProducts()
         {
-            return products.Sum(x => x.Quantity);
+            return products.Sum(x => x.Value.Quantity);
         }
 
         internal string PrintTotalPrice()
@@ -67,7 +67,7 @@ namespace ShoppingCartApp
 
         private double GetTotalPrice()
         {
-            double totalPrice = products.Sum(x => x.CalculatePrice());
+            double totalPrice = products.Sum(x => x.Value.CalculatePrice());
             if (discount.AppliedDiscount > 0)
                 totalPrice -= totalPrice * (discount.AppliedDiscount / 100);
             
