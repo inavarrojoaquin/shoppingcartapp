@@ -11,10 +11,9 @@ namespace ShoppingCartApp
             products = new Products();
         }
 
-        public void AddProducts(List<Product> productsToAdd)
+        public void AddProducts(Product product)
         {
-            List<Product> clonesProductsToAdd = productsToAdd.ConvertAll(x => x.Clone());
-            clonesProductsToAdd.ForEach(x => products.AddProduct(x));
+            products.AddProduct(product);
         }
 
         public void ApplyDiscount(string promo)

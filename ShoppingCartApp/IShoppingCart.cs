@@ -2,8 +2,8 @@
 {
     internal interface IShoppingCart
     {
-        void AddProducts(List<Product> productsToAdd);
-        void ApplyDiscount(string v);
+        void AddProducts(Product product);
+        void ApplyDiscount(string discount);
         void DeleteProduct(string productName);
         string PrintShoppingCart();
     }

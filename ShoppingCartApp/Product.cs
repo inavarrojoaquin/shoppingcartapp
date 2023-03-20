@@ -1,6 +1,6 @@
 ﻿namespace ShoppingCartApp
 {
-    public class Product : ICloneable<Product>
+    public class Product
     {
         public string Name { get; }
         public double Price { get; }
@@ -25,11 +25,6 @@
         internal void AddQuantity()
         {
             Quantity++;
-        }
-
-        public Product Clone()
-        {
-            return new Product(Name, Price, Quantity);
         }
 
         internal void DecreaseQuantity()
