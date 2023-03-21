@@ -2,26 +2,34 @@
 {
     internal class Discount
     {
-        private readonly Dictionary<string, double> promotions;
-        public double AppliedDiscount { get; private set; }
-        public string AppliedPromotion { get; private set; }
-        public Discount()
+        private string name;
+        private double quantity;
+        
+        public Discount(string name, double quantity)
         {
-            AppliedDiscount = 0;
-            promotions = new Dictionary<string, double>
-            {
-                { "PROMO_5", 5},
-                { "PROMO_10", 10},
-                { "PROMO_15", 15},
-            };
+            this.name = name;
+            this.quantity = quantity;
         }
-        internal void ApplyPromotion(string promotion)
-        {
-            if (!promotions.ContainsKey(promotion))
-                throw new Exception("Promotion does not exists");
 
-            AppliedDiscount = promotions[promotion];
-            AppliedPromotion = promotion;
+        internal double GetCalculatedDiscount()
+        {
+            return quantity / 100;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("Promotion: {0}% off with code {1}", quantity, name);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Discount discount &&
+                   name == discount.name;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(name);
         }
     }
 }

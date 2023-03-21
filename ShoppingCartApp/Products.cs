@@ -5,12 +5,10 @@ namespace ShoppingCartApp
     internal class Products
     {
         private List<Product> products;
-        private Discount discount;
-
+        
         public Products()
         {
             products = new List<Product>();
-            discount = new Discount();
         }
 
         internal void AddProduct(Product product)
@@ -22,11 +20,6 @@ namespace ShoppingCartApp
             }
 
             products.Add(product);
-        }
-
-        internal void ApplyDiscount(string promotion)
-        {
-            discount.ApplyPromotion(promotion);
         }
 
         internal string PrintProducts()
@@ -42,14 +35,6 @@ namespace ShoppingCartApp
             return productList.ToString();
         }
 
-        internal string PrintPromotion()
-        {
-            if (discount.AppliedDiscount == 0)
-                return "No promotion";
-
-            return string.Format("Promotion: {0}% off with code {1}", discount.AppliedDiscount, discount.AppliedPromotion);
-        }
-
         internal string PrintTotalOfProducts()
         {
             return string.Format("Total of products: {0}", GetTotalOfProducts());
@@ -60,18 +45,9 @@ namespace ShoppingCartApp
             return products.Sum(x => x.Quantity);
         }
 
-        internal string PrintTotalPrice()
+        public double GetTotalPrice()
         {
-            return string.Format("Total price: {0}", GetTotalPrice());
-        }
-
-        private double GetTotalPrice()
-        {
-            double totalPrice = products.Sum(x => x.CalculatePrice());
-            if (discount.AppliedDiscount > 0)
-                totalPrice -= totalPrice * (discount.AppliedDiscount / 100);
-            
-            return Math.Round(totalPrice, 2);
+            return products.Sum(x => x.CalculatePrice()); 
         }
 
         internal void DeleteProduct(Product product)

@@ -7,20 +7,10 @@ namespace ShoppingCartApp
         private Products products;
         private Discounts discounts;
 
-        // Propducts no deberia saber de Discount
-        // En esta clase shoppingCart deberia gestionar el vinculo entre Products y Discounts
-        // ShoppingCartController -> recibe productDto -> UseCase(requestDto) -> dentro del useCase creo el objeto de Dominio real en base a la requestDto
-        // Usar NUnit.Substitute (outside-in -> Londres School), comienzo por los UseCases y luego el Controller
-        // inside-out -> Chicago School
-        // Recibo una shoppingCartTarget y un productDTO en la request
-        // Si añado un prod se crea una shoppingcart en caso q no exista, sino le agrego el prod a esa shoppingCart 
-        // El useCase crea el objeto de dominio (ValueObject)
-        // Use cases, cada addProduct, etc sera un usecase(request)
-        // ValueObjects
-        // PrintShoppingCart deberia devolver un json
         public ShoppingCart()
         {
             products = new Products();
+            discounts = new Discounts();
         }
 
         public void AddProduct(Product product)
@@ -28,9 +18,9 @@ namespace ShoppingCartApp
             products.AddProduct(product);
         }
 
-        public void ApplyDiscount(string discount)
+        public void ApplyDiscount(Discount discount)
         {
-            products.ApplyDiscount(discount);
+            discounts.ApplyDiscount(discount);
         }
 
         public void DeleteProduct(Product product)
@@ -42,11 +32,22 @@ namespace ShoppingCartApp
         {
             StringBuilder shoppingCartBuilder = new();
             shoppingCartBuilder.AppendLine(products.PrintProducts());
-            shoppingCartBuilder.AppendLine(products.PrintPromotion());
+            shoppingCartBuilder.AppendLine(discounts.PrintDiscount());
             shoppingCartBuilder.AppendLine(products.PrintTotalOfProducts());
-            shoppingCartBuilder.AppendLine(products.PrintTotalPrice());
+            shoppingCartBuilder.AppendLine(PrintTotalPrice());
 
             return shoppingCartBuilder.ToString();
+        }
+
+        private string? PrintTotalPrice()
+        {
+            double totalPrice = products.GetTotalPrice();
+            double discount = discounts.GetDiscount();
+
+            if(discount != -1)
+                totalPrice -= totalPrice * discount;
+
+            return string.Format("Total price: {0}", Math.Round(totalPrice, 2));
         }
     }
 }
