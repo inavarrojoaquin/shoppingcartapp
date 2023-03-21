@@ -27,11 +27,11 @@ namespace ShoppingCartApp
         [Test]
         public void AddProductsToShoppingCart()
         {
-            shoppingCart.AddProducts(new Product("Iceberg", 2.17, 1));
-            shoppingCart.AddProducts(new Product("Tomatoe", 0.73, 1));
-            shoppingCart.AddProducts(new Product("Chicken", 1.83, 1));
-            shoppingCart.AddProducts(new Product("Bread", 0.88, 1));
-            shoppingCart.AddProducts(new Product("Corn", 1.50, 1));
+            shoppingCart.AddProduct(new Product("Iceberg", 2.17, 1));
+            shoppingCart.AddProduct(new Product("Tomatoe", 0.73, 1));
+            shoppingCart.AddProduct(new Product("Chicken", 1.83, 1));
+            shoppingCart.AddProduct(new Product("Bread", 0.88, 1));
+            shoppingCart.AddProduct(new Product("Corn", 1.50, 1));
 
             string shoppingCartResult = shoppingCart.PrintShoppingCart();
 
@@ -44,14 +44,14 @@ namespace ShoppingCartApp
         [Test]
         public void AddSameProductsToShoppingCart()
         {
-            shoppingCart.AddProducts(new Product("Iceberg", 2.17, 1));
-            shoppingCart.AddProducts(new Product("Iceberg", 2.17, 1));
-            shoppingCart.AddProducts(new Product("Iceberg", 2.17, 1));
-            shoppingCart.AddProducts(new Product("Tomatoe", 0.73, 1));
-            shoppingCart.AddProducts(new Product("Chicken", 1.83, 1));
-            shoppingCart.AddProducts(new Product("Bread", 0.88, 1));
-            shoppingCart.AddProducts(new Product("Bread", 0.88, 1));
-            shoppingCart.AddProducts(new Product("Corn", 1.50, 1));
+            shoppingCart.AddProduct(new Product("Iceberg", 2.17, 1));
+            shoppingCart.AddProduct(new Product("Iceberg", 2.17, 1));
+            shoppingCart.AddProduct(new Product("Iceberg", 2.17, 1));
+            shoppingCart.AddProduct(new Product("Tomatoe", 0.73, 1));
+            shoppingCart.AddProduct(new Product("Chicken", 1.83, 1));
+            shoppingCart.AddProduct(new Product("Bread", 0.88, 1));
+            shoppingCart.AddProduct(new Product("Bread", 0.88, 1));
+            shoppingCart.AddProduct(new Product("Corn", 1.50, 1));
 
             string shoppingCartResult = shoppingCart.PrintShoppingCart();
 
@@ -67,14 +67,14 @@ namespace ShoppingCartApp
         [TestCase(15, "PROMO_15", 10.48)]
         public void ApplyDiscountToTheShoppingCart(int discount, string promotion, double totalPrice)
         {
-            shoppingCart.AddProducts(new Product("Iceberg", 2.17, 1));
-            shoppingCart.AddProducts(new Product("Iceberg", 2.17, 1));
-            shoppingCart.AddProducts(new Product("Iceberg", 2.17, 1));
-            shoppingCart.AddProducts(new Product("Tomatoe", 0.73, 1));
-            shoppingCart.AddProducts(new Product("Chicken", 1.83, 1));
-            shoppingCart.AddProducts(new Product("Bread", 0.88, 1));
-            shoppingCart.AddProducts(new Product("Bread", 0.88, 1));
-            shoppingCart.AddProducts(new Product("Corn", 1.50, 1));
+            shoppingCart.AddProduct(new Product("Iceberg", 2.17, 1));
+            shoppingCart.AddProduct(new Product("Iceberg", 2.17, 1));
+            shoppingCart.AddProduct(new Product("Iceberg", 2.17, 1));
+            shoppingCart.AddProduct(new Product("Tomatoe", 0.73, 1));
+            shoppingCart.AddProduct(new Product("Chicken", 1.83, 1));
+            shoppingCart.AddProduct(new Product("Bread", 0.88, 1));
+            shoppingCart.AddProduct(new Product("Bread", 0.88, 1));
+            shoppingCart.AddProduct(new Product("Corn", 1.50, 1));
 
             shoppingCart.ApplyDiscount(promotion);
 
@@ -99,13 +99,13 @@ namespace ShoppingCartApp
         [TestCase("Chicken")]
         public void DeleteProductFromShoppingCart(string productName)
         {
-            shoppingCart.AddProducts(new Product("Iceberg", 2.17, 1));
-            shoppingCart.AddProducts(new Product("Iceberg", 2.17, 1));
-            shoppingCart.AddProducts(new Product("Iceberg", 2.17, 1));
-            shoppingCart.AddProducts(new Product("Chicken", 1.83, 1));
-            shoppingCart.AddProducts(new Product("Tomatoe", 0.73, 1));
+            shoppingCart.AddProduct(new Product("Iceberg", 2.17, 1));
+            shoppingCart.AddProduct(new Product("Iceberg", 2.17, 1));
+            shoppingCart.AddProduct(new Product("Iceberg", 2.17, 1));
+            shoppingCart.AddProduct(new Product("Chicken", 1.83, 1));
+            shoppingCart.AddProduct(new Product("Tomatoe", 0.73, 1));
 
-            shoppingCart.DeleteProduct(productName);
+            shoppingCart.DeleteProduct(new Product(productName));
 
             string shoppingCartResult = shoppingCart.PrintShoppingCart();
 

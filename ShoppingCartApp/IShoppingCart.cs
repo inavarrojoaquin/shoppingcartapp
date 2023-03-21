@@ -2,9 +2,9 @@
 {
     internal interface IShoppingCart
     {
-        void AddProducts(Product product);
+        void AddProduct(Product product);
         void ApplyDiscount(string discount);
-        void DeleteProduct(string productName);
+        void DeleteProduct(Product product);
         string PrintShoppingCart();
     }
 }

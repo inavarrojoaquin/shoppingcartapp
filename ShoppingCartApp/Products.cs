@@ -4,24 +4,24 @@ namespace ShoppingCartApp
 {
     internal class Products
     {
-        private Dictionary<string, Product> products;
+        private List<Product> products;
         private Discount discount;
 
         public Products()
         {
-            products = new Dictionary<string, Product>();
+            products = new List<Product>();
             discount = new Discount();
         }
 
         internal void AddProduct(Product product)
         {
-            if (products.ContainsKey(product.Name))
-            {
-                products[product.Name].AddQuantity();
+            if (products.Contains(product)) {
+                Product findedProduct = products.First(x => x.Equals(product));
+                findedProduct.AddQuantity();
                 return;
             }
 
-            products.Add(product.Name, product);
+            products.Add(product);
         }
 
         internal void ApplyDiscount(string promotion)
@@ -37,7 +37,7 @@ namespace ShoppingCartApp
             StringBuilder productList = new();
             productList.AppendLine("Products: ");
             foreach (var item in products) 
-                productList.AppendLine(item.Value.ToString());
+                productList.AppendLine(item.ToString());
             
             return productList.ToString();
         }
@@ -57,7 +57,7 @@ namespace ShoppingCartApp
 
         private int GetTotalOfProducts()
         {
-            return products.Sum(x => x.Value.Quantity);
+            return products.Sum(x => x.Quantity);
         }
 
         internal string PrintTotalPrice()
@@ -67,21 +67,23 @@ namespace ShoppingCartApp
 
         private double GetTotalPrice()
         {
-            double totalPrice = products.Sum(x => x.Value.CalculatePrice());
+            double totalPrice = products.Sum(x => x.CalculatePrice());
             if (discount.AppliedDiscount > 0)
                 totalPrice -= totalPrice * (discount.AppliedDiscount / 100);
             
             return Math.Round(totalPrice, 2);
         }
 
-        internal void DeleteProduct(string productName)
+        internal void DeleteProduct(Product product)
         {
-            if (products.ContainsKey(productName)) { 
-                products[productName].DecreaseQuantity();
+            if (products.Contains(product))
+            {
+                Product findedProduct = products.First(x => x.Equals(product));
+                findedProduct.DecreaseQuantity();
                 return;
             }
 
-            products.Remove(productName);
+            products.Remove(product);
         }
     }
 }
