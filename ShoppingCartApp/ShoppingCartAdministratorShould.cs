@@ -1,5 +1,3 @@
-using NSubstitute;
-
 namespace ShoppingCartApp
 {
     public class ShoppingCartAdministratorShould
@@ -52,7 +50,7 @@ namespace ShoppingCartApp
 
             shoppingCartAdministrator.AddProductToShoppingCart(new ShoppingCart("Second"), new Product("Iceberg", 2.50, 1));
             shoppingCartAdministrator.AddProductToShoppingCart(new ShoppingCart("Second"), new Product("Tomatoe", 1.00, 1));
-            
+
             string firstShoppingCartResult = shoppingCartAdministrator.PrintShoppingCart(new ShoppingCart("First"));
             string secondShoppingCartResult = shoppingCartAdministrator.PrintShoppingCart(new ShoppingCart("Second"));
 

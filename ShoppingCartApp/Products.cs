@@ -5,7 +5,7 @@ namespace ShoppingCartApp
     internal class Products
     {
         private List<Product> products;
-        
+
         public Products()
         {
             products = new List<Product>();
@@ -13,7 +13,8 @@ namespace ShoppingCartApp
 
         internal void AddProduct(Product product)
         {
-            if (products.Contains(product)) {
+            if (products.Contains(product))
+            {
                 Product findedProduct = products.First(x => x.Equals(product));
                 findedProduct.AddQuantity();
                 return;
@@ -29,9 +30,9 @@ namespace ShoppingCartApp
 
             StringBuilder productList = new();
             productList.AppendLine("Products: ");
-            foreach (var item in products) 
+            foreach (var item in products)
                 productList.AppendLine(item.ToString());
-            
+
             return productList.ToString();
         }
 
@@ -47,7 +48,7 @@ namespace ShoppingCartApp
 
         public double GetTotalPrice()
         {
-            return products.Sum(x => x.CalculatePrice()); 
+            return products.Sum(x => x.CalculatePrice());
         }
 
         internal void DeleteProduct(Product product)
