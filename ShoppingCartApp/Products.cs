@@ -35,7 +35,7 @@ namespace ShoppingCartApp
             return productList.ToString();
         }
 
-        internal string PrintTotalOfProducts()
+        internal string PrintTotalNumberOfProducts()
         {
             return string.Format("Total of products: {0}", GetTotalOfProducts());
         }

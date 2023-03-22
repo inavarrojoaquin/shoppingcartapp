@@ -39,15 +39,15 @@
             Quantity--;
         }
 
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(name);
-        }
-
         public override bool Equals(object? obj)
         {
             return obj is Product product &&
                    name == product.name;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(name);
         }
     }
 }
