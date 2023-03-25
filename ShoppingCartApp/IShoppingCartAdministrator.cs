@@ -1,6 +1,6 @@
 ﻿namespace ShoppingCartApp
 {
-    internal interface IShoppingCartAdministrator
+    public interface IShoppingCartAdministrator
     {
         void AddProductToShoppingCart(ShoppingCart shoppingCart, Product product);
         void DeleteProductFromShoppingCart(ShoppingCart shoppingCart, Product product);

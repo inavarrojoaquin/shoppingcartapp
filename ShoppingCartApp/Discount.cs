@@ -1,6 +1,6 @@
 ﻿namespace ShoppingCartApp
 {
-    internal class Discount
+    public class Discount
     {
         private string name;
         private double quantity;
