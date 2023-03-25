@@ -1,13 +1,12 @@
 ﻿using NSubstitute;
 using ShoppingCartApp.DTOs;
-using System.Xml.Linq;
 
 namespace ShoppingCartApp.UseCases
 {
     internal class AddProductUseCaseShould
     {
         private IShoppingCartAdministrator shoppingCartAdministrator;
-        private IAddProductUseCase addProductUseCase;
+        private IBaseUseCase<AddProductRequest> addProductUseCase;
         
         [SetUp]
         public void SetUp() 

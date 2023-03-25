@@ -1,13 +1,12 @@
 ﻿using NSubstitute;
 using ShoppingCartApp.DTOs;
-using System.Xml.Linq;
 
 namespace ShoppingCartApp.UseCases
 {
     internal class DeleteProductUseCaseShould
     {
         private IShoppingCartAdministrator shoppingCartAdministrator;
-        private IDeleteProductUseCase deleteProductUseCase;
+        private IBaseUseCase<DeleteProductRequest> deleteProductUseCase;
         
         [SetUp]
         public void SetUp() 

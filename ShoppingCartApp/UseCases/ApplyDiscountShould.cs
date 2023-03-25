@@ -6,7 +6,7 @@ namespace ShoppingCartApp.UseCases
     public class ApplyDiscountShould
     {
         private IShoppingCartAdministrator shoppingCartAdministrator;
-        private IApplyDiscountUseCase applyDiscountUseCase;
+        private IBaseUseCase<DiscountRequest> applyDiscountUseCase;
 
         [SetUp]
         public void SetUp()

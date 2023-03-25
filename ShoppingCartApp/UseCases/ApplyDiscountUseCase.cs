@@ -2,7 +2,7 @@
 
 namespace ShoppingCartApp.UseCases
 {
-    public class ApplyDiscountUseCase : IApplyDiscountUseCase
+    public class ApplyDiscountUseCase : IBaseUseCase<DiscountRequest>
     {
         private IShoppingCartAdministrator shoppingCartAdministrator;
 

@@ -2,7 +2,7 @@
 
 namespace ShoppingCartApp.UseCases
 {
-    public class AddProductUseCase : IAddProductUseCase
+    public class AddProductUseCase : IBaseUseCase<AddProductRequest>
     {
         private IShoppingCartAdministrator shoppingCartAdministrator;
 

@@ -1,6 +1,6 @@
 ﻿namespace ShoppingCartApp.DTOs
 {
-    public class AddProductRequest
+    public class AddProductRequest : IBaseRequest
     {
         public string Name { get; }
         public double Price { get; }

@@ -2,7 +2,7 @@
 
 namespace ShoppingCartApp.UseCases
 {
-    public class DeleteProductUseCase : IDeleteProductUseCase
+    public class DeleteProductUseCase : IBaseUseCase<DeleteProductRequest>
     {
         private IShoppingCartAdministrator shoppingCartAdministrator;
 

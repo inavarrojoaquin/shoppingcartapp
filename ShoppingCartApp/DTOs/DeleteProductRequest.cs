@@ -1,6 +1,6 @@
 ﻿namespace ShoppingCartApp.DTOs
 {
-    public class DeleteProductRequest
+    public class DeleteProductRequest : IBaseRequest
     {
         public string Name { get; }
         public string ShoppingCartName { get; }
