@@ -1,12 +1,12 @@
 ﻿namespace ShoppingCartApp.DTOs
 {
-    internal class ProductRequest
+    public class AddProductRequest
     {
         public string Name { get; }
         public double Price { get; }
         public int Quantity { get; }
         public string ShoppingCartName { get; }
-        public ProductRequest(ProductDTO productDTO)
+        public AddProductRequest(ProductDTO productDTO)
         {
             if(string.IsNullOrEmpty(productDTO.ProductName))
                 throw new Exception(string.Format("Error: {0} can not be null or empty", "ProductName"));
@@ -28,7 +28,5 @@
             
             ShoppingCartName = productDTO.ShoppingCartName;
         }
-
-        
     }
 }

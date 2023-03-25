@@ -1,6 +1,6 @@
 ﻿namespace ShoppingCartApp.DTOs
 {
-    internal class ProductRequestShould
+    internal class AddProductRequestShould
     {
         [Test]
         public void CreateProductRequestSuccessfully()
@@ -13,7 +13,7 @@
                 ShoppingCartName = "Test",
             };
 
-            ProductRequest productRequest = new ProductRequest(productDTO);
+            AddProductRequest productRequest = new AddProductRequest(productDTO);
             
             Assert.That(string.IsNullOrEmpty(productRequest.Name), Is.False);
             Assert.That(productRequest.Price, Is.GreaterThanOrEqualTo(0));
@@ -33,7 +33,7 @@
                 ShoppingCartName = "Test",
             };
 
-            var ex = Assert.Throws<Exception>(() => new ProductRequest(productDTO));
+            var ex = Assert.Throws<Exception>(() => new AddProductRequest(productDTO));
 
             Assert.That(ex.Message, Is.EqualTo(string.Format("Error: {0} can not be null or empty", "ProductName")));
         }
@@ -49,7 +49,7 @@
                 ShoppingCartName = "Test",
             };
 
-            var ex = Assert.Throws<Exception>(() => new ProductRequest(productDTO));
+            var ex = Assert.Throws<Exception>(() => new AddProductRequest(productDTO));
 
             Assert.That(ex.Message, Is.EqualTo(string.Format("Error: {0} can not be less than 0", "ProductPrice")));
         }
@@ -65,7 +65,7 @@
                 ShoppingCartName = "Test",
             };
 
-            var ex = Assert.Throws<Exception>(() => new ProductRequest(productDTO));
+            var ex = Assert.Throws<Exception>(() => new AddProductRequest(productDTO));
 
             Assert.That(ex.Message, Is.EqualTo(string.Format("Error: {0} can not be less than 0", "ProductQuantity")));
         }
@@ -82,7 +82,7 @@
                 ShoppingCartName = name,
             };
 
-            var ex = Assert.Throws<Exception>(() => new ProductRequest(productDTO));
+            var ex = Assert.Throws<Exception>(() => new AddProductRequest(productDTO));
 
             Assert.That(ex.Message, Is.EqualTo(string.Format("Error: {0} can not be null or empty", "ShoppingCartName")));
         }

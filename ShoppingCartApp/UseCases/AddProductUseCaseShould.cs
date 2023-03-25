@@ -1,12 +1,13 @@
 ﻿using NSubstitute;
 using ShoppingCartApp.DTOs;
+using System.Xml.Linq;
 
 namespace ShoppingCartApp.UseCases
 {
     internal class AddProductUseCaseShould
     {
         private IShoppingCartAdministrator shoppingCartAdministrator;
-        private AddProductUseCase addProductUseCase;
+        private IAddProductUseCase addProductUseCase;
         
         [SetUp]
         public void SetUp() 
@@ -20,8 +21,14 @@ namespace ShoppingCartApp.UseCases
         [Test]
         public void AddProductToShoppingCartSuccessfully()
         {
-            ProductDTO productDTO = new ProductDTO();
-            ProductRequest productRequest = new ProductRequest(productDTO);
+            ProductDTO productDTO = new ProductDTO
+            {
+                ProductName = "Test",
+                ProductPrice = 1,
+                ProductQuantity = 1,
+                ShoppingCartName = "Test",
+            };
+            AddProductRequest productRequest = new AddProductRequest(productDTO);
             
             Assert.DoesNotThrow(() => addProductUseCase.Execute(productRequest));
 
@@ -33,7 +40,7 @@ namespace ShoppingCartApp.UseCases
         {
             var ex = Assert.Throws<Exception>(() => addProductUseCase.Execute(null));
 
-            Assert.That(ex.Message, Does.Contain(string.Format("Error: {0} can't be null", typeof(ProductRequest))));
+            Assert.That(ex.Message, Does.Contain(string.Format("Error: {0} can't be null", typeof(AddProductRequest))));
         }
     }
 }

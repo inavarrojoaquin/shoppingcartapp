@@ -2,7 +2,7 @@
 
 namespace ShoppingCartApp.UseCases
 {
-    internal class AddProductUseCase : IAddProductUseCase
+    public class AddProductUseCase : IAddProductUseCase
     {
         private IShoppingCartAdministrator shoppingCartAdministrator;
 
@@ -11,10 +11,10 @@ namespace ShoppingCartApp.UseCases
             this.shoppingCartAdministrator = shoppingCartAdministrator;
         }
 
-        public void Execute(ProductRequest productRequest)
+        public void Execute(AddProductRequest productRequest)
         {
             if (productRequest == null)
-                throw new Exception(string.Format("Error: {0} can't be null", typeof(ProductRequest)));
+                throw new Exception(string.Format("Error: {0} can't be null", typeof(AddProductRequest)));
 
             Product product = new Product(productRequest.Name, productRequest.Price, productRequest.Quantity);
             ShoppingCart shoppingCart = new ShoppingCart(productRequest.ShoppingCartName);

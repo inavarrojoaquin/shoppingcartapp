@@ -2,8 +2,8 @@
 
 namespace ShoppingCartApp.UseCases
 {
-    internal interface IAddProductUseCase
+    public interface IAddProductUseCase
     {
-        void Execute(ProductRequest productRequest);
+        void Execute(AddProductRequest productRequest);
     }
 }
