@@ -7,10 +7,10 @@ namespace ShoppingCartApp
         private ShoppingCarts shoppingCarts;
         private Discounts discounts;
 
-        public ShoppingCartAdministrator()
+        public ShoppingCartAdministrator(ShoppingCarts shoppingCarts, Discounts discounts)
         {
-            shoppingCarts = new ShoppingCarts();
-            discounts = new Discounts();
+            this.shoppingCarts = shoppingCarts;
+            this.discounts = discounts;
         }
 
         public void AddProductToShoppingCart(ShoppingCart shoppingCart, Product product)
@@ -32,17 +32,17 @@ namespace ShoppingCartApp
         {
             string shoppingCartResult = shoppingCarts.PrintShoppingCart(shoppingCart);
             string discountsResult = discounts.PrintDiscount();
-            string? totalPrice = PrintShoppingCartTotalPrice(shoppingCart);
+            double totalPriceWithDiscounts = GetTotalPriceWithDiscounts(shoppingCart);
 
             StringBuilder shoppingCartAdministratorBuilder = new();
             shoppingCartAdministratorBuilder.AppendLine(shoppingCartResult);
             shoppingCartAdministratorBuilder.AppendLine(discountsResult);
-            shoppingCartAdministratorBuilder.AppendLine(totalPrice);
+            shoppingCartAdministratorBuilder.AppendLine(string.Format("Total price: {0}", totalPriceWithDiscounts));
 
             return shoppingCartAdministratorBuilder.ToString();
         }
 
-        private string? PrintShoppingCartTotalPrice(ShoppingCart shoppingCart)
+        public double GetTotalPriceWithDiscounts(ShoppingCart shoppingCart)
         {
             double totalPrice = shoppingCarts.GetTotalPrice(shoppingCart);
             double discount = discounts.GetDiscount();
@@ -50,7 +50,7 @@ namespace ShoppingCartApp
             if (discount != -1)
                 totalPrice -= totalPrice * discount;
 
-            return string.Format("Total price: {0}", Math.Round(totalPrice, 2));
+            return Math.Round(totalPrice, 2);
         }
     }
 }

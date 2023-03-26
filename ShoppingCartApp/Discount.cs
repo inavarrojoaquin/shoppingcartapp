@@ -4,7 +4,11 @@
     {
         private string name;
         private double quantity;
-        
+
+        public Discount(string name)
+        {
+            this.name = name;
+        }
         public Discount(string name, double quantity)
         {
             this.name = name;
@@ -13,7 +17,7 @@
 
         internal double GetCalculatedDiscount()
         {
-            return quantity / 100;
+            return Math.Round(quantity / 100, 2);
         }
 
         public override string ToString()

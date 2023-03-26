@@ -1,39 +1,63 @@
-﻿namespace ShoppingCartApp
+﻿using System.Text;
+
+namespace ShoppingCartApp
 {
     public class ShoppingCart : IShoppingCart
     {
         private readonly string name;
-        private readonly Products products;
+        private readonly List<Product> products;
 
-        public ShoppingCart(string name)
+        public ShoppingCart(string name, List<Product> products)
         {
             this.name = name;
-            products = new Products();
+            this.products = products;
         }
 
         public void AddProduct(Product product)
         {
-            products.AddProduct(product);
+            if (products.Contains(product))
+            {
+                Product findedProduct = products.First(x => x.Equals(product));
+                findedProduct.AddQuantity();
+                return;
+            }
+
+            products.Add(product);
+        }
+
+        public string PrintProducts()
+        {
+            if (!products.Any())
+                return "No products";
+
+            StringBuilder productList = new();
+            productList.AppendLine("Products: ");
+            foreach (var item in products)
+                productList.AppendLine(item.ToString());
+
+            return productList.ToString();
+        }
+
+        public string PrintTotalNumberOfProducts()
+        {
+            return string.Format("Total of products: {0}", GetTotalOfProducts());
+        }
+
+        public double GetTotalPrice()
+        {
+            return products.Sum(x => x.CalculatePrice());
         }
 
         public void DeleteProduct(Product product)
         {
-            products.DeleteProduct(product);
-        }
+            Product findedProduct = products.Find(x => x.Equals(product));
+            if (findedProduct.Quantity > 1)
+            {
+                findedProduct.DecreaseQuantity();
+                return;
+            }
 
-        internal string? PrintProducts()
-        {
-            return products.PrintProducts();
-        }
-
-        internal string? PrintTotalNumberOfProducts()
-        {
-            return products.PrintTotalNumberOfProducts();
-        }
-
-        internal double PrintTotalPice()
-        {
-            return products.GetTotalPrice();
+            products.Remove(product);
         }
 
         public override bool Equals(object? obj)
@@ -45,6 +69,11 @@
         public override int GetHashCode()
         {
             return HashCode.Combine(name);
+        
+        }
+        private int GetTotalOfProducts()
+        {
+            return products.Sum(x => x.Quantity);
         }
     }
 }

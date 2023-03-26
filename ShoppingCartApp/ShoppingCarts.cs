@@ -2,15 +2,15 @@
 
 namespace ShoppingCartApp
 {
-    internal class ShoppingCarts
+    public class ShoppingCarts
     {
         private List<ShoppingCart> shoppingCarts;
-        public ShoppingCarts()
+        public ShoppingCarts(List<ShoppingCart> shoppingCartList)
         {
-            shoppingCarts = new List<ShoppingCart>();
+            shoppingCarts = shoppingCartList;
         }
 
-        internal void AddProductToShoppingCart(ShoppingCart shoppingCart, Product product)
+        public void AddProductToShoppingCart(ShoppingCart shoppingCart, Product product)
         {
             if (shoppingCarts.Contains(shoppingCart))
             {
@@ -23,7 +23,7 @@ namespace ShoppingCartApp
             shoppingCarts.Add(shoppingCart);
         }
 
-        internal void DeleteProductFromShoppingCart(ShoppingCart shoppingCart, Product product)
+        public void DeleteProductFromShoppingCart(ShoppingCart shoppingCart, Product product)
         {
             if (!shoppingCarts.Contains(shoppingCart))
                 throw new Exception("Error ShoppingCart does not exists when deleting product");
@@ -32,15 +32,15 @@ namespace ShoppingCartApp
             findedShoppingCart.DeleteProduct(product);
         }
 
-        internal double GetTotalPrice(ShoppingCart shoppingCart)
+        public double GetTotalPrice(ShoppingCart shoppingCart)
         {
             if (shoppingCarts.Contains(shoppingCart))
                 shoppingCart = shoppingCarts.Find(x => x.Equals(shoppingCart));
 
-            return shoppingCart.PrintTotalPice();
+            return shoppingCart.GetTotalPrice();
         }
 
-        internal string PrintShoppingCart(ShoppingCart shoppingCart)
+        public string PrintShoppingCart(ShoppingCart shoppingCart)
         {
             if (shoppingCarts.Contains(shoppingCart))
                 shoppingCart = shoppingCarts.Find(x => x.Equals(shoppingCart));

@@ -2,16 +2,16 @@
 
 namespace ShoppingCartApp
 {
-    internal class Discounts
+    public class Discounts
     {
         private List<Discount> discounts;
 
-        public Discounts()
+        public Discounts(List<Discount> discountList)
         {
-            discounts = new List<Discount>();
+            discounts = discountList;
         }
 
-        internal void ApplyDiscount(Discount discount)
+        public void ApplyDiscount(Discount discount)
         {
             if (discounts.Contains(discount))
                 throw new Exception("The discount is already applied");
@@ -19,7 +19,7 @@ namespace ShoppingCartApp
             discounts.Add(discount);
         }
 
-        internal double GetDiscount()
+        public double GetDiscount()
         {
             if (!discounts.Any())
                 return -1;
@@ -30,7 +30,7 @@ namespace ShoppingCartApp
             return acumulatedDiscounts;
         }
 
-        internal string PrintDiscount()
+        public string PrintDiscount()
         {
             if (!discounts.Any())
                 return "No promotion";

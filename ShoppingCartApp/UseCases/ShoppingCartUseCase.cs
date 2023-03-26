@@ -16,7 +16,7 @@ namespace ShoppingCartApp.UseCases
             if (request == null)
                 throw new Exception(string.Format("Error: {0} can't be null", typeof(PrintShoppingCartRequest)));
 
-            ShoppingCart shoppingCart = new ShoppingCart(request.ShoppingCartName);
+            ShoppingCart shoppingCart = new ShoppingCart(request.ShoppingCartName, new List<Product>());
 
             shoppingCartAdministrator.PrintShoppingCart(shoppingCart);
         }
