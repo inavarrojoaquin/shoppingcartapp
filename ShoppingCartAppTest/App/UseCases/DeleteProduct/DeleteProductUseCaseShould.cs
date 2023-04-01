@@ -16,7 +16,7 @@ namespace ShoppingCartAppTest.App.UseCases.DeleteProduct
         public void SetUp()
         {
             shoppingCartAdministrator = Substitute.For<IShoppingCartAdministratorService>();
-            shoppingCartAdministrator.DeleteProductFromShoppingCart(Arg.Any<ShoppingCart>(), Arg.Any<Product>());
+            shoppingCartAdministrator.DeleteProductFromShoppingCart(Arg.Any<ShoppingCart>(), Arg.Any<OrderItem>());
 
             deleteProductUseCase = new DeleteProductUseCase(shoppingCartAdministrator);
         }
@@ -33,7 +33,7 @@ namespace ShoppingCartAppTest.App.UseCases.DeleteProduct
 
             Assert.DoesNotThrow(() => deleteProductUseCase.Execute(productRequest));
 
-            shoppingCartAdministrator.Received(1).DeleteProductFromShoppingCart(Arg.Any<ShoppingCart>(), Arg.Any<Product>());
+            shoppingCartAdministrator.Received(1).DeleteProductFromShoppingCart(Arg.Any<ShoppingCart>(), Arg.Any<OrderItem>());
         }
 
         [Test]

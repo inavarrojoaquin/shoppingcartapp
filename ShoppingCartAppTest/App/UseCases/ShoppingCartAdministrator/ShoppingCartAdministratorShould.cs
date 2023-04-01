@@ -22,38 +22,38 @@ namespace ShoppingCartAppTest.App.UseCases.ShoppingCartAdministrator
         [Test]
         public void AddProductsToShoppingCart()
         {
-            List<Product> products = new List<Product>();
-            ShoppingCart shoppingCart = new ShoppingCart("First", products);
-            shoppingCartAdministrator.AddProductToShoppingCart(shoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(shoppingCart, new Product("Tomatoe", 0.73, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(shoppingCart, new Product("Chicken", 1.83, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(shoppingCart, new Product("Bread", 0.88, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(shoppingCart, new Product("Corn", 1.50, 1));
+            List<OrderItem> orderItems = new List<OrderItem>();
+            ShoppingCart shoppingCart = new ShoppingCart("First", orderItems);
+            shoppingCartAdministrator.AddProductToShoppingCart(shoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(shoppingCart, new OrderItem(new Product("Tomatoe", 0.73)));
+            shoppingCartAdministrator.AddProductToShoppingCart(shoppingCart, new OrderItem(new Product("Chicken", 1.83)));
+            shoppingCartAdministrator.AddProductToShoppingCart(shoppingCart, new OrderItem(new Product("Bread", 0.88)));
+            shoppingCartAdministrator.AddProductToShoppingCart(shoppingCart, new OrderItem(new Product("Corn", 1.50)));
 
             Assert.That(shoppingCartList.Count, Is.EqualTo(1));
-            Assert.That(products.Count, Is.EqualTo(5));
+            Assert.That(orderItems.Count, Is.EqualTo(5));
             Assert.That(shoppingCart.GetTotalPrice(), Is.EqualTo(7.11));
         }
 
         [Test]
         public void AddProductsToDifferentShoppingCart()
         {
-            List<Product> productsFirst = new List<Product>();
-            ShoppingCart firstShoppingCart = new ShoppingCart("First", productsFirst);
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Tomatoe", 0.73, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Chicken", 1.83, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Bread", 0.88, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Corn", 1.50, 1));
+            List<OrderItem> orderItemsFirst = new List<OrderItem>();
+            ShoppingCart firstShoppingCart = new ShoppingCart("First", orderItemsFirst);
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Tomatoe", 0.73)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Chicken", 1.83)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Bread", 0.88)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Corn", 1.50)));
 
-            List<Product> productsSecond = new List<Product>();
-            ShoppingCart secondShoppingCart = new ShoppingCart("Second", productsSecond);
-            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new Product("Iceberg", 2.50, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new Product("Tomatoe", 1.00, 1));
+            List<OrderItem> orderItemsSecond = new List<OrderItem>();
+            ShoppingCart secondShoppingCart = new ShoppingCart("Second", orderItemsSecond);
+            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new OrderItem(new Product("Iceberg", 2.50)));
+            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new OrderItem(new Product("Tomatoe", 1.00)));
 
             Assert.That(shoppingCartList.Count, Is.EqualTo(2));
-            Assert.That(productsFirst.Count, Is.EqualTo(5));
-            Assert.That(productsSecond.Count, Is.EqualTo(2));
+            Assert.That(orderItemsFirst.Count, Is.EqualTo(5));
+            Assert.That(orderItemsSecond.Count, Is.EqualTo(2));
             Assert.That(firstShoppingCart.GetTotalPrice(), Is.EqualTo(7.11));
             Assert.That(secondShoppingCart.GetTotalPrice(), Is.EqualTo(3.5));
         }
@@ -61,21 +61,21 @@ namespace ShoppingCartAppTest.App.UseCases.ShoppingCartAdministrator
         [Test]
         public void AddSameProductsToShoppingCart()
         {
-            List<Product> productsFirst = new List<Product>();
-            ShoppingCart firstShoppingCart = new ShoppingCart("First", productsFirst);
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Tomatoe", 0.73, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Chicken", 1.83, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Bread", 0.88, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Bread", 0.88, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Corn", 1.50, 1));
+            List<OrderItem> orderItemsFirst = new List<OrderItem>();
+            ShoppingCart firstShoppingCart = new ShoppingCart("First", orderItemsFirst);
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Tomatoe", 0.73)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Chicken", 1.83)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Bread", 0.88)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Bread", 0.88)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Corn", 1.50)));
 
             Assert.That(shoppingCartList.Count, Is.EqualTo(1));
-            Assert.That(productsFirst.Count, Is.EqualTo(5));
-            Assert.That(productsFirst.First(x => x.Equals(new Product("Iceberg"))).Quantity, Is.EqualTo(3));
-            Assert.That(productsFirst.First(x => x.Equals(new Product("Bread"))).Quantity, Is.EqualTo(2));
+            Assert.That(orderItemsFirst.Count, Is.EqualTo(5));
+            Assert.That(orderItemsFirst.First(x => x.Equals(new OrderItem(new Product("Iceberg")))).GetQuantity(), Is.EqualTo(3));
+            Assert.That(orderItemsFirst.First(x => x.Equals(new OrderItem(new Product("Bread")))).GetQuantity(), Is.EqualTo(2));
             Assert.That(firstShoppingCart.GetTotalPrice(), Is.EqualTo(12.33));
         }
 
@@ -84,16 +84,16 @@ namespace ShoppingCartAppTest.App.UseCases.ShoppingCartAdministrator
         [TestCase(15, "PROMO_15", 10.48)]
         public void ApplyDiscountToTheShoppingCart(double discountQuantity, string discountName, double totalPrice)
         {
-            List<Product> productsFirst = new List<Product>();
-            ShoppingCart firstShoppingCart = new ShoppingCart("First", productsFirst);
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Tomatoe", 0.73, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Chicken", 1.83, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Bread", 0.88, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Bread", 0.88, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Corn", 1.50, 1));
+            List<OrderItem> orderItemsFirst = new List<OrderItem>();
+            ShoppingCart firstShoppingCart = new ShoppingCart("First", orderItemsFirst);
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Tomatoe", 0.73)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Chicken", 1.83)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Bread", 0.88)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Bread", 0.88)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Corn", 1.50)));
 
             shoppingCartAdministrator.ApplyDiscount(new Discount(discountName, discountQuantity));
 
@@ -107,27 +107,27 @@ namespace ShoppingCartAppTest.App.UseCases.ShoppingCartAdministrator
         [TestCase(15, "PROMO_15", 10.48)]
         public void ApplyDiscountToDifferentShoppingCart(double discountQuantity, string discountName, double totalPrice)
         {
-            List<Product> productsFirst = new List<Product>();
-            ShoppingCart firstShoppingCart = new ShoppingCart("First", productsFirst);
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Tomatoe", 0.73, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Chicken", 1.83, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Bread", 0.88, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Bread", 0.88, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Corn", 1.50, 1));
+            List<OrderItem> orderItemsFirst = new List<OrderItem>();
+            ShoppingCart firstShoppingCart = new ShoppingCart("First", orderItemsFirst);
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Tomatoe", 0.73)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Chicken", 1.83)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Bread", 0.88)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Bread", 0.88)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Corn", 1.50)));
 
-            List<Product> productsSecond = new List<Product>();
-            ShoppingCart secondShoppingCart = new ShoppingCart("Second", productsSecond);
-            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new Product("Tomatoe", 0.73, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new Product("Chicken", 1.83, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new Product("Bread", 0.88, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new Product("Bread", 0.88, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new Product("Corn", 1.50, 1));
+            List<OrderItem> orderItemsSecond = new List<OrderItem>();
+            ShoppingCart secondShoppingCart = new ShoppingCart("Second", orderItemsSecond);
+            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new OrderItem(new Product("Tomatoe", 0.73)));
+            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new OrderItem(new Product("Chicken", 1.83)));
+            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new OrderItem(new Product("Bread", 0.88)));
+            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new OrderItem(new Product("Bread", 0.88)));
+            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new OrderItem(new Product("Corn", 1.50)));
 
             shoppingCartAdministrator.ApplyDiscount(new Discount(discountName, discountQuantity));
 
@@ -140,17 +140,17 @@ namespace ShoppingCartAppTest.App.UseCases.ShoppingCartAdministrator
         [Test]
         public void ApplyMultiDiscountsAtTheSameTimeToTheShoppingCart()
         {
-            List<Product> productsFirst = new List<Product>();
-            ShoppingCart firstShoppingCart = new ShoppingCart("First", productsFirst);
+            List<OrderItem> orderItemsFirst = new List<OrderItem>();
+            ShoppingCart firstShoppingCart = new ShoppingCart("First", orderItemsFirst);
 
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Tomatoe", 0.73, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Chicken", 1.83, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Bread", 0.88, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Bread", 0.88, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Corn", 1.50, 1));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Tomatoe", 0.73)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Chicken", 1.83)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Bread", 0.88)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Bread", 0.88)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Corn", 1.50)));
 
             const string PROMO_5 = "PROMO_5";
             const string PROMO_10 = "PROMO_10";
@@ -177,35 +177,35 @@ namespace ShoppingCartAppTest.App.UseCases.ShoppingCartAdministrator
         [TestCase("Chicken")]
         public void DeleteProductFromShoppingCart(string productName)
         {
-            List<Product> productsFirst = new List<Product>();
-            ShoppingCart firstShoppingCart = new ShoppingCart("First", productsFirst);
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Chicken", 1.83, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Tomatoe", 0.73, 1));
+            List<OrderItem> orderItemsFirst = new List<OrderItem>();
+            ShoppingCart firstShoppingCart = new ShoppingCart("First", orderItemsFirst);
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Chicken", 1.83)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Tomatoe", 0.73)));
 
-            shoppingCartAdministrator.DeleteProductFromShoppingCart(firstShoppingCart, new Product(productName));
+            shoppingCartAdministrator.DeleteProductFromShoppingCart(firstShoppingCart, new OrderItem(new Product(productName)));
 
             if (productName == "Iceberg")
             {
-                Assert.That(productsFirst.Find(x => x.Equals(new Product(productName))).Quantity, Is.EqualTo(2));
-                Assert.That(productsFirst.Count, Is.EqualTo(3));
+                Assert.That(orderItemsFirst.Find(x => x.Equals(new OrderItem(new Product(productName)))).GetQuantity(), Is.EqualTo(2));
+                Assert.That(orderItemsFirst.Count, Is.EqualTo(3));
                 return;
             }
 
             if (productName == "Chicken")
             {
-                Assert.That(productsFirst.Find(x => x.Equals(new Product("Iceberg"))).Quantity, Is.EqualTo(3));
-                Assert.That(productsFirst.Count, Is.EqualTo(2));
+                Assert.That(orderItemsFirst.Find(x => x.Equals(new OrderItem(new Product("Iceberg")))).GetQuantity(), Is.EqualTo(3));
+                Assert.That(orderItemsFirst.Count, Is.EqualTo(2));
             }
         }
 
         [Test]
         public void RaiseExWhenDeletingProductButShoppingCartDoesNotExists()
         {
-            List<Product> productsFirst = new List<Product>();
-            ShoppingCart firstShoppingCart = new ShoppingCart("not_exists", productsFirst);
+            List<OrderItem> orderItemsFirst = new List<OrderItem>();
+            ShoppingCart firstShoppingCart = new ShoppingCart("not_exists", orderItemsFirst);
             var ex = Assert.Throws<Exception>(() => shoppingCartAdministrator.DeleteProductFromShoppingCart(firstShoppingCart, null));
 
             Assert.That(ex.Message, Does.Contain("Error ShoppingCart does not exists when deleting product"));
@@ -214,7 +214,7 @@ namespace ShoppingCartAppTest.App.UseCases.ShoppingCartAdministrator
         [Test]
         public void PrintEmptyShoppingCart()
         {
-            ShoppingCart shoppingCart = new ShoppingCart("First", new List<Product>());
+            ShoppingCart shoppingCart = new ShoppingCart("First", new List<OrderItem>());
             string shoppingCartResult = shoppingCartAdministrator.PrintShoppingCart(shoppingCart);
 
             Assert.That(shoppingCartResult, Does.Contain("No products"));
@@ -226,14 +226,14 @@ namespace ShoppingCartAppTest.App.UseCases.ShoppingCartAdministrator
         [Test]
         public void PrintShoppingCartWithProducts()
         {
-            List<Product> productsFirst = new List<Product>();
-            ShoppingCart firstShoppingCart = new ShoppingCart("First", productsFirst);
+            List<OrderItem> orderItemsFirst = new List<OrderItem>();
+            ShoppingCart firstShoppingCart = new ShoppingCart("First", orderItemsFirst);
 
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Tomatoe", 0.73, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Chicken", 1.83, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Bread", 0.88, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Corn", 1.50, 1));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Tomatoe", 0.73)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Chicken", 1.83)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Bread", 0.88)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Corn", 1.50)));
 
             string shoppingCartResult = shoppingCartAdministrator.PrintShoppingCart(firstShoppingCart);
 
@@ -246,18 +246,18 @@ namespace ShoppingCartAppTest.App.UseCases.ShoppingCartAdministrator
         [Test]
         public void PrintMultipleShoppingCartWithProducts()
         {
-            List<Product> productsFirst = new List<Product>();
-            ShoppingCart firstShoppingCart = new ShoppingCart("First", productsFirst);
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Tomatoe", 0.73, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Chicken", 1.83, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Bread", 0.88, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Corn", 1.50, 1));
+            List<OrderItem> orderItemFirst = new List<OrderItem>();
+            ShoppingCart firstShoppingCart = new ShoppingCart("First", orderItemFirst);
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Tomatoe", 0.73)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Chicken", 1.83)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Bread", 0.88)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Corn", 1.50)));
 
-            List<Product> productsSecond = new List<Product>();
-            ShoppingCart secondShoppingCart = new ShoppingCart("Second", productsSecond);
-            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new Product("Iceberg", 2.50, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new Product("Tomatoe", 1.00, 1));
+            List<OrderItem> orderItemsSecond = new List<OrderItem>();
+            ShoppingCart secondShoppingCart = new ShoppingCart("Second", orderItemsSecond);
+            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new OrderItem(new Product("Iceberg", 2.50)));
+            shoppingCartAdministrator.AddProductToShoppingCart(secondShoppingCart, new OrderItem(new Product("Tomatoe", 1.00)));
 
             string firstShoppingCartResult = shoppingCartAdministrator.PrintShoppingCart(firstShoppingCart);
 
@@ -279,16 +279,16 @@ namespace ShoppingCartAppTest.App.UseCases.ShoppingCartAdministrator
         [TestCase(15, "PROMO_15", 10.48)]
         public void PrintShoppingCartWithProductsAndDiscount(int discountQuantity, string discountName, double totalPrice)
         {
-            List<Product> productsFirst = new List<Product>();
-            ShoppingCart firstShoppingCart = new ShoppingCart("First", productsFirst);
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Iceberg", 2.17, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Tomatoe", 0.73, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Chicken", 1.83, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Bread", 0.88, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Bread", 0.88, 1));
-            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new Product("Corn", 1.50, 1));
+            List<OrderItem> orderItemsFirst = new List<OrderItem>();
+            ShoppingCart firstShoppingCart = new ShoppingCart("First", orderItemsFirst);
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Iceberg", 2.17)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Tomatoe", 0.73)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Chicken", 1.83)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Bread", 0.88)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Bread", 0.88)));
+            shoppingCartAdministrator.AddProductToShoppingCart(firstShoppingCart, new OrderItem(new Product("Corn", 1.50)));
 
             shoppingCartAdministrator.ApplyDiscount(new Discount(discountName, discountQuantity));
 

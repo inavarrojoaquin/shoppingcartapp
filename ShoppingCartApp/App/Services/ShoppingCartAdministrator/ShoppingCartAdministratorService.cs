@@ -14,14 +14,14 @@ namespace ShoppingCartApp.App.Services.ShoppingCartAdministrator
             this.discounts = discounts;
         }
 
-        public void AddProductToShoppingCart(ShoppingCart shoppingCart, Product product)
+        public void AddProductToShoppingCart(ShoppingCart shoppingCart, OrderItem orderItem)
         {
-            shoppingCarts.AddProductToShoppingCart(shoppingCart, product);
+            shoppingCarts.AddProductToShoppingCart(shoppingCart, orderItem);
         }
 
-        public void DeleteProductFromShoppingCart(ShoppingCart shoppingCart, Product product)
+        public void DeleteProductFromShoppingCart(ShoppingCart shoppingCart, OrderItem orderItem)
         {
-            shoppingCarts.DeleteProductFromShoppingCart(shoppingCart, product);
+            shoppingCarts.DeleteProductFromShoppingCart(shoppingCart, orderItem);
         }
 
         public void ApplyDiscount(Discount discount)

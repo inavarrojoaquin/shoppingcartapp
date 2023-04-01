@@ -5,34 +5,34 @@ namespace ShoppingCartApp.App.Domain
     public class ShoppingCart : IShoppingCart
     {
         private readonly string name;
-        private readonly List<Product> products;
+        private List<OrderItem> orderItems;
 
-        public ShoppingCart(string name, List<Product> products)
+        public ShoppingCart(string name, List<OrderItem> orderItems)
         {
             this.name = name;
-            this.products = products;
+            this.orderItems = orderItems;
         }
 
-        public void AddProduct(Product product)
+        public void AddProduct(OrderItem orderItem)
         {
-            if (products.Contains(product))
+            if (orderItems.Contains(orderItem))
             {
-                Product findedProduct = products.First(x => x.Equals(product));
-                findedProduct.AddQuantity();
+                OrderItem findedOrderItem = orderItems.First(x => x.Equals(orderItem));
+                findedOrderItem.AddQuantity();
                 return;
             }
 
-            products.Add(product);
+            orderItems.Add(orderItem);
         }
 
         public string PrintProducts()
         {
-            if (!products.Any())
+            if (!orderItems.Any())
                 return "No products";
 
             StringBuilder productList = new();
             productList.AppendLine("Products: ");
-            foreach (var item in products)
+            foreach (var item in orderItems)
                 productList.AppendLine(item.ToString());
 
             return productList.ToString();
@@ -45,19 +45,20 @@ namespace ShoppingCartApp.App.Domain
 
         public double GetTotalPrice()
         {
-            return products.Sum(x => x.CalculatePrice());
+            return orderItems.Sum(x => x.CalculatePrice());
         }
 
-        public void DeleteProduct(Product product)
+        public void DeleteProduct(OrderItem orderItem)
         {
-            Product findedProduct = products.Find(x => x.Equals(product));
-            if (findedProduct.Quantity > 1)
+            OrderItem findedOrderItem = orderItems.First(x => x.Equals(orderItem));
+            
+            if (findedOrderItem.IsQuantityGreaterThanOne())
             {
-                findedProduct.DecreaseQuantity();
+                findedOrderItem.DecreaseQuantity();
                 return;
             }
 
-            products.Remove(product);
+            orderItems.Remove(orderItem);
         }
 
         public override bool Equals(object? obj)
@@ -73,7 +74,7 @@ namespace ShoppingCartApp.App.Domain
         }
         private int GetTotalOfProducts()
         {
-            return products.Sum(x => x.Quantity);
+            return orderItems.Sum(x => x.GetQuantity());
         }
     }
 }

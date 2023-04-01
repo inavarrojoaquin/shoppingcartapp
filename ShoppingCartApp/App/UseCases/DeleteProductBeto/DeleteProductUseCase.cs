@@ -19,9 +19,10 @@ namespace ShoppingCartApp.App.UseCases.DeleteProduct
                 throw new Exception(string.Format("Error: {0} can't be null", typeof(DeleteProductRequest)));
 
             Product product = new Product(productRequest.Name);
-            ShoppingCart shoppingCart = new ShoppingCart(productRequest.ShoppingCartName, new List<Product>());
+            OrderItem orderItem = new OrderItem(product);
+            ShoppingCart shoppingCart = new ShoppingCart(productRequest.ShoppingCartName, new List<OrderItem>());
 
-            shoppingCartAdministrator.DeleteProductFromShoppingCart(shoppingCart, product);
+            shoppingCartAdministrator.DeleteProductFromShoppingCart(shoppingCart, orderItem);
         }
     }
 }

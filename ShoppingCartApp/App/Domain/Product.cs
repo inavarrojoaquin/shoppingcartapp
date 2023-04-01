@@ -4,39 +4,22 @@
     {
         private string name;
         private double price;
-        public int Quantity { get; private set; }
-        public Product(string name, double price, int quantity)
+
+        public Product(string name, double price)
         {
             this.name = name;
             this.price = price;
-            this.Quantity = quantity;
         }
 
         public Product(string productName)
         {
             this.name = productName;
-            this.price = 0;
-            this.Quantity = 0;
+            this.price = 0;            
         }
 
         public override string ToString()
         {
-            return string.Format("-> Name: {0} \t| Price: {1} \t| Quantity: {2}", name, price, Quantity);
-        }
-
-        internal double CalculatePrice()
-        {
-            return price * Quantity;
-        }
-
-        internal void AddQuantity()
-        {
-            Quantity++;
-        }
-
-        internal void DecreaseQuantity()
-        {
-            Quantity--;
+            return string.Format("-> Name: {0} \t| Price: {1}", name, price);
         }
 
         public override bool Equals(object? obj)
@@ -48,6 +31,11 @@
         public override int GetHashCode()
         {
             return HashCode.Combine(name);
+        }
+
+        internal double CalculatePrice(int quantity)
+        {
+            return price * quantity; 
         }
     }
 }

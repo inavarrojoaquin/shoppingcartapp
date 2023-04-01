@@ -18,10 +18,11 @@ namespace ShoppingCartApp.App.UseCases.AddProduct
             if (productRequest == null)
                 throw new Exception(string.Format("Error: {0} can't be null", typeof(AddProductRequest)));
 
-            Product product = new Product(productRequest.Name, productRequest.Price, productRequest.Quantity);
-            ShoppingCart shoppingCart = new ShoppingCart(productRequest.ShoppingCartName, new List<Product>());
+            Product product = new Product(productRequest.Name, productRequest.Price);
+            OrderItem orderItem = new OrderItem(product, productRequest.Quantity);
+            ShoppingCart shoppingCart = new ShoppingCart(productRequest.ShoppingCartName, new List<OrderItem>());
             
-            shoppingCartAdministrator.AddProductToShoppingCart(shoppingCart, product);
+            shoppingCartAdministrator.AddProductToShoppingCart(shoppingCart, orderItem);
         }
     }
 }

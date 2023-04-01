@@ -17,7 +17,7 @@ namespace ShoppingCartAppTest.App.UseCases.AddProduct
         {
 
             shoppingCartAdministrator = Substitute.For<IShoppingCartAdministratorService>();
-            shoppingCartAdministrator.AddProductToShoppingCart(Arg.Any<ShoppingCart>(), Arg.Any<Product>());
+            shoppingCartAdministrator.AddProductToShoppingCart(Arg.Any<ShoppingCart>(), Arg.Any<OrderItem>());
 
             addProductUseCase = new AddProductUseCase(shoppingCartAdministrator);
         }
@@ -36,7 +36,7 @@ namespace ShoppingCartAppTest.App.UseCases.AddProduct
 
             Assert.DoesNotThrow(() => addProductUseCase.Execute(productRequest));
 
-            shoppingCartAdministrator.Received(1).AddProductToShoppingCart(Arg.Any<ShoppingCart>(), Arg.Any<Product>());
+            shoppingCartAdministrator.Received(1).AddProductToShoppingCart(Arg.Any<ShoppingCart>(), Arg.Any<OrderItem>());
         }
 
         [Test]
