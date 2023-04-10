@@ -1,28 +1,35 @@
 ﻿using ShoppingCartApp.App.Domain;
+using ShoppingCartApp.App.Infrastructure;
 using ShoppingCartApp.Shared.UseCases;
-using ShoppingCartApp.App.Services.ShoppingCartAdministrator;
+using ShoppingCartAppTest.App.UseCases.AddProduct;
 
 namespace ShoppingCartApp.App.UseCases.DeleteProduct
 {
     public class DeleteProductUseCase : IBaseUseCase<DeleteProductRequest>
     {
-        private IShoppingCartAdministratorService shoppingCartAdministrator;
+        private readonly IProductRepository productRepository;
+        private readonly IShoppingCartRepository shoppingCartRepository;
 
-        public DeleteProductUseCase(IShoppingCartAdministratorService shoppingCartAdministrator)
+        public DeleteProductUseCase(IProductRepository productRepository, IShoppingCartRepository shoppingCartRepository)
         {
-            this.shoppingCartAdministrator = shoppingCartAdministrator;
+            this.productRepository = productRepository;
+            this.shoppingCartRepository = shoppingCartRepository;
         }
 
-        public void Execute(DeleteProductRequest productRequest)
+        public void Execute(DeleteProductRequest deleteRequest)
         {
-            if (productRequest == null)
+            if (deleteRequest == null)
                 throw new Exception(string.Format("Error: {0} can't be null", typeof(DeleteProductRequest)));
 
-            Product product = new Product(productRequest.Name);
-            OrderItem orderItem = new OrderItem(product);
-            ShoppingCart shoppingCart = new ShoppingCart(productRequest.ShoppingCartName, new List<OrderItem>());
+            Product product = productRepository.GetProductById(deleteRequest.ProductId);
+            ShoppingCart shoppingCart = shoppingCartRepository.GetShoppingCartById(deleteRequest.ShoppingCartId);
 
-            shoppingCartAdministrator.DeleteProductFromShoppingCart(shoppingCart, orderItem);
+            if (shoppingCart == null)
+                throw new Exception(string.Format("Error: There is no shoppingCart for id: {0}", deleteRequest.ShoppingCartId));
+
+            shoppingCart.DeleteProduct(product);
+
+            shoppingCartRepository.Save(shoppingCart);
         }
     }
 }

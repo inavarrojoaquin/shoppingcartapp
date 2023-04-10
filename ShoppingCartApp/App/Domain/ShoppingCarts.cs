@@ -12,24 +12,24 @@ namespace ShoppingCartApp.App.Domain
 
         public void AddProductToShoppingCart(ShoppingCart shoppingCart, OrderItem orderItem)
         {
-            if (shoppingCarts.Contains(shoppingCart))
-            {
-                ShoppingCart? findedShoppingCart = shoppingCarts.Find(x => x.Equals(shoppingCart));
-                findedShoppingCart.AddProduct(orderItem);
-                return;
-            }
+            //if (shoppingCarts.Contains(shoppingCart))
+            //{
+            //    ShoppingCart? findedShoppingCart = shoppingCarts.Find(x => x.Equals(shoppingCart));
+            //    findedShoppingCart.AddProduct(orderItem);
+            //    return;
+            //}
 
-            shoppingCart.AddProduct(orderItem);
-            shoppingCarts.Add(shoppingCart);
+            //shoppingCart.AddProduct(orderItem);
+            //shoppingCarts.Add(shoppingCart);
         }
 
         public void DeleteProductFromShoppingCart(ShoppingCart shoppingCart, OrderItem orderItem)
         {
-            if (!shoppingCarts.Contains(shoppingCart))
-                throw new Exception("Error ShoppingCart does not exists when deleting product");
+            //if (!shoppingCarts.Contains(shoppingCart))
+            //    throw new Exception("Error ShoppingCart does not exists when deleting product");
 
-            ShoppingCart? findedShoppingCart = shoppingCarts.Find(x => x.Equals(shoppingCart));
-            findedShoppingCart.DeleteProduct(orderItem);
+            //ShoppingCart? findedShoppingCart = shoppingCarts.Find(x => x.Equals(shoppingCart));
+            //findedShoppingCart.DeleteProduct(orderItem);
         }
 
         public double GetTotalPrice(ShoppingCart shoppingCart)

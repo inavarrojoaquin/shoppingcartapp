@@ -2,8 +2,8 @@
 {
     public interface IShoppingCart
     {
-        void AddProduct(OrderItem orderItem);
-        void DeleteProduct(OrderItem orderItem);
+        void AddProduct(Product product);
+        void DeleteProduct(Product product);
         string PrintTotalNumberOfProducts();
         double GetTotalPrice();
     }

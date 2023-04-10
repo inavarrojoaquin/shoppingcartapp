@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="App\Infrastructure\" />
-  </ItemGroup>
-
 </Project>

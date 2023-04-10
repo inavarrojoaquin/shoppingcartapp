@@ -2,56 +2,74 @@
 {
     public class OrderItem
     {
+        private OrderItemId orderItemId;
         private Product product;
-        private int quantity;
+        private Quantity quantity;
+        
+        public OrderItem(OrderItemId orderItemId, Product product, Quantity quantity)
+        {
+            this.orderItemId = orderItemId;
+            this.product = product;
+            this.quantity = quantity;
+        }
 
         public OrderItem(Product product)
         {
+            this.orderItemId = OrderItemId.Create();
             this.product = product;
-            this.quantity = 1;
+            this.quantity = Quantity.Create();
         }
 
-        public OrderItem(Product product, int quantity) : this(product)
+        public OrderItemData ToPrimitives()
         {
-            this.quantity = quantity;
+            return new OrderItemData
+            {
+                OrderItemId = this.orderItemId.Value(),
+                Product = this.product.ToPrimitives(),
+                Quantity = this.quantity.Value()
+            };
+        }
+
+        public static OrderItem FromPrimitives(OrderItemData orderItemData)
+        {
+            return new OrderItem(new OrderItemId(orderItemData.OrderItemId),
+                                 Product.FromPrimitives(orderItemData.Product),
+                                 new Quantity(orderItemData.Quantity));
         }
 
         public void AddQuantity()
         {
-            quantity++;
+            quantity.AddQuantity();
         }
         public void DecreaseQuantity()
         {
-            quantity--;
-        }
-        public override string ToString()
-        {
-            return product.ToString() + string.Format("\t| Quantity: {0}", quantity);
+            quantity.DecreaseQuantity();
         }
         public double CalculatePrice()
         {
-            return product.CalculatePrice(quantity);
+            return product.GetPrice() * quantity.Value();
         }
 
         public bool IsQuantityGreaterThanOne()
         {
-            return quantity > 1;
+            return quantity.Value() > 1;
         }
 
         public int GetQuantity()
         {
-            return quantity;
+            return quantity.Value();
         }
 
-        public override bool Equals(object? obj)
+        public ProductId GetProductId()
         {
-            return obj is OrderItem item &&
-                   EqualityComparer<Product>.Default.Equals(product, item.product);
+            return product.GetProductId();
         }
+    }
 
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(product);
-        }
+    public class OrderItemData
+    {
+        public string OrderItemId { get; set; }
+        public ProductData Product { get; set; }
+        public int Quantity { get; set; }
     }
 }

@@ -1,39 +1,48 @@
 ﻿using NSubstitute;
 using ShoppingCartApp.App.Domain;
+using ShoppingCartApp.App.Infrastructure;
 using ShoppingCartApp.App.UseCases.DeleteProduct;
 using ShoppingCartApp.DTOs;
 using ShoppingCartApp.Shared.UseCases;
-using ShoppingCartApp.App.Services.ShoppingCartAdministrator;
+using ShoppingCartAppTest.App.UseCases.AddProduct;
 
 namespace ShoppingCartAppTest.App.UseCases.DeleteProduct
 {
     internal class DeleteProductUseCaseShould
     {
-        private IShoppingCartAdministratorService shoppingCartAdministrator;
+        private IProductRepository productRepository;
+        private IShoppingCartRepository shoppingCartRepository;
         private IBaseUseCase<DeleteProductRequest> deleteProductUseCase;
 
         [SetUp]
         public void SetUp()
         {
-            shoppingCartAdministrator = Substitute.For<IShoppingCartAdministratorService>();
-            shoppingCartAdministrator.DeleteProductFromShoppingCart(Arg.Any<ShoppingCart>(), Arg.Any<OrderItem>());
-
-            deleteProductUseCase = new DeleteProductUseCase(shoppingCartAdministrator);
+            productRepository = Substitute.For<IProductRepository>();
+            shoppingCartRepository = Substitute.For<IShoppingCartRepository>();
+            deleteProductUseCase = new DeleteProductUseCase(productRepository, shoppingCartRepository);
         }
 
         [Test]
-        public void DeleteProductToShoppingCartSuccessfully()
+        public void DeleteProductFromShoppingCartSuccessfully()
         {
+            Product product = new Product(ProductId.Create(), ProductName.Create(), ProductPrice.Create());
+            productRepository.GetProductById(Arg.Any<ProductId>()).Returns(product);
+            ShoppingCartId shoppingCartId = ShoppingCartId.Create();
+            ShoppingCart shoppingCart = Substitute.For<ShoppingCart>(shoppingCartId);
+            shoppingCart.AddProduct(product);
+            shoppingCartRepository.GetShoppingCartById(Arg.Any<ShoppingCartId>()).Returns(shoppingCart);
+
             ProductDTO productDTO = new ProductDTO
             {
-                ProductName = "Test",
-                ShoppingCartName = "Test",
+                ProductId = product.GetProductId().Value(),
+                ShoppingCartId = shoppingCartId.Value(),
             };
-            DeleteProductRequest productRequest = new DeleteProductRequest(productDTO);
 
-            Assert.DoesNotThrow(() => deleteProductUseCase.Execute(productRequest));
+            deleteProductUseCase.Execute(new DeleteProductRequest(productDTO));
 
-            shoppingCartAdministrator.Received(1).DeleteProductFromShoppingCart(Arg.Any<ShoppingCart>(), Arg.Any<OrderItem>());
+            productRepository.Received(1).GetProductById(Arg.Any<ProductId>());
+            shoppingCartRepository.Received(1).GetShoppingCartById(Arg.Any<ShoppingCartId>());
+            shoppingCartRepository.Received(1).Save(Arg.Any<ShoppingCart>());
         }
 
         [Test]
@@ -42,6 +51,28 @@ namespace ShoppingCartAppTest.App.UseCases.DeleteProduct
             var ex = Assert.Throws<Exception>(() => deleteProductUseCase.Execute(null));
 
             Assert.That(ex.Message, Does.Contain(string.Format("Error: {0} can't be null", typeof(DeleteProductRequest))));
+        }
+
+        [Test]
+        public void RaiseExWhenProductIdDoesNotExistsInShoppingCart()
+        {
+            ProductId productId = ProductId.Create();
+            productRepository.GetProductById(Arg.Any<ProductId>()).Returns(new Product(productId, ProductName.Create(), ProductPrice.Create()));
+            ShoppingCartId shoppingCartId = ShoppingCartId.Create();
+            ShoppingCart shoppingCart = Substitute.For<ShoppingCart>(shoppingCartId);
+            shoppingCartRepository.GetShoppingCartById(Arg.Any<ShoppingCartId>()).Returns(shoppingCart);
+
+            ProductDTO productDTO = new ProductDTO
+            {
+                ProductId = productId.Value(),
+                ShoppingCartId = shoppingCartId.Value(),
+            };
+
+            var ex = Assert.Throws<Exception>(() => deleteProductUseCase.Execute(new DeleteProductRequest(productDTO)));
+
+            Assert.That(ex.Message, Does.Contain(string.Format("Error: The product with id: {0} does not exists in shoppingCart with id: {1}",
+                                                  productDTO.ProductId,
+                                                  productDTO.ShoppingCartId)));
         }
     }
 }

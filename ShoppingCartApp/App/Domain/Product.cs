@@ -2,40 +2,56 @@
 {
     public class Product
     {
-        private string name;
-        private double price;
+        private ProductId productId;
+        private ProductName name;
+        private ProductPrice price;
 
-        public Product(string name, double price)
+        public Product(ProductId productId, ProductName name, ProductPrice price)
         {
+            this.productId = productId;
             this.name = name;
             this.price = price;
         }
 
-        public Product(string productName)
+        public Product(ProductId productId)
         {
-            this.name = productName;
-            this.price = 0;            
+            this.productId = productId;
+            this.name = ProductName.Create();
+            this.price = ProductPrice.Create();            
         }
 
-        public override string ToString()
+        public ProductData ToPrimitives()
         {
-            return string.Format("-> Name: {0} \t| Price: {1}", name, price);
+            return new ProductData
+            {
+                ProductId = this.productId.Value(),
+                ProductName = this.name.Value(),
+                ProductPrice = this.price.Value()
+            };
         }
 
-        public override bool Equals(object? obj)
+        public static Product FromPrimitives(ProductData data)
         {
-            return obj is Product product &&
-                   name == product.name;
+            return new Product(new ProductId(data.ProductId),
+                               new ProductName(data.ProductName),
+                               new ProductPrice(data.ProductPrice));
         }
 
-        public override int GetHashCode()
+        public ProductId GetProductId()
         {
-            return HashCode.Combine(name);
+            return productId;
         }
 
-        internal double CalculatePrice(int quantity)
+        public double GetPrice()
         {
-            return price * quantity; 
+            return this.price.Value();
         }
+    }
+
+    public class ProductData
+    {
+        public string ProductId { get; set; }
+        public string ProductName { get; set; }
+        public double ProductPrice { get; set; }
     }
 }

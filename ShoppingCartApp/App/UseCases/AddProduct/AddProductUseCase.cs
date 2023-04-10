@@ -1,16 +1,19 @@
-﻿using ShoppingCartApp.Shared.UseCases;
-using ShoppingCartApp.App.Domain;
-using ShoppingCartApp.App.Services.ShoppingCartAdministrator;
+﻿using ShoppingCartApp.App.Domain;
+using ShoppingCartApp.App.Infrastructure;
+using ShoppingCartApp.Shared.UseCases;
+using ShoppingCartAppTest.App.UseCases.AddProduct;
 
 namespace ShoppingCartApp.App.UseCases.AddProduct
 {
     public class AddProductUseCase : IBaseUseCase<AddProductRequest>
     {
-        private IShoppingCartAdministratorService shoppingCartAdministrator;
+        private IProductRepository productRepository;
+        private IShoppingCartRepository shoppingCartRepository;
 
-        public AddProductUseCase(IShoppingCartAdministratorService shoppingCartAdministrator)
+        public AddProductUseCase(IProductRepository productRepository, IShoppingCartRepository shoppingCartRepository)
         {
-            this.shoppingCartAdministrator = shoppingCartAdministrator;
+            this.productRepository = productRepository;
+            this.shoppingCartRepository = shoppingCartRepository;
         }
 
         public void Execute(AddProductRequest productRequest)
@@ -18,11 +21,15 @@ namespace ShoppingCartApp.App.UseCases.AddProduct
             if (productRequest == null)
                 throw new Exception(string.Format("Error: {0} can't be null", typeof(AddProductRequest)));
 
-            Product product = new Product(productRequest.Name, productRequest.Price);
-            OrderItem orderItem = new OrderItem(product, productRequest.Quantity);
-            ShoppingCart shoppingCart = new ShoppingCart(productRequest.ShoppingCartName, new List<OrderItem>());
+            Product product = productRepository.GetProductById(productRequest.ProductId);
+            ShoppingCart shoppingCart = shoppingCartRepository.GetShoppingCartById(productRequest.ShoppingCartId);
             
-            shoppingCartAdministrator.AddProductToShoppingCart(shoppingCart, orderItem);
+            if(shoppingCart == null)
+                shoppingCart = new ShoppingCart(productRequest.ShoppingCartId);
+            
+            shoppingCart.AddProduct(product);
+
+            shoppingCartRepository.Save(shoppingCart);
         }
     }
 }

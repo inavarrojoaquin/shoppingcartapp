@@ -2,9 +2,7 @@
 {
     public class ProductDTO
     {
-        public string ProductName { get; set; }
-        public double ProductPrice { get; set; }
-        public int ProductQuantity { get; set; }
-        public string ShoppingCartName { get; set; }
+        public string ProductId { get; set; }
+        public string ShoppingCartId { get; set; }
     }
 }
