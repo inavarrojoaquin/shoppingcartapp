@@ -1,22 +1,20 @@
-﻿using ShoppingCartApp.DTOs;
-
-namespace ShoppingCartApp.App.Domain
+﻿namespace ShoppingCartApp.App.Domain
 {
-    public class ProductName
+    public class Name
     {
         private readonly string name;
 
-        public ProductName(string name)
+        public Name(string name)
         {
             if (string.IsNullOrEmpty(name))
-                throw new Exception(string.Format("Error: {0} can not be null or empty", "ProductName"));
+                throw new Exception(string.Format("Error: {0} can not be null or empty", "Name"));
 
             this.name = name;
         }
         
-        public static ProductName Create()
+        public static Name Create()
         {
-            return new ProductName(Guid.NewGuid().ToString());
+            return new Name(Guid.NewGuid().ToString());
         }
         public string Value()
         {

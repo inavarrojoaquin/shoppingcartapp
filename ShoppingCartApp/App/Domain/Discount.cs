@@ -2,38 +2,25 @@
 {
     public class Discount
     {
-        private string name;
-        private double quantity;
-
-        public Discount(string name)
+        private DiscountId id;
+        private Name name;
+        private Quantity quantity;
+        
+        public Discount(DiscountId id, Name name, Quantity quantity)
         {
-            this.name = name;
-        }
-        public Discount(string name, double quantity)
-        {
+            this.id = id;
             this.name = name;
             this.quantity = quantity;
         }
 
-        internal double GetCalculatedDiscount()
+        public double GetCalculatedDiscount()
         {
-            return Math.Round(quantity / 100, 2);
+            return Math.Round((double)quantity.Value() / 100, 2);
         }
 
         public override string ToString()
         {
             return string.Format("Promotion: {0}% off with code {1}", quantity, name);
-        }
-
-        public override bool Equals(object? obj)
-        {
-            return obj is Discount discount &&
-                   name == discount.name;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(name);
         }
     }
 }

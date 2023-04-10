@@ -109,6 +109,17 @@ namespace ShoppingCartApp.App.Domain
         {
             return orderItems.Sum(x => x.GetQuantity());
         }
+
+        public double ApplyDiscount(Discount discount)
+        {
+            double totalPrice = GetTotalPrice();
+            if(totalPrice == 0)
+                throw new Exception("Error: Can not apply discount to an empty ShoppingCart");
+
+            totalPrice -= totalPrice * discount.GetCalculatedDiscount();
+
+            return Math.Round(totalPrice, 2);
+        }
     }
 
     public class ShoppingCartData

@@ -1,16 +1,18 @@
 ﻿using ShoppingCartApp.App.Domain;
+using ShoppingCartApp.App.Infrastructure;
 using ShoppingCartApp.Shared.UseCases;
-using ShoppingCartApp.App.Services.ShoppingCartAdministrator;
 
 namespace ShoppingCartApp.App.UseCases.ApplyDiscount
 {
     public class ApplyDiscountUseCase : IBaseUseCase<DiscountRequest>
     {
-        private IShoppingCartAdministratorService shoppingCartAdministrator;
+        private readonly IDiscountRepository discountRepository;
+        private readonly IShoppingCartRepository shoppingCartRepository;
 
-        public ApplyDiscountUseCase(IShoppingCartAdministratorService shoppingCartAdministrator)
+        public ApplyDiscountUseCase(IDiscountRepository discountRepository, IShoppingCartRepository shoppingCartRepository)
         {
-            this.shoppingCartAdministrator = shoppingCartAdministrator;
+            this.discountRepository = discountRepository;
+            this.shoppingCartRepository = shoppingCartRepository;
         }
 
         public void Execute(DiscountRequest discountRequest)
@@ -18,9 +20,17 @@ namespace ShoppingCartApp.App.UseCases.ApplyDiscount
             if (discountRequest == null)
                 throw new Exception(string.Format("Error: {0} can't be null", typeof(DiscountRequest)));
 
-            Discount discount = new Discount(discountRequest.Name, discountRequest.Quantity);
+            Discount discount = discountRepository.GetDiscountById(discountRequest.Id);
+            ShoppingCart shoppingCart = shoppingCartRepository.GetShoppingCartById(discountRequest.ShoppingCartId);
 
-            shoppingCartAdministrator.ApplyDiscount(discount);
+            if (discount == null)
+                throw new Exception(string.Format("Error: There is no discount for id: {0}", discountRequest.Id.Value()));
+            if (shoppingCart == null)
+                throw new Exception(string.Format("Error: There is no shoppingCart for id: {0}", discountRequest.ShoppingCartId.Value()));
+
+            shoppingCart.ApplyDiscount(discount);
+
+            shoppingCartRepository.Save(shoppingCart);
         }
     }
 }
