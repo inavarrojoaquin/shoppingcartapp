@@ -18,7 +18,7 @@
             return Math.Round((double)quantity.Value() / 100, 2);
         }
 
-        public override string ToString()
+        public string Print()
         {
             return string.Format("Promotion: {0}% off with code {1}", quantity, name);
         }

@@ -2,6 +2,6 @@
 {
     public class ShoppingCartDTO
     {
-        public string ShoppingCartName { get; set; }
+        public string ShoppingCartId { get; set; }
     }
 }

@@ -1,38 +1,38 @@
 ﻿using NSubstitute;
 using ShoppingCartApp.App.Domain;
+using ShoppingCartApp.App.Infrastructure;
 using ShoppingCartApp.App.UseCases.PrintShoppingCart;
 using ShoppingCartApp.DTOs;
 using ShoppingCartApp.Shared.UseCases;
-using ShoppingCartApp.App.Services.ShoppingCartAdministrator;
 
 namespace ShoppingCartAppTest.App.UseCases.PrintShoppingCart
 {
     internal class PrintShoppingCartUseCaseShould
     {
-        private IShoppingCartAdministratorService shoppingCartAdministrator;
+        private IShoppingCartRepository shoppingCartRepository;
         private IBaseUseCase<PrintShoppingCartRequest> printShoppingCartUseCase;
 
         [SetUp]
         public void SetUp()
         {
-            shoppingCartAdministrator = Substitute.For<IShoppingCartAdministratorService>();
-            shoppingCartAdministrator.PrintShoppingCart(Arg.Any<ShoppingCart>());
-
-            printShoppingCartUseCase = new ShoppingCartUseCase(shoppingCartAdministrator);
+            shoppingCartRepository = Substitute.For<IShoppingCartRepository>();
+            printShoppingCartUseCase = new PrintShoppingCartUseCase(shoppingCartRepository);
         }
 
         [Test]
-        public void PrintShoppingCartSuccessfully()
+        public void PrintShoppingCart()
         {
+            shoppingCartRepository.GetShoppingCartById(Arg.Any<ShoppingCartId>()).Returns(new ShoppingCart(ShoppingCartId.Create()));
+
             ShoppingCartDTO shoppingCartDTO = new ShoppingCartDTO
             {
-                ShoppingCartName = "Test",
+                ShoppingCartId = ShoppingCartId.Create().Value(),
             };
             PrintShoppingCartRequest printShoppingCartRequest = new PrintShoppingCartRequest(shoppingCartDTO);
 
-            Assert.DoesNotThrow(() => printShoppingCartUseCase.Execute(printShoppingCartRequest));
+            printShoppingCartUseCase.Execute(printShoppingCartRequest);
 
-            shoppingCartAdministrator.Received(1).PrintShoppingCart(Arg.Any<ShoppingCart>());
+            shoppingCartRepository.Received(1).GetShoppingCartById(Arg.Any<ShoppingCartId>());
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace ShoppingCartAppTest.App.UseCases.PrintShoppingCart
         {
             var ex = Assert.Throws<Exception>(() => printShoppingCartUseCase.Execute(null));
 
-            Assert.That(ex.Message, Does.Contain(string.Format("Error: {0} can't be null", typeof(PrintShoppingCartRequest))));
+            Assert.That(ex.Message, Does.Contain(string.Format("Error: {0} can't be null", nameof(PrintShoppingCartRequest))));
         }
     }
 }

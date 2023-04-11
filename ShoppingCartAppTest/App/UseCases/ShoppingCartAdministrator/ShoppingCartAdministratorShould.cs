@@ -1,6 +1,3 @@
-using ShoppingCartApp.App.Domain;
-using ShoppingCartApp.App.Services.ShoppingCartAdministrator;
-
 namespace ShoppingCartAppTest.App.UseCases.ShoppingCartAdministrator
 {
     //public class ShoppingCartAdministratorShould

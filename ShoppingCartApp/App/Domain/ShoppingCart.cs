@@ -2,11 +2,12 @@
 
 namespace ShoppingCartApp.App.Domain
 {
-    public class ShoppingCart : IShoppingCart
+    public class ShoppingCart
     {
         private ShoppingCartId shoppingCartId;
         private ShoppingCartName shoppingCartName;
         private List<OrderItem> orderItems;
+        private Discount discount;
         
         public ShoppingCart(ShoppingCartId id)
         {
@@ -49,12 +50,65 @@ namespace ShoppingCartApp.App.Domain
 
             orderItems.Add(new OrderItem(product));
         }
+        
+        public void DeleteProduct(Product product)
+        {
+            OrderItem? findedOrderItem = orderItems.FirstOrDefault(x => x.GetProductId() == product.GetProductId());
 
-        public string PrintProducts()
+            if (findedOrderItem == null)
+                throw new Exception(string.Format("Error: The product with id: {0} does not exists in shoppingCart with id: {1}",
+                                                  product.GetProductId().Value(),
+                                                  shoppingCartId.Value()));
+
+            if (findedOrderItem.IsQuantityGreaterThanOne())
+            {
+                findedOrderItem.DecreaseQuantity();
+                return;
+            }
+
+            orderItems.Remove(findedOrderItem);
+        }
+
+        public void ApplyDiscount(Discount discount)
+        {
+            double totalPrice = GetTotalPrice();
+            if (totalPrice == 0)
+                throw new Exception("Error: Can not apply discount to an empty ShoppingCart");
+
+            this.discount = discount;
+        }
+
+        public string Print()
+        {
+            StringBuilder shoppingCartAdministratorBuilder = new();
+            shoppingCartAdministratorBuilder.AppendLine(PrintProducts());
+            shoppingCartAdministratorBuilder.AppendLine(PrintTotalNumberOfProducts());
+            shoppingCartAdministratorBuilder.AppendLine(PrintDiscount());
+            shoppingCartAdministratorBuilder.AppendLine(string.Format("Total price: {0}", GetTotalPriceWithDiscount()));
+
+            return shoppingCartAdministratorBuilder.ToString();
+        }
+
+        private double GetTotalPrice()
+        {
+            return orderItems.Sum(x => x.CalculatePrice());
+        }
+
+        private double GetTotalPriceWithDiscount()
+        {
+            double totalPrice = GetTotalPrice();
+
+            if(this.discount != null)
+                totalPrice -= totalPrice * this.discount.GetCalculatedDiscount();
+
+            return Math.Round(totalPrice, 2);
+        }
+
+        private string PrintProducts()
         {
             if (!orderItems.Any())
                 return "No products";
-            
+
             StringBuilder productList = new();
             productList.AppendLine("Products: ");
             foreach (var item in orderItems.Select(x => x.ToPrimitives()))
@@ -66,59 +120,21 @@ namespace ShoppingCartApp.App.Domain
             return productList.ToString();
         }
 
-        public string PrintTotalNumberOfProducts()
+        private string PrintDiscount()
+        {
+            if (discount == null)
+                return "No promotion";
+
+            return discount.Print();
+        }
+
+        private string PrintTotalNumberOfProducts()
         {
             return string.Format("Total of products: {0}", GetTotalOfProducts());
-        }
-
-        public double GetTotalPrice()
-        {
-            return orderItems.Sum(x => x.CalculatePrice());
-        }
-
-        public void DeleteProduct(Product product)
-        {
-            OrderItem? findedOrderItem = orderItems.FirstOrDefault(x => x.GetProductId() == product.GetProductId());
-            
-            if(findedOrderItem == null) 
-                throw new Exception(string.Format("Error: The product with id: {0} does not exists in shoppingCart with id: {1}",
-                                                  product.GetProductId().Value(),
-                                                  shoppingCartId.Value()));
-            
-            if (findedOrderItem.IsQuantityGreaterThanOne())
-            {
-                findedOrderItem.DecreaseQuantity();
-                return;
-            }
-
-            orderItems.Remove(findedOrderItem);
-        }
-
-        public override bool Equals(object? obj)
-        {
-            return obj is ShoppingCart cart &&
-                   shoppingCartName == cart.shoppingCartName;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(shoppingCartName);
-        
         }
         private int GetTotalOfProducts()
         {
             return orderItems.Sum(x => x.GetQuantity());
-        }
-
-        public double ApplyDiscount(Discount discount)
-        {
-            double totalPrice = GetTotalPrice();
-            if(totalPrice == 0)
-                throw new Exception("Error: Can not apply discount to an empty ShoppingCart");
-
-            totalPrice -= totalPrice * discount.GetCalculatedDiscount();
-
-            return Math.Round(totalPrice, 2);
         }
     }
 
