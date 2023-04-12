@@ -18,18 +18,34 @@ namespace ShoppingCartApp.App.UseCases.DeleteProduct
 
         public void Execute(DeleteProductRequest deleteRequest)
         {
-            if (deleteRequest == null)
-                throw new Exception(string.Format("Error: {0} can't be null", typeof(DeleteProductRequest)));
-
-            Product product = productRepository.GetProductById(deleteRequest.ProductId);
-            ShoppingCart shoppingCart = shoppingCartRepository.GetShoppingCartById(deleteRequest.ShoppingCartId);
-
-            if (shoppingCart == null)
-                throw new Exception(string.Format("Error: There is no shoppingCart for id: {0}", deleteRequest.ShoppingCartId));
+            ValidateRequest(deleteRequest);
+            Product product = LoadProductOrFail(deleteRequest);
+            ShoppingCart shoppingCart = LoadShoppingCartOrFail(deleteRequest);
 
             shoppingCart.DeleteProduct(product);
 
             shoppingCartRepository.Save(shoppingCart);
+        }
+
+        private Product LoadProductOrFail(DeleteProductRequest deleteRequest)
+        {
+            return productRepository.GetProductById(deleteRequest.ProductId);
+        }
+
+        private static void ValidateRequest(DeleteProductRequest deleteRequest)
+        {
+            if (deleteRequest == null)
+                throw new Exception(string.Format("Error: {0} can't be null", typeof(DeleteProductRequest)));
+        }
+
+        private ShoppingCart LoadShoppingCartOrFail(DeleteProductRequest deleteRequest)
+        {
+            ShoppingCart shoppingCart = shoppingCartRepository.GetShoppingCartById(deleteRequest.ShoppingCartId);
+
+            if (shoppingCart == null)
+                throw new Exception(string.Format("Error: There is no shoppingCart for id: {0}", deleteRequest.ShoppingCartId));
+            
+            return shoppingCart;
         }
     }
 }

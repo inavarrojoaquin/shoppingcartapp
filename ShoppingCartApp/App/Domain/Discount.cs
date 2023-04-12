@@ -13,6 +13,8 @@
             this.quantity = quantity;
         }
 
+        // TODO 
+        // ToPrimitives/ FromPrimitives
         public double GetCalculatedDiscount()
         {
             return Math.Round((double)quantity.Value() / 100, 2);

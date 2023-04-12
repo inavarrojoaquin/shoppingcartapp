@@ -98,6 +98,7 @@ namespace ShoppingCartApp.App.Domain
         {
             double totalPrice = GetTotalPrice();
 
+            // TODO
             if(this.discount != null)
                 totalPrice -= totalPrice * this.discount.GetCalculatedDiscount();
 
