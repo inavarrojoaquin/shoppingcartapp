@@ -26,11 +26,11 @@ namespace ShoppingCartAppTest.App.UseCases.ApplyDiscount
         {
             DiscountId discountId = DiscountId.Create();
             Quantity quantity = Quantity.Create();
-            Discount discount = new Discount(discountId, Name.Create(), quantity);
+            Discount discount = new Discount(discountId, DiscountName.Create(), quantity);
             discountRepository.GetDiscountById(Arg.Any<DiscountId>()).Returns(discount);
             ShoppingCartId shoppingCartId = ShoppingCartId.Create();
             ShoppingCart shoppingCart = Substitute.For<ShoppingCart>(shoppingCartId);
-            shoppingCart.AddProduct(new Product(ProductId.Create(), Name.Create(), new ProductPrice(10)));
+            shoppingCart.AddProduct(new Product(ProductId.Create(), ProductName.Create(), new ProductPrice(10)));
             shoppingCartRepository.GetShoppingCartById(Arg.Any<ShoppingCartId>()).Returns(shoppingCart);
 
             DiscountDTO discountDTO = new DiscountDTO
@@ -52,7 +52,7 @@ namespace ShoppingCartAppTest.App.UseCases.ApplyDiscount
         {
             DiscountId discountId = DiscountId.Create();
             Quantity quantity = Quantity.Create();
-            Discount discount = new Discount(discountId, Name.Create(), quantity);
+            Discount discount = new Discount(discountId, DiscountName.Create(), quantity);
             discountRepository.GetDiscountById(Arg.Any<DiscountId>()).Returns(discount);
             ShoppingCartId shoppingCartId = ShoppingCartId.Create();
             ShoppingCart shoppingCart = Substitute.For<ShoppingCart>(shoppingCartId);
@@ -99,7 +99,7 @@ namespace ShoppingCartAppTest.App.UseCases.ApplyDiscount
         {
             DiscountId discountId = DiscountId.Create();
             Quantity quantity = Quantity.Create();
-            Discount discount = new Discount(discountId, Name.Create(), quantity);
+            Discount discount = new Discount(discountId, DiscountName.Create(), quantity);
             discountRepository.GetDiscountById(Arg.Any<DiscountId>()).Returns(discount);
             shoppingCartRepository.GetShoppingCartById(Arg.Any<ShoppingCartId>()).Returns(x => null);
 

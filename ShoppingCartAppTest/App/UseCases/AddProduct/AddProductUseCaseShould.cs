@@ -25,7 +25,7 @@ namespace ShoppingCartAppTest.App.UseCases.AddProduct
         public void AddProductToNewShoppingCartSuccessfully()
         {
             ProductId productId = ProductId.Create();
-            productRepository.GetProductById(Arg.Any<ProductId>()).Returns(new Product(ProductId.Create(), Name.Create(), ProductPrice.Create()));
+            productRepository.GetProductById(Arg.Any<ProductId>()).Returns(new Product(ProductId.Create(), ProductName.Create(), ProductPrice.Create()));
             shoppingCartRepository.GetShoppingCartById(Arg.Any<ShoppingCartId>()).Returns(x => null);
 
             ProductDTO productDTO = new ProductDTO
@@ -45,7 +45,7 @@ namespace ShoppingCartAppTest.App.UseCases.AddProduct
         public void AddProductToExistingShoppingCartSuccessfully()
         {
             ProductId productId = ProductId.Create();
-            productRepository.GetProductById(Arg.Any<ProductId>()).Returns(new Product(ProductId.Create(), Name.Create(), ProductPrice.Create()));
+            productRepository.GetProductById(Arg.Any<ProductId>()).Returns(new Product(ProductId.Create(), ProductName.Create(), ProductPrice.Create()));
             shoppingCartRepository.GetShoppingCartById(Arg.Any<ShoppingCartId>()).Returns(new ShoppingCart(ShoppingCartId.Create()));
 
             ProductDTO productDTO = new ProductDTO

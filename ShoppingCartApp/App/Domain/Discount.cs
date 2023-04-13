@@ -3,10 +3,10 @@
     public class Discount
     {
         private DiscountId id;
-        private Name name;
+        private DiscountName name;
         private Quantity quantity;
         
-        public Discount(DiscountId id, Name name, Quantity quantity)
+        public Discount(DiscountId id, DiscountName name, Quantity quantity)
         {
             this.id = id;
             this.name = name;
@@ -41,7 +41,7 @@
     public class DiscountData
     {
         public DiscountId Id { get; set; }
-        public Name Name { get; set; }
+        public DiscountName Name { get; set; }
         public Quantity Quantity { get; set; }
     }
 }

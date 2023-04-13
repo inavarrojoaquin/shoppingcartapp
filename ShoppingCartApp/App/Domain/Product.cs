@@ -3,10 +3,10 @@
     public class Product
     {
         private ProductId productId;
-        private Name name;
+        private ProductName name;
         private ProductPrice price;
 
-        public Product(ProductId productId, Name name, ProductPrice price)
+        public Product(ProductId productId, ProductName name, ProductPrice price)
         {
             this.productId = productId;
             this.name = name;
@@ -16,7 +16,7 @@
         public Product(ProductId productId)
         {
             this.productId = productId;
-            this.name = Name.Create();
+            this.name = ProductName.Create();
             this.price = ProductPrice.Create();            
         }
 
@@ -33,7 +33,7 @@
         public static Product FromPrimitives(ProductData data)
         {
             return new Product(new ProductId(data.ProductId),
-                               new Name(data.ProductName),
+                               new ProductName(data.ProductName),
                                new ProductPrice(data.ProductPrice));
         }
 
