@@ -13,16 +13,35 @@
             this.quantity = quantity;
         }
 
-        // TODO 
-        // ToPrimitives/ FromPrimitives
-        public double GetCalculatedDiscount()
+        public DiscountData ToPrimitives()
         {
-            return Math.Round((double)quantity.Value() / 100, 2);
+            return new DiscountData
+            {
+                Id = id,
+                Name = name,
+                Quantity = quantity
+            };
         }
 
-        public string Print()
+        public static Discount FromPrimitives(DiscountData discountData)
         {
-            return string.Format("Promotion: {0}% off with code {1}", quantity, name);
+            return new Discount(discountData.Id,
+                                discountData.Name,
+                                discountData.Quantity);
         }
+
+        public double CalculateDiscount(double totalPrice)
+        {
+            double total = totalPrice * (quantity.Value() / 100);
+            return Math.Round(total, 2);
+        }
+
+    }
+
+    public class DiscountData
+    {
+        public DiscountId Id { get; set; }
+        public Name Name { get; set; }
+        public Quantity Quantity { get; set; }
     }
 }

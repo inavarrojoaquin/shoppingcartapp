@@ -84,7 +84,7 @@ namespace ShoppingCartApp.App.Domain
             shoppingCartAdministratorBuilder.AppendLine(PrintProducts());
             shoppingCartAdministratorBuilder.AppendLine(PrintTotalNumberOfProducts());
             shoppingCartAdministratorBuilder.AppendLine(PrintDiscount());
-            shoppingCartAdministratorBuilder.AppendLine(string.Format("Total price: {0}", GetTotalPriceWithDiscount()));
+            shoppingCartAdministratorBuilder.AppendLine(PrintTotalPrice());
 
             return shoppingCartAdministratorBuilder.ToString();
         }
@@ -97,10 +97,8 @@ namespace ShoppingCartApp.App.Domain
         private double GetTotalPriceWithDiscount()
         {
             double totalPrice = GetTotalPrice();
-
-            // TODO
-            if(this.discount != null)
-                totalPrice -= totalPrice * this.discount.GetCalculatedDiscount();
+            if (this.discount != null)
+                totalPrice -= this.discount.CalculateDiscount(totalPrice);
 
             return Math.Round(totalPrice, 2);
         }
@@ -120,19 +118,27 @@ namespace ShoppingCartApp.App.Domain
 
             return productList.ToString();
         }
+        private string PrintTotalNumberOfProducts()
+        {
+            return string.Format("Total of products: {0}", GetTotalOfProducts());
+        }
 
         private string PrintDiscount()
         {
             if (discount == null)
                 return "No promotion";
 
-            return discount.Print();
+            DiscountData discountData = discount.ToPrimitives();
+            return string.Format("Promotion: {0}% off with code {1}",
+                                 discountData.Quantity.Value(),
+                                 discountData.Name.Value());
         }
 
-        private string PrintTotalNumberOfProducts()
+        private string PrintTotalPrice()
         {
-            return string.Format("Total of products: {0}", GetTotalOfProducts());
+            return string.Format("Total price: {0}", GetTotalPriceWithDiscount());
         }
+
         private int GetTotalOfProducts()
         {
             return orderItems.Sum(x => x.GetQuantity());
