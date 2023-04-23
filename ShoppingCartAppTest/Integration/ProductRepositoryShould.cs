@@ -85,5 +85,29 @@ namespace ShoppingCartAppTest.Integration
 
             Assert.That(returnedPproduct, Is.Null);
         }
+
+        [Test]
+        public void DeleteProductById()
+        {
+            ShoppingCartContext context = new ShoppingCartContext();
+            IProductRepository repository = new ProductRepository(context);
+
+            ProductId productId = ProductId.Create();
+            Product product = new Product(productId, ProductName.Create(), ProductPrice.Create());
+
+            repository.Save(product);
+            repository.DeleteProductById(productId);
+
+            Assert.That(context.Product.FirstOrDefault(x => x.ProductId == productId.Value()), Is.Null);
+        }
+
+        [Test]
+        public void RaiseExWhenDeletetingProductAndItDoesNotExists()
+        {
+            ShoppingCartContext context = new ShoppingCartContext();
+            IProductRepository repository = new ProductRepository(context);
+
+            Assert.Throws<ArgumentNullException>(() => repository.DeleteProductById(ProductId.Create()));
+        }
     }
 }

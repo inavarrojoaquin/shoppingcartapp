@@ -13,14 +13,22 @@ namespace ShoppingCartAppTest.Integration
             this.context = context;
         }
 
-        public Product GetProductById(ProductId id)
+        public Product GetProductById(ProductId productId)
         {
-            ProductData? productData = context.Product.FirstOrDefault(x => x.ProductId == id.Value());
+            ProductData? productData = context.Product.FirstOrDefault(x => x.ProductId == productId.Value());
             
             if (productData == null) 
                 return null;
 
             return Product.FromPrimitives(productData);
+        }
+
+        public void DeleteProductById(ProductId productId)
+        {
+            ProductData? productData = context.Product.FirstOrDefault(x => x.ProductId == productId.Value());
+            
+            context.Product.Remove(productData);
+            context.SaveChanges();
         }
 
         public void Save(Product product)
