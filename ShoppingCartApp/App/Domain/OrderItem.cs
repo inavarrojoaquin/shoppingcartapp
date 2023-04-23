@@ -64,6 +64,10 @@
         {
             return product.GetProductId();
         }
+        public OrderItemId GetOrderItemId()
+        {
+            return orderItemId;
+        }
     }
 
     public class OrderItemData

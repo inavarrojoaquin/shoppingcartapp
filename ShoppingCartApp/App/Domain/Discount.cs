@@ -2,46 +2,50 @@
 {
     public class Discount
     {
-        private DiscountId id;
-        private DiscountName name;
-        private Quantity quantity;
+        private DiscountId discountId;
+        private DiscountName discountName;
+        private Quantity discountQuantity;
         
         public Discount(DiscountId id, DiscountName name, Quantity quantity)
         {
-            this.id = id;
-            this.name = name;
-            this.quantity = quantity;
+            this.discountId = id;
+            this.discountName = name;
+            this.discountQuantity = quantity;
         }
 
         public DiscountData ToPrimitives()
         {
             return new DiscountData
             {
-                Id = id,
-                Name = name,
-                Quantity = quantity
+                DiscountId = discountId.Value(),
+                Name = discountName.Value(),
+                Quantity = discountQuantity.Value()
             };
         }
 
         public static Discount FromPrimitives(DiscountData discountData)
         {
-            return new Discount(discountData.Id,
-                                discountData.Name,
-                                discountData.Quantity);
+            return new Discount(new DiscountId(discountData.DiscountId),
+                                new DiscountName(discountData.Name),
+                                new Quantity(discountData.Quantity));
         }
 
         public double CalculateDiscount(double totalPrice)
         {
-            double total = totalPrice * (quantity.Value() / 100);
+            double total = totalPrice * (discountQuantity.Value() / 100);
             return Math.Round(total, 2);
         }
 
+        public DiscountId GetDiscountId()
+        {
+            return discountId;
+        }
     }
 
     public class DiscountData
     {
-        public DiscountId Id { get; set; }
-        public DiscountName Name { get; set; }
-        public Quantity Quantity { get; set; }
+        public string DiscountId { get; set; }
+        public string Name { get; set; }
+        public int Quantity { get; set; }
     }
 }

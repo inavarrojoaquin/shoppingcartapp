@@ -21,4 +21,8 @@
     <ProjectReference Include="..\ShoppingCartApp\ShoppingCartApp.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EndToEnd\" />
+  </ItemGroup>
+
 </Project>

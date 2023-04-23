@@ -4,31 +4,31 @@ namespace ShoppingCartApp.App.Domain
 {
     public class ShoppingCart
     {
-        private ShoppingCartId shoppingCartId;
-        private ShoppingCartName shoppingCartName;
-        private List<OrderItem> orderItems;
-        private Discount discount;
+        public ShoppingCartId ShoppingCartId { get; }
+        public ShoppingCartName ShoppingCartName { get; }
+        public List<OrderItem> OrderItems { get; }
+        public Discount Discount { get; private set; }
         
         public ShoppingCart(ShoppingCartId id)
         {
-            this.shoppingCartId = id;
-            this.shoppingCartName = ShoppingCartName.Create();
-            this.orderItems = new List<OrderItem>();
+            this.ShoppingCartId = id;
+            this.ShoppingCartName = ShoppingCartName.Create();
+            this.OrderItems = new List<OrderItem>();
         }
 
         public ShoppingCart(ShoppingCartId id, ShoppingCartName shoppingCartName, List<OrderItem> orderItems) : this(id)
         {
-            this.shoppingCartName = shoppingCartName;
-            this.orderItems = orderItems;
+            this.ShoppingCartName = shoppingCartName;
+            this.OrderItems = orderItems;
         }
 
         public ShoppingCartData ToPrimitives()
         {
             return new ShoppingCartData
             {
-                ShoppingCartId = this.shoppingCartId.Value(),
-                ShoppingCartName = this.shoppingCartName.Value(),
-                OrderItems = this.orderItems.Select(x => x.ToPrimitives()).ToList()
+                ShoppingCartId = this.ShoppingCartId.Value(),
+                ShoppingCartName = this.ShoppingCartName.Value(),
+                OrderItems = this.OrderItems.Select(x => x.ToPrimitives()).ToList()
         };
         }
 
@@ -41,24 +41,24 @@ namespace ShoppingCartApp.App.Domain
 
         public void AddProduct(Product product)
         {
-            OrderItem? findedOrderItem = orderItems.FirstOrDefault(x => x.GetProductId() == product.GetProductId());
+            OrderItem? findedOrderItem = OrderItems.FirstOrDefault(x => x.GetProductId() == product.GetProductId());
             if (findedOrderItem != null)
             {
                 findedOrderItem.AddQuantity();
                 return;
             }
 
-            orderItems.Add(new OrderItem(product));
+            OrderItems.Add(new OrderItem(product));
         }
         
         public void DeleteProduct(Product product)
         {
-            OrderItem? findedOrderItem = orderItems.FirstOrDefault(x => x.GetProductId() == product.GetProductId());
+            OrderItem? findedOrderItem = OrderItems.FirstOrDefault(x => x.GetProductId() == product.GetProductId());
 
             if (findedOrderItem == null)
                 throw new Exception(string.Format("Error: The product with id: {0} does not exists in shoppingCart with id: {1}",
                                                   product.GetProductId().Value(),
-                                                  shoppingCartId.Value()));
+                                                  ShoppingCartId.Value()));
 
             if (findedOrderItem.IsQuantityGreaterThanOne())
             {
@@ -66,7 +66,7 @@ namespace ShoppingCartApp.App.Domain
                 return;
             }
 
-            orderItems.Remove(findedOrderItem);
+            OrderItems.Remove(findedOrderItem);
         }
 
         public void ApplyDiscount(Discount discount)
@@ -75,7 +75,7 @@ namespace ShoppingCartApp.App.Domain
             if (totalPrice == 0)
                 throw new Exception("Error: Can not apply discount to an empty ShoppingCart");
 
-            this.discount = discount;
+            this.Discount = discount;
         }
 
         public string Print()
@@ -91,26 +91,26 @@ namespace ShoppingCartApp.App.Domain
 
         private double GetTotalPrice()
         {
-            return orderItems.Sum(x => x.CalculatePrice());
+            return OrderItems.Sum(x => x.CalculatePrice());
         }
 
         private double GetTotalPriceWithDiscount()
         {
             double totalPrice = GetTotalPrice();
-            if (this.discount != null)
-                totalPrice -= this.discount.CalculateDiscount(totalPrice);
+            if (this.Discount != null)
+                totalPrice -= this.Discount.CalculateDiscount(totalPrice);
 
             return Math.Round(totalPrice, 2);
         }
 
         private string PrintProducts()
         {
-            if (!orderItems.Any())
+            if (!OrderItems.Any())
                 return "No products";
 
             StringBuilder productList = new();
             productList.AppendLine("Products: ");
-            foreach (var item in orderItems.Select(x => x.ToPrimitives()))
+            foreach (var item in OrderItems.Select(x => x.ToPrimitives()))
                 productList.AppendLine(string.Format("-> Name: {0} \t| Price: {1} \t| Quantity: {2}",
                                                      item.Product.ProductName,
                                                      item.Product.ProductPrice,
@@ -125,13 +125,13 @@ namespace ShoppingCartApp.App.Domain
 
         private string PrintDiscount()
         {
-            if (discount == null)
+            if (Discount == null)
                 return "No promotion";
 
-            DiscountData discountData = discount.ToPrimitives();
+            DiscountData discountData = Discount.ToPrimitives();
             return string.Format("Promotion: {0}% off with code {1}",
-                                 discountData.Quantity.Value(),
-                                 discountData.Name.Value());
+                                 discountData.Quantity,
+                                 discountData.Name);
         }
 
         private string PrintTotalPrice()
@@ -141,7 +141,7 @@ namespace ShoppingCartApp.App.Domain
 
         private int GetTotalOfProducts()
         {
-            return orderItems.Sum(x => x.GetQuantity());
+            return OrderItems.Sum(x => x.GetQuantity());
         }
     }
 
@@ -150,5 +150,6 @@ namespace ShoppingCartApp.App.Domain
         public string ShoppingCartId { get; set; }
         public string ShoppingCartName { get; set; }
         public List<OrderItemData> OrderItems { get; set; }
+        //TODO Agregar Discount
     }
 }
