@@ -17,12 +17,7 @@ namespace ShoppingCartApp.App.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // TODO completar con el resto de atributos para cada tabla
-            modelBuilder.Entity<ShoppingCartData>(x =>
-            {
-                x.HasKey(y => y.ShoppingCartId);
-                x.HasMany(oi => oi.OrderItems);
-            });
+            modelBuilder.Entity<ShoppingCartData>(x => x.HasKey(y => y.ShoppingCartId));
             modelBuilder.Entity<ProductData>(x => x.HasKey(y => y.ProductId));
             modelBuilder.Entity<OrderItemData>(x => x.HasKey(y => y.OrderItemId));
             modelBuilder.Entity<DiscountData>(x => x.HasKey(y => y.DiscountId));

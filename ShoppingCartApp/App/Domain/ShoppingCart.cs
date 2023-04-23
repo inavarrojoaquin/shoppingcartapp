@@ -130,8 +130,8 @@ namespace ShoppingCartApp.App.Domain
 
             DiscountData discountData = Discount.ToPrimitives();
             return string.Format("Promotion: {0}% off with code {1}",
-                                 discountData.Quantity,
-                                 discountData.Name);
+                                 discountData.DiscountQuantity,
+                                 discountData.DiscountName);
         }
 
         private string PrintTotalPrice()

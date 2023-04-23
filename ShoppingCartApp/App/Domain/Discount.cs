@@ -18,16 +18,16 @@
             return new DiscountData
             {
                 DiscountId = discountId.Value(),
-                Name = discountName.Value(),
-                Quantity = discountQuantity.Value()
+                DiscountName = discountName.Value(),
+                DiscountQuantity = discountQuantity.Value()
             };
         }
 
         public static Discount FromPrimitives(DiscountData discountData)
         {
             return new Discount(new DiscountId(discountData.DiscountId),
-                                new DiscountName(discountData.Name),
-                                new Quantity(discountData.Quantity));
+                                new DiscountName(discountData.DiscountName),
+                                new Quantity(discountData.DiscountQuantity));
         }
 
         public double CalculateDiscount(double totalPrice)
@@ -45,7 +45,7 @@
     public class DiscountData
     {
         public string DiscountId { get; set; }
-        public string Name { get; set; }
-        public int Quantity { get; set; }
+        public string DiscountName { get; set; }
+        public int DiscountQuantity { get; set; }
     }
 }
