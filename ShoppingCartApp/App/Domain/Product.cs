@@ -5,12 +5,14 @@
         private ProductId productId;
         private Name name;
         private ProductPrice price;
+        private ProductData productData;
 
         public Product(ProductId productId, Name name, ProductPrice price)
         {
             this.productId = productId;
             this.name = name;
             this.price = price;
+            productData = new ProductData();
         }
 
         public Product(ProductId productId)
@@ -22,12 +24,16 @@
 
         public ProductData ToPrimitives()
         {
-            return new ProductData
-            {
-                ProductId = this.productId.Value(),
-                ProductName = this.name.Value(),
-                ProductPrice = this.price.Value()
-            };
+            productData.ProductId = productId.Value();
+            productData.ProductName = name.Value();
+            productData.ProductPrice = price.Value();
+            return productData;
+            // return new ProductData
+            // {
+            //     ProductId = this.productId.Value(),
+            //     ProductName = this.name.Value(),
+            //     ProductPrice = this.price.Value()
+            // };
         }
 
         public static Product FromPrimitives(ProductData data)
@@ -45,6 +51,11 @@
         public double GetPrice()
         {
             return this.price.Value();
+        }
+
+        public void UpdateName(Name name)
+        {
+            this.name = name;
         }
     }
 

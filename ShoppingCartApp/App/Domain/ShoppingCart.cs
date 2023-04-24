@@ -8,12 +8,16 @@ namespace ShoppingCartApp.App.Domain
         private ShoppingCartName shoppingCartName;
         private List<OrderItem> orderItems;
         private Discount discount;
+        private ShoppingCartData shoppingCartData;
+
+        public ShoppingCartId GetShoppingCartId() => shoppingCartId;
         
         public ShoppingCart(ShoppingCartId id)
         {
             this.shoppingCartId = id;
             this.shoppingCartName = ShoppingCartName.Create();
             this.orderItems = new List<OrderItem>();
+            shoppingCartData = new();
         }
 
         public ShoppingCart(ShoppingCartId id, ShoppingCartName shoppingCartName, List<OrderItem> orderItems) : this(id)
@@ -24,12 +28,10 @@ namespace ShoppingCartApp.App.Domain
 
         public ShoppingCartData ToPrimitives()
         {
-            return new ShoppingCartData
-            {
-                ShoppingCartId = this.shoppingCartId.Value(),
-                ShoppingCartName = this.shoppingCartName.Value(),
-                OrderItems = this.orderItems.Select(x => x.ToPrimitives()).ToList()
-        };
+            shoppingCartData.ShoppingCartId = this.shoppingCartId.Value();
+            shoppingCartData.ShoppingCartName = this.shoppingCartName.Value();
+            shoppingCartData.OrderItems = this.orderItems.Select(x => x.ToPrimitives()).ToList();
+            return shoppingCartData;
         }
 
         public static ShoppingCart FromPrimitives(ShoppingCartData data)
@@ -53,7 +55,7 @@ namespace ShoppingCartApp.App.Domain
         
         public void DeleteProduct(Product product)
         {
-            OrderItem? findedOrderItem = orderItems.FirstOrDefault(x => x.GetProductId() == product.GetProductId());
+            OrderItem? findedOrderItem = orderItems.FirstOrDefault(x => x.GetProductId().Value() == product.GetProductId().Value());
 
             if (findedOrderItem == null)
                 throw new Exception(string.Format("Error: The product with id: {0} does not exists in shoppingCart with id: {1}",

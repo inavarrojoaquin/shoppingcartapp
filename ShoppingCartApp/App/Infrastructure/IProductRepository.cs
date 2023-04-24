@@ -5,6 +5,6 @@ namespace ShoppingCartAppTest.App.UseCases.AddProduct
     public interface IProductRepository
     {
         Product GetProductById(ProductId id);
-        void Save();
+        void Save(Product product);
     }
 }

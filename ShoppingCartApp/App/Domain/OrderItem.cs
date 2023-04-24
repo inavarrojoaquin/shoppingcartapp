@@ -5,12 +5,14 @@
         private OrderItemId orderItemId;
         private Product product;
         private Quantity quantity;
+        private OrderItemData orderItemData;
         
         public OrderItem(OrderItemId orderItemId, Product product, Quantity quantity)
         {
             this.orderItemId = orderItemId;
             this.product = product;
             this.quantity = quantity;
+            orderItemData = new OrderItemData();
         }
 
         public OrderItem(Product product)
@@ -18,16 +20,15 @@
             this.orderItemId = OrderItemId.Create();
             this.product = product;
             this.quantity = Quantity.Create();
+            orderItemData = new OrderItemData();
         }
 
         public OrderItemData ToPrimitives()
         {
-            return new OrderItemData
-            {
-                OrderItemId = this.orderItemId.Value(),
-                Product = this.product.ToPrimitives(),
-                Quantity = this.quantity.Value()
-            };
+            orderItemData.OrderItemId = this.orderItemId.Value();
+            orderItemData.Product = this.product.ToPrimitives();
+            orderItemData.Quantity = this.quantity.Value();
+            return orderItemData;
         }
 
         public static OrderItem FromPrimitives(OrderItemData orderItemData)
