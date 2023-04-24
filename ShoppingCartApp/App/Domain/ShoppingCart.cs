@@ -8,28 +8,30 @@ namespace ShoppingCartApp.App.Domain
         public ShoppingCartName ShoppingCartName { get; }
         public List<OrderItem> OrderItems { get; }
         public Discount Discount { get; private set; }
+        private ShoppingCartData shoppingCartData;
         
         public ShoppingCart(ShoppingCartId id)
         {
             this.ShoppingCartId = id;
             this.ShoppingCartName = ShoppingCartName.Create();
             this.OrderItems = new List<OrderItem>();
+            this.shoppingCartData = new ShoppingCartData();
         }
 
         public ShoppingCart(ShoppingCartId id, ShoppingCartName shoppingCartName, List<OrderItem> orderItems) : this(id)
         {
             this.ShoppingCartName = shoppingCartName;
             this.OrderItems = orderItems;
+            this.shoppingCartData = new ShoppingCartData();
         }
 
         public ShoppingCartData ToPrimitives()
         {
-            return new ShoppingCartData
-            {
-                ShoppingCartId = this.ShoppingCartId.Value(),
-                ShoppingCartName = this.ShoppingCartName.Value(),
-                OrderItems = this.OrderItems.Select(x => x.ToPrimitives()).ToList()
-        };
+            shoppingCartData.ShoppingCartId = this.ShoppingCartId.Value();
+            shoppingCartData.ShoppingCartName = this.ShoppingCartName.Value();
+            shoppingCartData.OrderItems = this.OrderItems.Select(x => x.ToPrimitives()).ToList();
+
+            return shoppingCartData;
         }
 
         public static ShoppingCart FromPrimitives(ShoppingCartData data)
@@ -48,7 +50,7 @@ namespace ShoppingCartApp.App.Domain
                 return;
             }
 
-            OrderItems.Add(new OrderItem(product));
+            OrderItems.Add(new OrderItem(OrderItemId.Create(), product, Quantity.Create()));
         }
         
         public void DeleteProduct(Product product)
