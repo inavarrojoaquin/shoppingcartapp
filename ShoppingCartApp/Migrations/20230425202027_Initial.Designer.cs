@@ -11,7 +11,7 @@ using ShoppingCartApp.App.Infrastructure;
 namespace ShoppingCartApp.Migrations
 {
     [DbContext(typeof(ShoppingCartDbContext))]
-    [Migration("20230414195808_Initial")]
+    [Migration("20230425202027_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -31,7 +31,10 @@ namespace ShoppingCartApp.Migrations
 
                     b.Property<string>("ProductId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("ProductPrice")
+                        .HasColumnType("float");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -40,8 +43,6 @@ namespace ShoppingCartApp.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("OrderItemId");
-
-                    b.HasIndex("ProductId");
 
                     b.HasIndex("ShoppingCartDataShoppingCartId");
 
@@ -81,17 +82,9 @@ namespace ShoppingCartApp.Migrations
 
             modelBuilder.Entity("ShoppingCartApp.App.Domain.OrderItemData", b =>
                 {
-                    b.HasOne("ShoppingCartApp.App.Domain.ProductData", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ShoppingCartApp.App.Domain.ShoppingCartData", null)
                         .WithMany("OrderItems")
                         .HasForeignKey("ShoppingCartDataShoppingCartId");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("ShoppingCartApp.App.Domain.ShoppingCartData", b =>

@@ -35,7 +35,7 @@
                 return;
             }
 
-            orderItems.Add(new OrderItem(new Product(productId)));
+            orderItems.Add(OrderItem.Create(new Product(productId)));
         }
     }
 }

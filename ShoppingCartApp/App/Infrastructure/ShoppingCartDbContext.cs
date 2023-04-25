@@ -23,7 +23,6 @@ public class ShoppingCartDbContext : DbContext
         modelBuilder.Entity<ShoppingCartData>(sc =>
             {
                 sc.HasKey(shoppingCartData => shoppingCartData.ShoppingCartId);
-                sc.HasMany<OrderItemData>((oi) => oi.OrderItems);
             });
         modelBuilder.Entity<OrderItemData>()
             .HasKey(oi => oi.OrderItemId);

@@ -28,12 +28,6 @@
             productData.ProductName = name.Value();
             productData.ProductPrice = price.Value();
             return productData;
-            // return new ProductData
-            // {
-            //     ProductId = this.productId.Value(),
-            //     ProductName = this.name.Value(),
-            //     ProductPrice = this.price.Value()
-            // };
         }
 
         public static Product FromPrimitives(ProductData data)

@@ -3,38 +3,40 @@
     public class OrderItem
     {
         private OrderItemId orderItemId;
-        private Product product;
+        private ProductId productId;
+        private ProductPrice productPrice;
         private Quantity quantity;
         private OrderItemData orderItemData;
         
-        public OrderItem(OrderItemId orderItemId, Product product, Quantity quantity)
+        public OrderItem(OrderItemId orderItemId, ProductId productId, ProductPrice productPrice, Quantity quantity)
         {
             this.orderItemId = orderItemId;
-            this.product = product;
             this.quantity = quantity;
+            this.productId = productId;
+            this.productPrice = productPrice;
             orderItemData = new OrderItemData();
         }
 
-        public OrderItem(Product product)
-        {
-            this.orderItemId = OrderItemId.Create();
-            this.product = product;
-            this.quantity = Quantity.Create();
-            orderItemData = new OrderItemData();
+        public static OrderItem Create(Product product)
+        { 
+            return new OrderItem(OrderItemId.Create(), product.GetProductId(), new ProductPrice(product.GetPrice()),
+                Quantity.Create());
         }
 
         public OrderItemData ToPrimitives()
         {
             orderItemData.OrderItemId = this.orderItemId.Value();
-            orderItemData.Product = this.product.ToPrimitives();
             orderItemData.Quantity = this.quantity.Value();
+            orderItemData.ProductId = productId.Value();
+            orderItemData.ProductPrice = productPrice.Value();
             return orderItemData;
         }
 
         public static OrderItem FromPrimitives(OrderItemData orderItemData)
         {
             return new OrderItem(new OrderItemId(orderItemData.OrderItemId),
-                                 Product.FromPrimitives(orderItemData.Product),
+                                 new ProductId(orderItemData.ProductId),
+                                 new ProductPrice(orderItemData.ProductPrice),
                                  new Quantity(orderItemData.Quantity));
         }
 
@@ -48,7 +50,7 @@
         }
         public double CalculatePrice()
         {
-            return product.GetPrice() * quantity.Value();
+            return productPrice.Value() * quantity.Value();
         }
 
         public bool IsQuantityGreaterThanOne()
@@ -63,14 +65,15 @@
 
         public ProductId GetProductId()
         {
-            return product.GetProductId();
+            return productId;
         }
     }
 
     public class OrderItemData
     {
         public string OrderItemId { get; set; }
-        public ProductData Product { get; set; }
+        public string ProductId { get; set; }
+        public double ProductPrice { get; set; }
         public int Quantity { get; set; }
     }
 }

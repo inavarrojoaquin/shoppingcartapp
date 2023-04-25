@@ -43,14 +43,14 @@ namespace ShoppingCartApp.App.Domain
 
         public void AddProduct(Product product)
         {
-            OrderItem? findedOrderItem = orderItems.FirstOrDefault(x => x.GetProductId() == product.GetProductId());
+            OrderItem? findedOrderItem = orderItems.FirstOrDefault(x => x.GetProductId().Value() == product.GetProductId().Value());
             if (findedOrderItem != null)
             {
                 findedOrderItem.AddQuantity();
                 return;
             }
 
-            orderItems.Add(new OrderItem(product));
+            orderItems.Add(OrderItem.Create(product));
         }
         
         public void DeleteProduct(Product product)
@@ -115,8 +115,8 @@ namespace ShoppingCartApp.App.Domain
             productList.AppendLine("Products: ");
             foreach (var item in orderItems.Select(x => x.ToPrimitives()))
                 productList.AppendLine(string.Format("-> Name: {0} \t| Price: {1} \t| Quantity: {2}",
-                                                     item.Product.ProductName,
-                                                     item.Product.ProductPrice,
+                                                     "item.Product.ProductName",
+                                                     item.ProductPrice,
                                                      item.Quantity));
 
             return productList.ToString();
