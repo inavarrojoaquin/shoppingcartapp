@@ -52,7 +52,8 @@ namespace ShoppingCartApp.Migrations
                         name: "FK_OrderItems_ShoppingCarts_ShoppingCartDataShoppingCartId",
                         column: x => x.ShoppingCartDataShoppingCartId,
                         principalTable: "ShoppingCarts",
-                        principalColumn: "ShoppingCartId");
+                        principalColumn: "ShoppingCartId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

@@ -11,7 +11,7 @@ using ShoppingCartApp.App.Infrastructure;
 namespace ShoppingCartApp.Migrations
 {
     [DbContext(typeof(ShoppingCartDbContext))]
-    [Migration("20230425202027_Initial")]
+    [Migration("20230426061244_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -84,7 +84,8 @@ namespace ShoppingCartApp.Migrations
                 {
                     b.HasOne("ShoppingCartApp.App.Domain.ShoppingCartData", null)
                         .WithMany("OrderItems")
-                        .HasForeignKey("ShoppingCartDataShoppingCartId");
+                        .HasForeignKey("ShoppingCartDataShoppingCartId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ShoppingCartApp.App.Domain.ShoppingCartData", b =>

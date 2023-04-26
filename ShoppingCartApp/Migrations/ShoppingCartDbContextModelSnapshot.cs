@@ -81,7 +81,8 @@ namespace ShoppingCartApp.Migrations
                 {
                     b.HasOne("ShoppingCartApp.App.Domain.ShoppingCartData", null)
                         .WithMany("OrderItems")
-                        .HasForeignKey("ShoppingCartDataShoppingCartId");
+                        .HasForeignKey("ShoppingCartDataShoppingCartId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ShoppingCartApp.App.Domain.ShoppingCartData", b =>

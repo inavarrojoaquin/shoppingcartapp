@@ -20,10 +20,10 @@ public class ShoppingCartDbContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<ShoppingCartData>(sc =>
-            {
-                sc.HasKey(shoppingCartData => shoppingCartData.ShoppingCartId);
-            });
+        modelBuilder.Entity<ShoppingCartData>().HasKey(sc => sc.ShoppingCartId);
+        modelBuilder.Entity<ShoppingCartData>().HasMany(sc => sc.OrderItems)
+            .WithOne()
+            .OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<OrderItemData>()
             .HasKey(oi => oi.OrderItemId);
         modelBuilder.Entity<ProductData>()
