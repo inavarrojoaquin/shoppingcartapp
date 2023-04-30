@@ -1,5 +1,6 @@
 using ShoppingCartApp.App.Domain;
 using ShoppingCartApp.App.Infrastructure;
+using System.Text.Json;
 
 namespace ShoppingCartAppTest.App.Infrastructure;
 
@@ -28,7 +29,7 @@ public class ShoppingCartRepositoryShould
     public void CanCreateAndDeleteAProduct()
     {
         var shoppingCartId = new ShoppingCartId(Guid.NewGuid().ToString());
-        var shoppingCart = new ShoppingCart(shoppingCartId,
+        ShoppingCart shoppingCart = new ShoppingCart(shoppingCartId,
             new ShoppingCartName("Toys ShoppingCart"), new List<OrderItem>());
         
         var dbContext = new ShoppingCartDbContext();
@@ -41,22 +42,11 @@ public class ShoppingCartRepositoryShould
 
         shoppingCart.DeleteProduct(Product.FromPrimitives(productData2));
         repository.Save(shoppingCart);
-        
-        var updatedShoppingCart = repository.GetShoppingCartById(shoppingCartId);
-        Assert.That(updatedShoppingCart.ToPrimitives().OrderItems.Count, Is.EqualTo(1));
-    }
 
-    [Test]
-    public void UpdateProductName()
-    {
-        var repository = new ProductRepository(new ShoppingCartDbContext());
-        var product = new Product(ProductId.Create(), new Name("Product one"), new ProductPrice(33));
-        
-        repository.Save(product);
-        product.UpdateName(new Name("Product renamed"));
-        repository.Save(product);
+        ShoppingCart updatedShoppingCart = repository.GetShoppingCartById(shoppingCartId);
+        var expectedString = JsonSerializer.Serialize(shoppingCart.ToPrimitives());
+        var actualString = JsonSerializer.Serialize(updatedShoppingCart.ToPrimitives());
 
-        var existingProduct = repository.GetProductById(product.GetProductId());
-        Assert.That(existingProduct.ToPrimitives().ProductName, Is.EqualTo("Product renamed"));
+        Assert.That(expectedString, Is.EqualTo(actualString));
     }
 }
