@@ -1,3 +1,8 @@
+using ShoppingCartApp.App.Infrastructure;
+using ShoppingCartApp.App.UseCases.AddProduct;
+using ShoppingCartApp.Shared.UseCases;
+using ShoppingCartAppTest.App.UseCases.AddProduct;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +11,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<ShoppingCartDbContext>();
+builder.Services.AddTransient<IProductRepository, ProductRepository>();
+builder.Services.AddTransient<IShoppingCartRepository, ShoppingCartRepository>();
+builder.Services.AddTransient<IBaseUseCase<AddProductRequest>, AddProductUseCase>();
 
 var app = builder.Build();
 
@@ -23,3 +33,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }
