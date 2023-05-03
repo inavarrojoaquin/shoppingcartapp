@@ -19,12 +19,14 @@ public class ShoppingCartDbContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<ShoppingCartData>().HasKey(sc => sc.ShoppingCartId);
-        modelBuilder.Entity<ShoppingCartData>().HasMany(sc => sc.OrderItems)
-            .WithOne()
-            .OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<ShoppingCartData>()
+            .HasKey(sc => sc.ShoppingCartId);
         modelBuilder.Entity<OrderItemData>()
             .HasKey(oi => oi.OrderItemId);
+        modelBuilder.Entity<OrderItemData>()
+            .HasOne(oi => oi.ShoppingCartData)
+            .WithMany(oi => oi.OrderItems)
+            .HasForeignKey(oi => oi.ShoppingCartId);
         modelBuilder.Entity<ProductData>()
             .HasKey(prod => prod.ProductId);
     }

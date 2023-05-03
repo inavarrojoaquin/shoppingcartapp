@@ -36,12 +36,13 @@ namespace ShoppingCartApp.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<string>("ShoppingCartDataShoppingCartId")
+                    b.Property<string>("ShoppingCartId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("OrderItemId");
 
-                    b.HasIndex("ShoppingCartDataShoppingCartId");
+                    b.HasIndex("ShoppingCartId");
 
                     b.ToTable("OrderItems");
                 });
@@ -79,10 +80,13 @@ namespace ShoppingCartApp.Migrations
 
             modelBuilder.Entity("ShoppingCartApp.App.Domain.OrderItemData", b =>
                 {
-                    b.HasOne("ShoppingCartApp.App.Domain.ShoppingCartData", null)
+                    b.HasOne("ShoppingCartApp.App.Domain.ShoppingCartData", "ShoppingCartData")
                         .WithMany("OrderItems")
-                        .HasForeignKey("ShoppingCartDataShoppingCartId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ShoppingCartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ShoppingCartData");
                 });
 
             modelBuilder.Entity("ShoppingCartApp.App.Domain.ShoppingCartData", b =>

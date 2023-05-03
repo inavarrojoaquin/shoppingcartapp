@@ -75,5 +75,9 @@
         public string ProductId { get; set; }
         public double ProductPrice { get; set; }
         public int Quantity { get; set; }
+
+        
+        public string ShoppingCartId { get; set; }
+        public ShoppingCartData ShoppingCartData { get; set; }  
     }
 }

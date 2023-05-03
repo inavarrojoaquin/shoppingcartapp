@@ -5,7 +5,7 @@
 namespace ShoppingCartApp.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -43,23 +43,23 @@ namespace ShoppingCartApp.Migrations
                     ProductId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProductPrice = table.Column<double>(type: "float", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    ShoppingCartDataShoppingCartId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    ShoppingCartId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrderItems", x => x.OrderItemId);
                     table.ForeignKey(
-                        name: "FK_OrderItems_ShoppingCarts_ShoppingCartDataShoppingCartId",
-                        column: x => x.ShoppingCartDataShoppingCartId,
+                        name: "FK_OrderItems_ShoppingCarts_ShoppingCartId",
+                        column: x => x.ShoppingCartId,
                         principalTable: "ShoppingCarts",
                         principalColumn: "ShoppingCartId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_ShoppingCartDataShoppingCartId",
+                name: "IX_OrderItems_ShoppingCartId",
                 table: "OrderItems",
-                column: "ShoppingCartDataShoppingCartId");
+                column: "ShoppingCartId");
         }
 
         /// <inheritdoc />
