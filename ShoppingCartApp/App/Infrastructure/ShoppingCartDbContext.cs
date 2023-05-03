@@ -13,8 +13,7 @@ public class ShoppingCartDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer()
-            .UseSqlServer(
-                @"Server=localhost,1435;Database=ShoppingCart;user id=sa;password=C33#8nstkKjkwQ;TrustServerCertificate=True");
+            .UseSqlServer(@"Server=localhost,1435;Database=ShoppingCart;user id=sa;password=C33#8nstkKjkwQ;TrustServerCertificate=True");
         optionsBuilder.EnableSensitiveDataLogging();
     }
     
