@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using ShoppingCartApi.Decorators;
 using ShoppingCartApp.App.Infrastructure;
 using ShoppingCartApp.App.UseCases.AddProduct;
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -24,7 +26,16 @@ builder.Services.Decorate<IBaseUseCase<AddProductRequest>, LoggingDecorator<AddP
 builder.Services.Decorate<IBaseUseCase<AddProductRequest>, DatabaseDecorator<AddProductRequest>>();
 
 var app = builder.Build();
+app.UseExceptionHandler(exceptionHandler =>
+{
+    exceptionHandler.Run(async context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status409Conflict;
+        context.Response.ContentType = MediaTypeNames.Text.Plain;
 
+        await context.Response.WriteAsync("An exception was thrown.");
+    });
+});
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
