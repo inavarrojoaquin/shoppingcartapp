@@ -9,7 +9,21 @@ public class ShoppingCartDbContext : DbContext
     public DbSet<ShoppingCartData> ShoppingCarts { get; set; }
     public DbSet<OrderItemData> OrderItems { get; set; }
     public DbSet<ProductData> Products { get; set; }
-    
+
+    public void BeginTransaction()
+    {
+        Database.BeginTransaction();
+    }
+
+    public void CommitTransaction()
+    {
+        Database.CommitTransaction();
+    }
+
+    public void RollbackTransaction()
+    {
+        Database.RollbackTransaction();
+    }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer()

@@ -21,6 +21,7 @@ builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddTransient<IShoppingCartRepository, ShoppingCartRepository>();
 builder.Services.AddTransient<IBaseUseCase<AddProductRequest>, AddProductUseCase>();
 builder.Services.Decorate<IBaseUseCase<AddProductRequest>, LoggingDecorator<AddProductRequest>>();
+builder.Services.Decorate<IBaseUseCase<AddProductRequest>, DatabaseDecorator<AddProductRequest>>();
 
 var app = builder.Build();
 
