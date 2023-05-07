@@ -42,15 +42,15 @@ namespace ShoppingCartApi.Controllers
         }
 
         // POST api/<ShoppingCartController>
-        [HttpPost]
-        public void PostAddItem([FromBody] ProductDTO productDTO)
-        {
-            IProductRepository productRepository = new ProductRepository(context);
-            AddProductUseCase addProductUseCase = new AddProductUseCase(productRepository, shoppingCartRepository);
-
-            AddProductRequest productRequest = new AddProductRequest(productDTO);
-            addProductUseCase.Execute(productRequest);
-        }
+        // [HttpPost]
+        // public void PostAddItem([FromBody] ProductDTO productDTO)
+        // {
+        //     IProductRepository productRepository = new ProductRepository(context);
+        //     AddProductUseCase addProductUseCase = new AddProductUseCase(productRepository, shoppingCartRepository);
+        //
+        //     AddProductRequest productRequest = new AddProductRequest(productDTO);
+        //     addProductUseCase.Execute(productRequest);
+        // }
 
         // POST api/<ShoppingCartController>
         [HttpPost]
