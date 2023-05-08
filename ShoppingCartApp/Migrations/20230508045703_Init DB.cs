@@ -2,6 +2,8 @@
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace ShoppingCartApp.Migrations
 {
     /// <inheritdoc />
@@ -54,6 +56,15 @@ namespace ShoppingCartApp.Migrations
                         principalTable: "ShoppingCarts",
                         principalColumn: "ShoppingCartId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "ProductId", "ProductName", "ProductPrice" },
+                values: new object[,]
+                {
+                    { "5CBF54BA-BF19-40BF-B97D-4827A11720A2", "Product one", 30.0 },
+                    { "7478b9ae-2e05-4c6d-afb1-3b8934edc699", "Product two", 40.0 }
                 });
 
             migrationBuilder.CreateIndex(

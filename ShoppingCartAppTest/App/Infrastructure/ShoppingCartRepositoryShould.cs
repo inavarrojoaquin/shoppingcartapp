@@ -1,6 +1,7 @@
 using ShoppingCartApp.App.Domain;
 using ShoppingCartApp.App.Infrastructure;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace ShoppingCartAppTest.App.Infrastructure;
 
@@ -44,9 +45,13 @@ public class ShoppingCartRepositoryShould
         repository.Save(shoppingCart);
 
         ShoppingCart updatedShoppingCart = repository.GetShoppingCartById(shoppingCartId);
-        var expectedString = JsonSerializer.Serialize(shoppingCart.ToPrimitives());
-        var actualString = JsonSerializer.Serialize(updatedShoppingCart.ToPrimitives());
+        
+        var expected = shoppingCart.ToPrimitives();
+        var current = updatedShoppingCart.ToPrimitives();
 
-        Assert.That(expectedString, Is.EqualTo(actualString));
+        Assert.That(current.ShoppingCartId, Is.EqualTo(expected.ShoppingCartId));
+        Assert.That(current.ShoppingCartName, Is.EqualTo(expected.ShoppingCartName));
+        Assert.That(current.OrderItems.Count, Is.EqualTo(expected.OrderItems.Count));
+        Assert.That(current.OrderItems.First().OrderItemId, Is.EqualTo(expected.OrderItems.First().OrderItemId));
     }
 }

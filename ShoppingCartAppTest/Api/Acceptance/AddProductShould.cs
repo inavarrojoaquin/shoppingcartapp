@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
+using ShoppingCartApp.App.Domain;
 using ShoppingCartApp.App.UseCases.AddProduct;
 using ShoppingCartApp.Shared.Domain;
 using ShoppingCartApp.Shared.UseCases;
@@ -18,21 +19,20 @@ namespace ShoppingCartAppTest.Api.Acceptance
         [Test]
         public async Task AddProductToShoppingCart()
         {
-            IBaseUseCase<AddProductRequest> baseRequest = Substitute.For<IBaseUseCase<AddProductRequest>>();
+            IBaseUseCase<AddProductRequest> addProductRequest = Substitute.For<IBaseUseCase<AddProductRequest>>();
 
             var application = new WebApplicationFactory<Program>().WithWebHostBuilder(builder => 
             {
-                builder.ConfigureServices(services => { services.AddTransient<IBaseUseCase<AddProductRequest>>(x => baseRequest); }); 
+                builder.ConfigureServices(services => { services.AddTransient<IBaseUseCase<AddProductRequest>>(x => addProductRequest); }); 
             });
 
-            var application2 = new WebApplicationFactory<Program>();
-
-            var client = application2.CreateClient();
+            var client = application.CreateClient();
             var newProduct = new { ProductId = Guid.NewGuid().ToString(), ShoppingCartId = Guid.NewGuid().ToString() };
 
             var response = await client.PostAsJsonAsync("api/AddProduct", newProduct);
 
-            baseRequest.Received().Execute(Arg.Any<AddProductRequest>());
+            addProductRequest.Received(1).Execute(Arg.Is<AddProductRequest>(x => x.ProductId.Value() == newProduct.ProductId
+                                                                                 && x.ShoppingCartId.Value() == newProduct.ShoppingCartId));
         }
     }
 }

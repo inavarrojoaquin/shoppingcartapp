@@ -29,5 +29,10 @@ public class ShoppingCartDbContext : DbContext
             .HasForeignKey(oi => oi.ShoppingCartId);
         modelBuilder.Entity<ProductData>()
             .HasKey(prod => prod.ProductId);
+
+        modelBuilder.Entity<ProductData>()
+                    .HasData(new { ProductId = "5CBF54BA-BF19-40BF-B97D-4827A11720A2", ProductName = "Product one", ProductPrice = 30.0 });
+        modelBuilder.Entity<ProductData>()
+                    .HasData(new { ProductId = "7478b9ae-2e05-4c6d-afb1-3b8934edc699", ProductName = "Product two", ProductPrice = 40.0 });
     }
 }
