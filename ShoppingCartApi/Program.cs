@@ -1,5 +1,6 @@
 using ShoppingCartApp.App.Infrastructure;
 using ShoppingCartApp.App.UseCases.AddProduct;
+using ShoppingCartApp.App.UseCases.DeleteProduct;
 using ShoppingCartApp.Shared.UseCases;
 using ShoppingCartAppTest.App.UseCases.AddProduct;
 
@@ -16,6 +17,7 @@ builder.Services.AddDbContext<ShoppingCartDbContext>();
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddTransient<IShoppingCartRepository, ShoppingCartRepository>();
 builder.Services.AddTransient<IBaseUseCase<AddProductRequest>, AddProductUseCase>();
+builder.Services.AddTransient<IBaseUseCase<DeleteProductRequest>, DeleteProductUseCase>();
 
 var app = builder.Build();
 

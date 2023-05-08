@@ -16,10 +16,10 @@ namespace ShoppingCartApi.Controllers
             this.addProductUseCase = addProductUseCase;
         }
 
-        [HttpGet("{id}")]
-        public IEnumerable<string> Get(string id)
+        [HttpGet]
+        public bool Alive()
         {
-            return new string[] { "value1", "value2" };
+            return true;
         }
 
         // POST api/AddProduct
