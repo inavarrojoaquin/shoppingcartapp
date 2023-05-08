@@ -35,4 +35,19 @@ public class ShoppingCartDbContext : DbContext
         modelBuilder.Entity<ProductData>()
                     .HasData(new { ProductId = "7478b9ae-2e05-4c6d-afb1-3b8934edc699", ProductName = "Product two", ProductPrice = 40.0 });
     }
+
+    public void StartTransaction()
+    {
+        Database.BeginTransaction();
+    }
+
+    public void RollbackTransaction()
+    {
+        Database.RollbackTransaction();
+    }
+
+    public void EndTransaction()
+    {
+        Database.CommitTransaction();
+    }
 }
