@@ -10,18 +10,15 @@ namespace ShoppingCartApp.App.UseCases.AddProduct
     {
         private IProductRepository productRepository;
         private IShoppingCartRepository shoppingCartRepository;
-        private readonly ILogger<AddProductUseCase> logger;
-
-        public AddProductUseCase(IProductRepository productRepository, IShoppingCartRepository shoppingCartRepository, ILogger<AddProductUseCase> logger)
+        
+        public AddProductUseCase(IProductRepository productRepository, IShoppingCartRepository shoppingCartRepository)
         {
             this.productRepository = productRepository;
             this.shoppingCartRepository = shoppingCartRepository;
-            this.logger = logger;
         }
 
         public void Execute(AddProductRequest productRequest)
         {
-            logger.LogInformation("Executing AddProduct use case");
             if (productRequest == null)
                 throw new Exception(string.Format("Error: {0} can't be null", typeof(AddProductRequest)));
 
@@ -35,7 +32,6 @@ namespace ShoppingCartApp.App.UseCases.AddProduct
             shoppingCart.AddProduct(product);
 
             shoppingCartRepository.Save(shoppingCart);
-            logger.LogInformation("Executed AddProduct use case");
         }
     }
 }

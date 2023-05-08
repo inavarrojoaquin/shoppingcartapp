@@ -1,7 +1,8 @@
-using System.Net.Mime;
 using ShoppingCartApi.Decorators;
 using ShoppingCartApp.App.Infrastructure;
 using ShoppingCartApp.App.UseCases.AddProduct;
+using ShoppingCartApp.Shared.Domain;
+using ShoppingCartApp.Shared.Infrastructure;
 using ShoppingCartApp.Shared.UseCases;
 using ShoppingCartAppTest.App.UseCases.AddProduct;
 
@@ -23,19 +24,22 @@ builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddTransient<IShoppingCartRepository, ShoppingCartRepository>();
 builder.Services.AddTransient<IBaseUseCase<AddProductRequest>, AddProductUseCase>();
 builder.Services.Decorate<IBaseUseCase<AddProductRequest>, LoggingDecorator<AddProductRequest>>();
-builder.Services.Decorate<IBaseUseCase<AddProductRequest>, DatabaseDecorator<AddProductRequest>>();
+// builder.Services.Decorate<IBaseUseCase<AddProductRequest>, DatabaseDecorator<AddProductRequest>>();
+
+builder.Services.AddTransient<ICommandBus, InMemoryCommandBus>();
+builder.Services.AddTransient<ICommandHandler<AddProductCommand>, AddProductCommandHandler>();
 
 var app = builder.Build();
-app.UseExceptionHandler(exceptionHandler =>
-{
-    exceptionHandler.Run(async context =>
-    {
-        context.Response.StatusCode = StatusCodes.Status409Conflict;
-        context.Response.ContentType = MediaTypeNames.Text.Plain;
-
-        await context.Response.WriteAsync("An exception was thrown.");
-    });
-});
+// app.UseExceptionHandler(exceptionHandler =>
+// {
+//     exceptionHandler.Run(async context =>
+//     {
+//         context.Response.StatusCode = StatusCodes.Status409Conflict;
+//         context.Response.ContentType = MediaTypeNames.Text.Plain;
+//
+//         await context.Response.WriteAsync("An exception was thrown.");
+//     });
+// });
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
