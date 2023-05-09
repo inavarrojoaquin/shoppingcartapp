@@ -32,13 +32,23 @@ namespace ShoppingCartAppTest.App.Infrastructure
         }
 
         [Test]
+        public void GetNullWhenRequestIdIsNull()
+        {
+            var context = new ShoppingCartDbContext();
+            ProductRepository productRepository = new ProductRepository(context);
+
+            Product current = productRepository.GetProductById(null);
+
+            Assert.That(current, Is.Null);
+        }
+
+        [Test]
         public void GetNullWhenProductDoesNotExists() 
         {
             ShoppingCartDbContext context = new ShoppingCartDbContext();
             ProductRepository productRepository = new ProductRepository(context);
 
-            ProductId id = new ProductId("5CBF54BA-9999-9999-9999-4827A11720A2");
-            Product current = productRepository.GetProductById(id);
+            Product current = productRepository.GetProductById(ProductId.Create());
 
             Assert.That(current, Is.Null);
         }

@@ -54,4 +54,24 @@ public class ShoppingCartRepositoryShould
         Assert.That(current.OrderItems.Count, Is.EqualTo(expected.OrderItems.Count));
         Assert.That(current.OrderItems.First().OrderItemId, Is.EqualTo(expected.OrderItems.First().OrderItemId));
     }
+
+    [Test]
+    public void GetNullWhenRequestIdIsNull()
+    {
+        var dbContext = new ShoppingCartDbContext();
+        var repository = new ShoppingCartRepository(dbContext);
+        ShoppingCart shoppingCart = repository.GetShoppingCartById(null);
+        
+        Assert.That(shoppingCart, Is.Null);
+    }
+
+    [Test]
+    public void GetNullWhenDoesNotExistsAShoppingCart()
+    {
+        var dbContext = new ShoppingCartDbContext();
+        var repository = new ShoppingCartRepository(dbContext);
+        ShoppingCart shoppingCart = repository.GetShoppingCartById(ShoppingCartId.Create());
+
+        Assert.That(shoppingCart, Is.Null);
+    }
 }
