@@ -15,10 +15,12 @@ public class ShoppingCartRepository : IShoppingCartRepository
     {
         if (id == null) return null;
 
-        var shoppingCartData = context.ShoppingCarts.FirstOrDefault(sc => sc.ShoppingCartId.Equals(id.Value()));
-        
+        ShoppingCartData shoppingCartData = context.ShoppingCarts
+                                                .Include(orderItem => orderItem.OrderItems)
+                                                .FirstOrDefault(sc => sc.ShoppingCartId.Equals(id.Value()));
+
         if (shoppingCartData == null) return null;
-        
+
         return ShoppingCart.FromPrimitives(shoppingCartData);
     }
 
