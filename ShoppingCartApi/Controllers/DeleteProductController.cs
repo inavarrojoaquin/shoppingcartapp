@@ -16,7 +16,7 @@ namespace ShoppingCartApi.Controllers
             this.deleteProductUseCase = deleteProductUseCase;
         }
 
-        [HttpGet]
+        [HttpGet("alive")]
         public bool Alive()
         {
             return true;
