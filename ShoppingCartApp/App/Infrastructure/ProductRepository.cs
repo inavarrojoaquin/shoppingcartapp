@@ -15,8 +15,12 @@ public class ProductRepository : IProductRepository
 
     public Product GetProductById(ProductId id)
     {
+        if (id == null) return null;
+
         var productData = context.Products.FirstOrDefault((product) => product.ProductId.Equals(id.Value()));
+        
         if (productData == null) return null;
+        
         return Product.FromPrimitives(productData);
     }
 

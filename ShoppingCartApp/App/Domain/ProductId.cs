@@ -11,7 +11,7 @@ namespace ShoppingCartApp.App.Domain
             if (string.IsNullOrEmpty(id))
                 throw new Exception(string.Format("Error: {0} can not be null or empty", "ProductId"));
 
-            this.guid = Guid.Parse(id);
+            this.guid = Guid.ParseExact(id, "D");
         }
 
         public static ProductId Create()

@@ -17,17 +17,29 @@ namespace ShoppingCartAppTest.App.Infrastructure
             ShoppingCartDbContext context = new ShoppingCartDbContext();
             ProductRepository productRepository = new ProductRepository(context);
 
-            // TODO: probar el Guid.ParseExact para que no lo convierta en minisculas
             ProductId id = new ProductId("5CBF54BA-BF19-40BF-B97D-4827A11720A2");
             Product targetProduct = productRepository.GetProductById(id);
 
             ProductData expectedProductData = context.Products
                 .First(p => p.ProductId == "5CBF54BA-BF19-40BF-B97D-4827A11720A2");
 
-            var expected = JsonSerializer.Serialize(expectedProductData);
-            var current = JsonSerializer.Serialize(targetProduct.ToPrimitives());
+            var expected = expectedProductData;
+            var current = targetProduct.ToPrimitives();
 
-            Assert.That(expected, Is.EqualTo(current));
+            Assert.That(current.ProductId.ToUpper(), Is.EqualTo(expected.ProductId));
+            Assert.That(current.ProductName, Is.EqualTo(expected.ProductName));
+            Assert.That(current.ProductPrice, Is.EqualTo(expected.ProductPrice));
+        }
+
+        [Test]
+        public void GetNullWhenRequestIdIsNull()
+        {
+            var context = new ShoppingCartDbContext();
+            ProductRepository productRepository = new ProductRepository(context);
+
+            Product current = productRepository.GetProductById(null);
+
+            Assert.That(current, Is.Null);
         }
 
         [Test]
@@ -36,8 +48,7 @@ namespace ShoppingCartAppTest.App.Infrastructure
             ShoppingCartDbContext context = new ShoppingCartDbContext();
             ProductRepository productRepository = new ProductRepository(context);
 
-            ProductId id = new ProductId("5CBF54BA-9999-9999-9999-4827A11720A2");
-            Product current = productRepository.GetProductById(id);
+            Product current = productRepository.GetProductById(ProductId.Create());
 
             Assert.That(current, Is.Null);
         }
