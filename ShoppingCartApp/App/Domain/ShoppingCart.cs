@@ -36,9 +36,11 @@ namespace ShoppingCartApp.App.Domain
 
         public static ShoppingCart FromPrimitives(ShoppingCartData data)
         {
-            return new ShoppingCart(new ShoppingCartId(data.ShoppingCartId),
-                                new ShoppingCartName(data.ShoppingCartName),
-                                new List<OrderItem>(data.OrderItems.Select(x => OrderItem.FromPrimitives(x))));
+            var shoppingCart = new ShoppingCart(new ShoppingCartId(data.ShoppingCartId),
+                new ShoppingCartName(data.ShoppingCartName),
+                new List<OrderItem>(data.OrderItems.Select(x => OrderItem.FromPrimitives(x))));
+            shoppingCart.shoppingCartData = data;
+            return shoppingCart;
         }
 
         public void AddProduct(Product product)
