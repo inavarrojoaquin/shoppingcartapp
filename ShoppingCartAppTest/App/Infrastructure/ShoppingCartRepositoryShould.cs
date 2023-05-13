@@ -74,4 +74,23 @@ public class ShoppingCartRepositoryShould
 
         Assert.That(shoppingCart, Is.Null);
     }
+
+    [Test]
+    public void IncreaseOrderItemQuantityIfProductExists()
+    {
+        var dbContext = new ShoppingCartDbContext();
+        var repository = new ShoppingCartRepository(dbContext);
+        var shoppingCartId = new ShoppingCartId("9DFB1807-521F-4F21-B9E2-408F1A03B853");
+        var productId = new ProductId("5CBF54BA-BF19-40BF-B97D-4827A11720A2");
+        var product = new Product(productId, new Name("Product one"), new ProductPrice(20));
+        var shoppingCart = repository.GetShoppingCartById(shoppingCartId); 
+        if (shoppingCart == null)
+        {
+            shoppingCart = new ShoppingCart(shoppingCartId);
+            shoppingCart.AddProduct(product);
+            repository.Save(shoppingCart);
+        }
+        shoppingCart.AddProduct(product);
+        repository.Save(shoppingCart);
+    }
 }
