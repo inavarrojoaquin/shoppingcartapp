@@ -6,4 +6,9 @@ namespace ShoppingCartApp.Shared.UseCases
     {
         void Execute(T request);
     }
+    
+    public interface IBaseUseCase<in T, out TR> where T : IBaseRequest
+    {
+        TR Execute(T request);
+    }
 }

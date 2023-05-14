@@ -10,7 +10,7 @@ namespace ShoppingCartAppTest.App.UseCases.PrintShoppingCart
     internal class PrintShoppingCartUseCaseShould
     {
         private IShoppingCartRepository shoppingCartRepository;
-        private IBaseUseCase<PrintShoppingCartRequest> printShoppingCartUseCase;
+        private IBaseUseCase<PrintShoppingCartRequest, string> printShoppingCartUseCase;
 
         [SetUp]
         public void SetUp()
