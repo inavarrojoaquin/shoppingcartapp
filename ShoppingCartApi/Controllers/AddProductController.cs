@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShoppingCartApp.App.UseCases.AddProduct;
 using ShoppingCartApp.DTOs;
+using ShoppingCartApp.Shared.Domain;
 using ShoppingCartApp.Shared.UseCases;
 
 namespace ShoppingCartApi.Controllers
@@ -9,11 +10,12 @@ namespace ShoppingCartApi.Controllers
     [ApiController]
     public class AddProductController : ControllerBase
     {
-        private IBaseUseCase<AddProductRequest> addProductUseCase;
+        private readonly ICommandBus commandBus;
+        //private IBaseUseCase<AddProductRequest> addProductUseCase;
 
-        public AddProductController(IBaseUseCase<AddProductRequest> addProductUseCase)
+        public AddProductController(ICommandBus commandBus)
         {
-            this.addProductUseCase = addProductUseCase;
+            this.commandBus = commandBus;
         }
 
         [HttpGet("alive")]
@@ -24,10 +26,13 @@ namespace ShoppingCartApi.Controllers
 
         // POST api/AddProduct
         [HttpPost]
-        public void PostAddItem([FromBody] ProductDTO productDTO)
+        public async Task PostAddItem([FromBody] ProductDTO productDTO)
         {
-            AddProductRequest productRequest = new AddProductRequest(productDTO);
-            addProductUseCase.Execute(productRequest);
+            //AddProductRequest productRequest = new AddProductRequest(productDTO);
+            //addProductUseCase.Execute(productRequest);
+
+            AddProductCommand addProductCommand = new AddProductCommand { ProductDTO = productDTO};
+            await commandBus.SendAsync(addProductCommand);
         }
     }
 }

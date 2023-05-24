@@ -3,6 +3,7 @@ using ShoppingCartApp.App.Infrastructure;
 using ShoppingCartApp.App.UseCases.AddProduct;
 using ShoppingCartApp.App.UseCases.DeleteProduct;
 using ShoppingCartApp.Shared.Domain;
+using ShoppingCartApp.Shared.Infrastructure;
 using ShoppingCartApp.Shared.UseCases;
 using ShoppingCartAppTest.App.UseCases.AddProduct;
 using System.Net;
@@ -25,6 +26,9 @@ builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddTransient<IShoppingCartRepository, ShoppingCartRepository>();
 builder.Services.AddTransient<IBaseUseCase<AddProductRequest>, AddProductUseCase>();
 builder.Services.AddTransient<IBaseUseCase<DeleteProductRequest>, DeleteProductUseCase>();
+
+builder.Services.AddTransient<ICommandBus, InMemoryCommandBus>();
+builder.Services.AddTransient<ICommandHandler<AddProductCommand>, AddProductCommandHandler>();
 
 // Adding generic decorator for logging
 builder.Services.Decorate<IBaseUseCase<AddProductRequest>, LoggingDecorator<AddProductRequest>>();
