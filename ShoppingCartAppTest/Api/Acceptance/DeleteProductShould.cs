@@ -24,7 +24,7 @@ namespace ShoppingCartAppTest.Api.Acceptance
 
             var response = await client.PostAsJsonAsync("api/DeleteProduct", newProduct);
 
-            deleteProductRequest.Received(1).Execute(Arg.Is<DeleteProductRequest>(x => x.ProductId.Value() == newProduct.ProductId
+            deleteProductRequest.Received(1).ExecuteAsync(Arg.Is<DeleteProductRequest>(x => x.ProductId.Value() == newProduct.ProductId
                                                                                  && x.ShoppingCartId.Value() == newProduct.ShoppingCartId));
         }
     }

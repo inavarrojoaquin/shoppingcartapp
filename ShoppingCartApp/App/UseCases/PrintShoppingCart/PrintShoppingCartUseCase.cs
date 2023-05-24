@@ -13,12 +13,12 @@ namespace ShoppingCartApp.App.UseCases.PrintShoppingCart
             this.shoppingCartRepository = shoppingCartRepository;
         }
 
-        public void Execute(PrintShoppingCartRequest request)
+        public async Task ExecuteAsync(PrintShoppingCartRequest request)
         {
             if (request == null)
                 throw new Exception(string.Format("Error: {0} can't be null", nameof(PrintShoppingCartRequest)));
 
-            ShoppingCart shoppingCart = shoppingCartRepository.GetShoppingCartById(request.ShoppingCartId);
+            ShoppingCart shoppingCart = await shoppingCartRepository.GetShoppingCartByIdAsync(request.ShoppingCartId);
             
             string result = shoppingCart.Print();
         }

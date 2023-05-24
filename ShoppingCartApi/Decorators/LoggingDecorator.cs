@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using ShoppingCartApp.App.UseCases.AddProduct;
-using ShoppingCartApp.Shared.Domain;
+﻿using ShoppingCartApp.Shared.Domain;
 using ShoppingCartApp.Shared.UseCases;
 
 namespace ShoppingCartApi.Decorators
@@ -15,11 +13,11 @@ namespace ShoppingCartApi.Decorators
             this.logger = logger;
             this.useCase = useCase;
         }
-        public void Execute(T request)
+        public async Task ExecuteAsync(T request)
         {
             logger.LogInformation("Start Logging: " + request.GetType().ToString());
 
-            useCase.Execute(request);
+            await useCase.ExecuteAsync(request);
 
             logger.LogInformation("End Logging: " + request.GetType().ToString());
         }

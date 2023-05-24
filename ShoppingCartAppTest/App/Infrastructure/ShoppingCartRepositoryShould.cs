@@ -18,9 +18,9 @@ public class ShoppingCartRepositoryShould
         shoppingCart.AddProduct(Product.FromPrimitives(productData1));
         shoppingCart.AddProduct(Product.FromPrimitives(productData1));
         
-        shoppingCartRepository.Save(shoppingCart);
+        shoppingCartRepository.SaveAsync(shoppingCart);
 
-        var storedShoppingCartData = shoppingCartRepository.GetShoppingCartById(shoppingCartId).ToPrimitives();
+        var storedShoppingCartData = shoppingCartRepository.GetShoppingCartByIdAsync(shoppingCartId).ToPrimitives();
         
         Assert.That(storedShoppingCartData.OrderItems.Count, Is.EqualTo(1));
         Assert.That(storedShoppingCartData.OrderItems[0].Quantity, Is.EqualTo(2));
@@ -39,12 +39,12 @@ public class ShoppingCartRepositoryShould
         var productData2 = dbContext.Products.FirstOrDefault(p => p.ProductId == "7478b9ae-2e05-4c6d-afb1-3b8934edc699");
         shoppingCart.AddProduct(Product.FromPrimitives(productData1));
         shoppingCart.AddProduct(Product.FromPrimitives(productData2));
-        repository.Save(shoppingCart);
+        repository.SaveAsync(shoppingCart);
 
         shoppingCart.DeleteProduct(Product.FromPrimitives(productData2));
-        repository.Save(shoppingCart);
+        repository.SaveAsync(shoppingCart);
 
-        ShoppingCart updatedShoppingCart = repository.GetShoppingCartById(shoppingCartId);
+        ShoppingCart updatedShoppingCart = repository.GetShoppingCartByIdAsync(shoppingCartId);
         
         var expected = shoppingCart.ToPrimitives();
         var current = updatedShoppingCart.ToPrimitives();
@@ -60,7 +60,7 @@ public class ShoppingCartRepositoryShould
     {
         var dbContext = new ShoppingCartDbContext();
         var repository = new ShoppingCartRepository(dbContext);
-        ShoppingCart shoppingCart = repository.GetShoppingCartById(null);
+        ShoppingCart shoppingCart = repository.GetShoppingCartByIdAsync(null);
         
         Assert.That(shoppingCart, Is.Null);
     }
@@ -70,7 +70,7 @@ public class ShoppingCartRepositoryShould
     {
         var dbContext = new ShoppingCartDbContext();
         var repository = new ShoppingCartRepository(dbContext);
-        ShoppingCart shoppingCart = repository.GetShoppingCartById(ShoppingCartId.Create());
+        ShoppingCart shoppingCart = repository.GetShoppingCartByIdAsync(ShoppingCartId.Create());
 
         Assert.That(shoppingCart, Is.Null);
     }
@@ -83,14 +83,14 @@ public class ShoppingCartRepositoryShould
         var shoppingCartId = new ShoppingCartId("9DFB1807-521F-4F21-B9E2-408F1A03B853");
         var productId = new ProductId("5CBF54BA-BF19-40BF-B97D-4827A11720A2");
         var product = new Product(productId, new Name("Product one"), new ProductPrice(20));
-        var shoppingCart = repository.GetShoppingCartById(shoppingCartId); 
+        var shoppingCart = repository.GetShoppingCartByIdAsync(shoppingCartId); 
         if (shoppingCart == null)
         {
             shoppingCart = new ShoppingCart(shoppingCartId);
             shoppingCart.AddProduct(product);
-            repository.Save(shoppingCart);
+            repository.SaveAsync(shoppingCart);
         }
         shoppingCart.AddProduct(product);
-        repository.Save(shoppingCart);
+        repository.SaveAsync(shoppingCart);
     }
 }

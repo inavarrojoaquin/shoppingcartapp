@@ -17,22 +17,22 @@ namespace ShoppingCartApi.Decorators
             this.context = context;
         }
 
-        public void Execute(T request)
+        public async Task ExecuteAsync(T request)
         {
             logger.LogInformation("Start Transaction: " + request.GetType().ToString());
 
-            context.StartTransaction();
+            await context.StartTransactionAsync();
 
             try
             {
-                useCase.Execute(request);
-                context.EndTransaction();
+                await useCase.ExecuteAsync(request);
+                await context.EndTransactionAsync();
 
                 logger.LogInformation("End Transaction: " + request.GetType().ToString());
             }
             catch (Exception)
             {
-                context.RollbackTransaction();
+                await context.RollbackTransactionAsync();
                 logger.LogInformation("Rollback Transaction: " + request.GetType().ToString());
                 
                 throw;

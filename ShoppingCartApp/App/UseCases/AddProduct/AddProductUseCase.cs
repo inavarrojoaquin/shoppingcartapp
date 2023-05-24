@@ -18,7 +18,7 @@ namespace ShoppingCartApp.App.UseCases.AddProduct
             this.shoppingCartRepository = shoppingCartRepository;
         }
 
-        public void Execute(AddProductRequest productRequest)
+        public async Task ExecuteAsync(AddProductRequest productRequest)
         {
             if (productRequest == null)
                 throw new Exception(string.Format("Error: {0} can't be null", typeof(AddProductRequest)));
@@ -27,14 +27,14 @@ namespace ShoppingCartApp.App.UseCases.AddProduct
             
             if (product == null) throw new Exception("Error: Product is null");
 
-            ShoppingCart shoppingCart = shoppingCartRepository.GetShoppingCartById(productRequest.ShoppingCartId);
+            ShoppingCart shoppingCart = await shoppingCartRepository.GetShoppingCartByIdAsync(productRequest.ShoppingCartId);
             
             if(shoppingCart == null)
                 shoppingCart = new ShoppingCart(productRequest.ShoppingCartId);
             
             shoppingCart.AddProduct(product);
 
-            shoppingCartRepository.Save(shoppingCart);
+            await shoppingCartRepository.SaveAsync(shoppingCart);
         }
     }
 }

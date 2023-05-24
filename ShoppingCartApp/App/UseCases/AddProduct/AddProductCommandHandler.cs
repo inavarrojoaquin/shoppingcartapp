@@ -18,8 +18,7 @@ namespace ShoppingCartApp.App.UseCases.AddProduct
         }
         public async Task Handle(AddProductCommand command)
         {
-            // Hacer el .Execute asyncoronomo y todo su interior
-            await Task.Run(() => useCase.Execute(new AddProductRequest(command.ProductDTO)));
+            await useCase.ExecuteAsync(new AddProductRequest(command.ProductDTO));
         }
     }
 }

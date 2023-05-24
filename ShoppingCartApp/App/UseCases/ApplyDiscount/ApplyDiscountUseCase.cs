@@ -15,13 +15,13 @@ namespace ShoppingCartApp.App.UseCases.ApplyDiscount
             this.shoppingCartRepository = shoppingCartRepository;
         }
 
-        public void Execute(DiscountRequest discountRequest)
+        public async Task ExecuteAsync(DiscountRequest discountRequest)
         {
             if (discountRequest == null)
                 throw new Exception(string.Format("Error: {0} can't be null", typeof(DiscountRequest)));
 
             Discount discount = discountRepository.GetDiscountById(discountRequest.Id);
-            ShoppingCart shoppingCart = shoppingCartRepository.GetShoppingCartById(discountRequest.ShoppingCartId);
+            ShoppingCart shoppingCart = await shoppingCartRepository.GetShoppingCartByIdAsync(discountRequest.ShoppingCartId);
 
             if (discount == null)
                 throw new Exception(string.Format("Error: There is no discount for id: {0}", discountRequest.Id.Value()));
@@ -30,7 +30,7 @@ namespace ShoppingCartApp.App.UseCases.ApplyDiscount
 
             shoppingCart.ApplyDiscount(discount);
 
-            shoppingCartRepository.Save(shoppingCart);
+            await shoppingCartRepository.SaveAsync(shoppingCart);
         }
     }
 }

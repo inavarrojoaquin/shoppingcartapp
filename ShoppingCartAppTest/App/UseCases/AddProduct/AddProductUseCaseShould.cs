@@ -26,7 +26,7 @@ namespace ShoppingCartAppTest.App.UseCases.AddProduct
         {
             ProductId productId = ProductId.Create();
             productRepository.GetProductById(Arg.Any<ProductId>()).Returns(new Product(ProductId.Create(), Name.Create(), ProductPrice.Create()));
-            shoppingCartRepository.GetShoppingCartById(Arg.Any<ShoppingCartId>()).Returns(x => null);
+            shoppingCartRepository.GetShoppingCartByIdAsync(Arg.Any<ShoppingCartId>()).Returns(x => null);
 
             ProductDTO productDTO = new ProductDTO
             {
@@ -34,11 +34,11 @@ namespace ShoppingCartAppTest.App.UseCases.AddProduct
                 ShoppingCartId = ShoppingCartId.Create().Value(),
             };
 
-            addProductUseCase.Execute(new AddProductRequest(productDTO));
+            addProductUseCase.ExecuteAsync(new AddProductRequest(productDTO));
 
             productRepository.Received(1).GetProductById(Arg.Any<ProductId>());
-            shoppingCartRepository.Received(1).GetShoppingCartById(Arg.Any<ShoppingCartId>());
-            shoppingCartRepository.Received(1).Save(Arg.Any<ShoppingCart>());
+            shoppingCartRepository.Received(1).GetShoppingCartByIdAsync(Arg.Any<ShoppingCartId>());
+            shoppingCartRepository.Received(1).SaveAsync(Arg.Any<ShoppingCart>());
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace ShoppingCartAppTest.App.UseCases.AddProduct
         {
             ProductId productId = ProductId.Create();
             productRepository.GetProductById(Arg.Any<ProductId>()).Returns(new Product(ProductId.Create(), Name.Create(), ProductPrice.Create()));
-            shoppingCartRepository.GetShoppingCartById(Arg.Any<ShoppingCartId>()).Returns(new ShoppingCart(ShoppingCartId.Create()));
+            shoppingCartRepository.GetShoppingCartByIdAsync(Arg.Any<ShoppingCartId>()).Returns(new ShoppingCart(ShoppingCartId.Create()));
 
             ProductDTO productDTO = new ProductDTO
             {
@@ -54,17 +54,17 @@ namespace ShoppingCartAppTest.App.UseCases.AddProduct
                 ShoppingCartId = ShoppingCartId.Create().Value(),
             };
 
-            addProductUseCase.Execute(new AddProductRequest(productDTO));
+            addProductUseCase.ExecuteAsync(new AddProductRequest(productDTO));
 
             productRepository.Received(1).GetProductById(Arg.Any<ProductId>());
-            shoppingCartRepository.Received(1).GetShoppingCartById(Arg.Any<ShoppingCartId>());
-            shoppingCartRepository.Received(1).Save(Arg.Any<ShoppingCart>());
+            shoppingCartRepository.Received(1).GetShoppingCartByIdAsync(Arg.Any<ShoppingCartId>());
+            shoppingCartRepository.Received(1).SaveAsync(Arg.Any<ShoppingCart>());
         }
 
         [Test]
         public void RaiseExWhenProductRequestIsNull()
         {
-            var ex = Assert.Throws<Exception>(() => addProductUseCase.Execute(null));
+            var ex = Assert.Throws<Exception>(() => addProductUseCase.ExecuteAsync(null));
 
             Assert.That(ex.Message, Does.Contain(string.Format("Error: {0} can't be null", typeof(AddProductRequest))));
         }

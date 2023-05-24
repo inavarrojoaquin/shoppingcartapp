@@ -22,7 +22,7 @@ namespace ShoppingCartAppTest.App.UseCases.PrintShoppingCart
         [Test]
         public void PrintShoppingCart()
         {
-            shoppingCartRepository.GetShoppingCartById(Arg.Any<ShoppingCartId>()).Returns(new ShoppingCart(ShoppingCartId.Create()));
+            shoppingCartRepository.GetShoppingCartByIdAsync(Arg.Any<ShoppingCartId>()).Returns(new ShoppingCart(ShoppingCartId.Create()));
 
             ShoppingCartDTO shoppingCartDTO = new ShoppingCartDTO
             {
@@ -30,15 +30,15 @@ namespace ShoppingCartAppTest.App.UseCases.PrintShoppingCart
             };
             PrintShoppingCartRequest printShoppingCartRequest = new PrintShoppingCartRequest(shoppingCartDTO);
 
-            printShoppingCartUseCase.Execute(printShoppingCartRequest);
+            printShoppingCartUseCase.ExecuteAsync(printShoppingCartRequest);
 
-            shoppingCartRepository.Received(1).GetShoppingCartById(Arg.Any<ShoppingCartId>());
+            shoppingCartRepository.Received(1).GetShoppingCartByIdAsync(Arg.Any<ShoppingCartId>());
         }
 
         [Test]
         public void RaiseExWhenPrintShoppingCartRequestIsNull()
         {
-            var ex = Assert.Throws<Exception>(() => printShoppingCartUseCase.Execute(null));
+            var ex = Assert.Throws<Exception>(() => printShoppingCartUseCase.ExecuteAsync(null));
 
             Assert.That(ex.Message, Does.Contain(string.Format("Error: {0} can't be null", nameof(PrintShoppingCartRequest))));
         }

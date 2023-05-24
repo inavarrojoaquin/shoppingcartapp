@@ -11,7 +11,7 @@ public class ShoppingCartRepository : IShoppingCartRepository
     {
         this.context = context;
     }
-    public ShoppingCart GetShoppingCartById(ShoppingCartId id)
+    public async Task<ShoppingCart> GetShoppingCartByIdAsync(ShoppingCartId id)
     {
         if (id == null) return null;
 
@@ -24,13 +24,14 @@ public class ShoppingCartRepository : IShoppingCartRepository
         return ShoppingCart.FromPrimitives(shoppingCartData);
     }
 
-    public void Save(ShoppingCart shoppingCart)
+    public async Task SaveAsync(ShoppingCart shoppingCart)
     {
         var shoppingCartData = shoppingCart.ToPrimitives();
         if (context.Entry(shoppingCartData).State == EntityState.Detached)
             context.Add(shoppingCartData);
         else
             context.Entry(shoppingCartData).State = EntityState.Modified;
-        context.SaveChanges();
+        
+        await context.SaveChangesAsync();
     }
 }

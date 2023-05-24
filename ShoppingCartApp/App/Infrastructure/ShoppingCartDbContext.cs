@@ -36,18 +36,18 @@ public class ShoppingCartDbContext : DbContext
                     .HasData(new { ProductId = "7478b9ae-2e05-4c6d-afb1-3b8934edc699", ProductName = "Product two", ProductPrice = 40.0 });
     }
 
-    public void StartTransaction()
+    public async Task StartTransactionAsync()
     {
-        Database.BeginTransaction();
+        await Database.BeginTransactionAsync();
     }
 
-    public void RollbackTransaction()
+    public async Task RollbackTransactionAsync()
     {
-        Database.RollbackTransaction();
+        await Database.RollbackTransactionAsync();
     }
 
-    public void EndTransaction()
+    public async Task EndTransactionAsync()
     {
-        Database.CommitTransaction();
+        await Database.CommitTransactionAsync();
     }
 }

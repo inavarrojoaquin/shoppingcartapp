@@ -31,7 +31,7 @@ namespace ShoppingCartAppTest.App.UseCases.ApplyDiscount
             ShoppingCartId shoppingCartId = ShoppingCartId.Create();
             ShoppingCart shoppingCart = Substitute.For<ShoppingCart>(shoppingCartId);
             shoppingCart.AddProduct(new Product(ProductId.Create(), Name.Create(), new ProductPrice(10)));
-            shoppingCartRepository.GetShoppingCartById(Arg.Any<ShoppingCartId>()).Returns(shoppingCart);
+            shoppingCartRepository.GetShoppingCartByIdAsync(Arg.Any<ShoppingCartId>()).Returns(shoppingCart);
 
             DiscountDTO discountDTO = new DiscountDTO
             {
@@ -40,11 +40,11 @@ namespace ShoppingCartAppTest.App.UseCases.ApplyDiscount
                 DiscountQuantity = quantity.Value(),
             };
 
-            applyDiscountUseCase.Execute(new DiscountRequest(discountDTO));
+            applyDiscountUseCase.ExecuteAsync(new DiscountRequest(discountDTO));
 
             discountRepository.Received(1).GetDiscountById(Arg.Any<DiscountId>());
-            shoppingCartRepository.Received(1).GetShoppingCartById(Arg.Any<ShoppingCartId>());
-            shoppingCartRepository.Received(1).Save(Arg.Any<ShoppingCart>());
+            shoppingCartRepository.Received(1).GetShoppingCartByIdAsync(Arg.Any<ShoppingCartId>());
+            shoppingCartRepository.Received(1).SaveAsync(Arg.Any<ShoppingCart>());
         }
 
         [Test]
@@ -56,7 +56,7 @@ namespace ShoppingCartAppTest.App.UseCases.ApplyDiscount
             discountRepository.GetDiscountById(Arg.Any<DiscountId>()).Returns(discount);
             ShoppingCartId shoppingCartId = ShoppingCartId.Create();
             ShoppingCart shoppingCart = Substitute.For<ShoppingCart>(shoppingCartId);
-            shoppingCartRepository.GetShoppingCartById(Arg.Any<ShoppingCartId>()).Returns(shoppingCart);
+            shoppingCartRepository.GetShoppingCartByIdAsync(Arg.Any<ShoppingCartId>()).Returns(shoppingCart);
 
             DiscountDTO discountDTO = new DiscountDTO
             {
@@ -65,7 +65,7 @@ namespace ShoppingCartAppTest.App.UseCases.ApplyDiscount
                 DiscountQuantity = quantity.Value(),
             };
 
-            var ex = Assert.Throws<Exception>(() => applyDiscountUseCase.Execute(new DiscountRequest(discountDTO)));
+            var ex = Assert.Throws<Exception>(() => applyDiscountUseCase.ExecuteAsync(new DiscountRequest(discountDTO)));
 
             Assert.That(ex.Message, Does.Contain("Error: Can not apply discount to an empty ShoppingCart"));
         }
@@ -73,7 +73,7 @@ namespace ShoppingCartAppTest.App.UseCases.ApplyDiscount
         [Test]
         public void RaiseExWhenDiscountRequestIsNull()
         {
-            var ex = Assert.Throws<Exception>(() => applyDiscountUseCase.Execute(null));
+            var ex = Assert.Throws<Exception>(() => applyDiscountUseCase.ExecuteAsync(null));
 
             Assert.That(ex.Message, Does.Contain(string.Format("Error: {0} can't be null", typeof(DiscountRequest))));
         }
@@ -89,7 +89,7 @@ namespace ShoppingCartAppTest.App.UseCases.ApplyDiscount
                 DiscountQuantity = Quantity.Create().Value(),
             };
 
-            var ex = Assert.Throws<Exception>(() => applyDiscountUseCase.Execute(new DiscountRequest(discountDTO)));
+            var ex = Assert.Throws<Exception>(() => applyDiscountUseCase.ExecuteAsync(new DiscountRequest(discountDTO)));
 
             Assert.That(ex.Message, Does.Contain(string.Format("Error: There is no discount for id: {0}", discountDTO.DiscountId)));
         }
@@ -101,7 +101,7 @@ namespace ShoppingCartAppTest.App.UseCases.ApplyDiscount
             Quantity quantity = Quantity.Create();
             Discount discount = new Discount(discountId, Name.Create(), quantity);
             discountRepository.GetDiscountById(Arg.Any<DiscountId>()).Returns(discount);
-            shoppingCartRepository.GetShoppingCartById(Arg.Any<ShoppingCartId>()).Returns(x => null);
+            shoppingCartRepository.GetShoppingCartByIdAsync(Arg.Any<ShoppingCartId>()).Returns(x => null);
 
             DiscountDTO discountDTO = new DiscountDTO
             {
@@ -110,7 +110,7 @@ namespace ShoppingCartAppTest.App.UseCases.ApplyDiscount
                 DiscountQuantity = quantity.Value(),
             };
 
-            var ex = Assert.Throws<Exception>(() => applyDiscountUseCase.Execute(new DiscountRequest(discountDTO)));
+            var ex = Assert.Throws<Exception>(() => applyDiscountUseCase.ExecuteAsync(new DiscountRequest(discountDTO)));
 
             Assert.That(ex.Message, Does.Contain(string.Format("Error: There is no shoppingCart for id: {0}", discountDTO.ShoppingCartId)));
         }

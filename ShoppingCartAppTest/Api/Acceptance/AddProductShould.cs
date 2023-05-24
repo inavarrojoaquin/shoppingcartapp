@@ -31,7 +31,7 @@ namespace ShoppingCartAppTest.Api.Acceptance
 
             var response = await client.PostAsJsonAsync("api/AddProduct", newProduct);
 
-            addProductRequest.Received(1).Execute(Arg.Is<AddProductRequest>(x => x.ProductId.Value() == newProduct.ProductId
+            addProductRequest.Received(1).ExecuteAsync(Arg.Is<AddProductRequest>(x => x.ProductId.Value() == newProduct.ProductId
                                                                                  && x.ShoppingCartId.Value() == newProduct.ShoppingCartId));
         }
 
@@ -53,10 +53,10 @@ namespace ShoppingCartAppTest.Api.Acceptance
             var newProduct2 = new { ProductId = Guid.NewGuid().ToString(), ShoppingCartId = Guid.NewGuid().ToString() };
             var response2 = await client.PostAsJsonAsync("api/AddProduct", newProduct2);
 
-            addProductRequest.Received(1).Execute(Arg.Is<AddProductRequest>(x => x.ProductId.Value() == newProduct1.ProductId
+            addProductRequest.Received(1).ExecuteAsync(Arg.Is<AddProductRequest>(x => x.ProductId.Value() == newProduct1.ProductId
                                                                                  && x.ShoppingCartId.Value() == newProduct1.ShoppingCartId));
 
-            addProductRequest.Received(1).Execute(Arg.Is<AddProductRequest>(x => x.ProductId.Value() == newProduct2.ProductId
+            addProductRequest.Received(1).ExecuteAsync(Arg.Is<AddProductRequest>(x => x.ProductId.Value() == newProduct2.ProductId
                                                                                  && x.ShoppingCartId.Value() == newProduct2.ShoppingCartId));
 
         }

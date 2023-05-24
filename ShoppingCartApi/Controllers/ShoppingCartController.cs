@@ -49,7 +49,7 @@ namespace ShoppingCartApi.Controllers
             AddProductUseCase addProductUseCase = new AddProductUseCase(productRepository, shoppingCartRepository);
 
             AddProductRequest productRequest = new AddProductRequest(productDTO);
-            addProductUseCase.Execute(productRequest);
+            addProductUseCase.ExecuteAsync(productRequest);
         }
 
         //// POST api/<ShoppingCartController>

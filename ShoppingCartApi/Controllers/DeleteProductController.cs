@@ -27,7 +27,7 @@ namespace ShoppingCartApi.Controllers
         public void PostDeleteProduct([FromBody] ProductDTO productDTO)
         {
             DeleteProductRequest request = new DeleteProductRequest(productDTO);
-            deleteProductUseCase.Execute(request);
+            deleteProductUseCase.ExecuteAsync(request);
         }
     }
 }
