@@ -5,6 +5,7 @@ using ShoppingCartApp.App.UseCases.ApplyDiscount;
 using ShoppingCartApp.App.UseCases.DeleteProduct;
 using ShoppingCartApp.App.UseCases.PrintShoppingCart;
 using ShoppingCartApp.DTOs;
+using ShoppingCartApp.Shared.Domain;
 using ShoppingCartAppTest.App.UseCases.AddProduct;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -17,29 +18,28 @@ namespace ShoppingCartApi.Controllers
     {
         private ShoppingCartDbContext context;
         private IShoppingCartRepository shoppingCartRepository;
+        private readonly IQueryBus queryBus;
 
-        public ShoppingCartController()
+        public ShoppingCartController(IQueryBus queryBus)
         {
             context = new ShoppingCartDbContext();
             shoppingCartRepository = new ShoppingCartRepository(context);
+            this.queryBus = queryBus;
         }
 
-        // GET: api/ShoppingCart
-        [HttpGet("alive")]
-        public bool Get()
+        // GET api/<ShoppingCartController>
+        [HttpGet("print/{shoppingCartId}")]
+        public async Task<string> Print(string shoppingCartId)
         {
-            return true;
+            //PrintShoppingCartUseCase printShoppingCartUseCase = new PrintShoppingCartUseCase(shoppingCartRepository);
+
+            //PrintShoppingCartRequest printShoppingCartRequest = new PrintShoppingCartRequest(new ShoppingCartDTO { ShoppingCartId = shoppingCartId });
+            PrintShoppingCartQuery query = new PrintShoppingCartQuery { ShoppingCartId = shoppingCartId };
+
+            return await queryBus.SendAsync<PrintShoppingCartQuery,string>(query);
+            
+            //return await printShoppingCartUseCase.ExecuteAsync(printShoppingCartRequest);
         }
-
-        //// GET api/<ShoppingCartController>
-        //[HttpGet]
-        //public void Print(ShoppingCartDTO shoppingCartDTO)
-        //{
-        //    PrintShoppingCartUseCase printShoppingCartUseCase = new PrintShoppingCartUseCase(shoppingCartRepository);
-
-        //    PrintShoppingCartRequest printShoppingCartRequest = new PrintShoppingCartRequest(shoppingCartDTO);
-        //    printShoppingCartUseCase.Execute(printShoppingCartRequest);
-        //}
 
         //// POST api/<ShoppingCartController>
         [HttpPost]

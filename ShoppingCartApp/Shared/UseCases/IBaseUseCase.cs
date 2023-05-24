@@ -6,4 +6,9 @@ namespace ShoppingCartApp.Shared.UseCases
     {
         Task ExecuteAsync(T request);
     }
+
+    public interface IBaseUseCase<T, TResult> where T : IBaseRequest
+    {
+        Task<TResult> ExecuteAsync(T request);
+    }
 }
