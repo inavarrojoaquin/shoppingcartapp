@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShoppingCartApp.App.UseCases.DeleteProduct;
 using ShoppingCartApp.DTOs;
+using ShoppingCartApp.Shared.Domain;
 using ShoppingCartApp.Shared.UseCases;
 
 namespace ShoppingCartApi.Controllers
@@ -9,25 +10,18 @@ namespace ShoppingCartApi.Controllers
     [ApiController]
     public class DeleteProductController : ControllerBase
     {
-        private IBaseUseCase<DeleteProductRequest> deleteProductUseCase;
+        private readonly ICommandBus commandBus;
 
-        public DeleteProductController(IBaseUseCase<DeleteProductRequest> deleteProductUseCase)
+        public DeleteProductController(ICommandBus commandBus)
         {
-            this.deleteProductUseCase = deleteProductUseCase;
-        }
-
-        [HttpGet("alive")]
-        public bool Alive()
-        {
-            return true;
+            this.commandBus = commandBus;
         }
 
         // POST api/DeleteProduct
         [HttpPost]
-        public void PostDeleteProduct([FromBody] ProductDTO productDTO)
+        public async Task PostDeleteProduct([FromBody] ProductDTO productDTO)
         {
-            DeleteProductRequest request = new DeleteProductRequest(productDTO);
-            deleteProductUseCase.ExecuteAsync(request);
+            await commandBus.SendAsync(new DeleteProductCommand { ProductDTO = productDTO});
         }
     }
 }

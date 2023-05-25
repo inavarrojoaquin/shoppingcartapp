@@ -31,6 +31,7 @@ builder.Services.AddTransient<IBaseUseCase<PrintShoppingCartRequest, string>, Pr
 
 builder.Services.AddTransient<ICommandBus, InMemoryCommandBus>();
 builder.Services.AddTransient<ICommandHandler<AddProductCommand>, AddProductCommandHandler>();
+builder.Services.AddTransient<ICommandHandler<DeleteProductCommand>, DeleteProductCommandHandler>();
 
 builder.Services.AddTransient<IQueryBus, InMemoryQueryBus>();
 builder.Services.AddTransient<IQueryHandler<PrintShoppingCartQuery, string>, PrintShoppingCartQueryHandler>();
