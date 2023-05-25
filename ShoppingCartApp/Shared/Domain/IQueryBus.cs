@@ -2,6 +2,6 @@
 {
     public interface IQueryBus
     {
-        Task<TResult> SendAsync<TQuery, TResult>(TQuery query) where TQuery : IQuery<TResult>;
+        Task<TResult> SendAsync<T, TResult>(T query) where T : IQuery<TResult>;
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace ShoppingCartApp.Shared.Domain
 {
-    public interface IQueryHandler<TQuery, TResult> where TQuery : IQuery<TResult>
+    public interface IQueryHandler<T, TResult> where T : IQuery<TResult>
     {
-        Task<TResult> Handle(TQuery query);
+        Task<TResult> Handle(T query);
     }
 }

@@ -11,10 +11,10 @@ namespace ShoppingCartApp.Shared.Infrastructure
             this.serviceProvider = serviceProvider;
         }
 
-        public async Task<TResult> SendAsync<TQuery, TResult>(TQuery query) where TQuery : IQuery<TResult>
+        public async Task<TResult> SendAsync<T, TResult>(T query) where T : IQuery<TResult>
         {
-            var handlerType = typeof(IQueryHandler<TQuery, TResult>);
-            IQueryHandler<TQuery, TResult>? handler = serviceProvider.GetService(handlerType) as IQueryHandler<TQuery, TResult>;
+            var handlerType = typeof(IQueryHandler<T, TResult>);
+            IQueryHandler<T, TResult>? handler = serviceProvider.GetService(handlerType) as IQueryHandler<T, TResult>;
             if (handler == null) throw new Exception("Error handling query: " + handlerType);
             
             return await handler.Handle(query);

@@ -1,7 +1,7 @@
 ﻿namespace ShoppingCartApp.Shared.Domain
 {
-    public interface ICommandHandler<TCommand> where TCommand : ICommand
+    public interface ICommandHandler<T> where T : ICommand
     {
-        Task Handle(TCommand command);
+        Task Handle(T command);
     }
 }

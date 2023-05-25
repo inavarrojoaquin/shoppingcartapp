@@ -2,6 +2,6 @@
 {
     public interface ICommandBus
     {
-        Task SendAsync<TCommand>(TCommand command) where TCommand : ICommand;
+        Task SendAsync<T>(T command) where T : ICommand;
     }
 }

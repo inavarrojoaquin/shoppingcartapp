@@ -1,9 +1,4 @@
 ﻿using ShoppingCartApp.Shared.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShoppingCartApp.Shared.Infrastructure
 {
@@ -16,10 +11,10 @@ namespace ShoppingCartApp.Shared.Infrastructure
             this.serviceProvider = serviceProvider;
         }
 
-        public async Task SendAsync<TCommand>(TCommand command) where TCommand : ICommand
+        public async Task SendAsync<T>(T command) where T : ICommand
         {
             var handlerType = typeof(ICommandHandler<>).MakeGenericType(command.GetType());
-            ICommandHandler<TCommand>? handler = (ICommandHandler<TCommand>)serviceProvider.GetService(handlerType);
+            ICommandHandler<T>? handler = (ICommandHandler<T>)serviceProvider.GetService(handlerType);
             if (handler != null)
                 await handler.Handle(command);
         }
