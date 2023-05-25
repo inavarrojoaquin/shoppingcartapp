@@ -36,7 +36,6 @@ builder.Services.AddTransient<ICommandHandler<DeleteProductCommand>, DeleteProdu
 builder.Services.AddTransient<IQueryBus, InMemoryQueryBus>();
 builder.Services.AddTransient<IQueryHandler<PrintShoppingCartQuery, string>, PrintShoppingCartQueryHandler>();
 
-// Adding generic decorator for logging
 // Commands Decorator
 builder.Services.Decorate<IBaseUseCase<AddProductRequest>, CommandLoggingDecorator<AddProductRequest>>();
 builder.Services.Decorate<IBaseUseCase<AddProductRequest>, DbTransactionDecorator<AddProductRequest>>();
