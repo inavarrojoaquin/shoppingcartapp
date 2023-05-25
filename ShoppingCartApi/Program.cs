@@ -37,11 +37,15 @@ builder.Services.AddTransient<IQueryBus, InMemoryQueryBus>();
 builder.Services.AddTransient<IQueryHandler<PrintShoppingCartQuery, string>, PrintShoppingCartQueryHandler>();
 
 // Adding generic decorator for logging
-builder.Services.Decorate<IBaseUseCase<AddProductRequest>, LoggingDecorator<AddProductRequest>>();
+// Commands Decorator
+builder.Services.Decorate<IBaseUseCase<AddProductRequest>, CommandLoggingDecorator<AddProductRequest>>();
 builder.Services.Decorate<IBaseUseCase<AddProductRequest>, DbTransactionDecorator<AddProductRequest>>();
 
-//Ver si se puede hacer generico con T o algo
-//builder.Services.Decorate<IBaseUseCase<IBaseRequest>, LoggingDecorator<IBaseRequest>>();
+builder.Services.Decorate<IBaseUseCase<DeleteProductRequest>, CommandLoggingDecorator<DeleteProductRequest>>();
+builder.Services.Decorate<IBaseUseCase<DeleteProductRequest>, DbTransactionDecorator<DeleteProductRequest>>();
+
+// Queries Decorator
+builder.Services.Decorate<IBaseUseCase<PrintShoppingCartRequest, string>, QueryLoggingDecorator<PrintShoppingCartRequest, string>>();
 
 var app = builder.Build();
 

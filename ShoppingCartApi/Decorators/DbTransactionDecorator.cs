@@ -19,7 +19,7 @@ namespace ShoppingCartApi.Decorators
 
         public async Task ExecuteAsync(T request)
         {
-            logger.LogInformation("Start Transaction: " + request.GetType().ToString());
+            logger.LogInformation("Start Transaction: " + request.GetType().Name);
 
             await context.StartTransactionAsync();
 
@@ -28,12 +28,12 @@ namespace ShoppingCartApi.Decorators
                 await useCase.ExecuteAsync(request);
                 await context.EndTransactionAsync();
 
-                logger.LogInformation("End Transaction: " + request.GetType().ToString());
+                logger.LogInformation("End Transaction: " + request.GetType().Name);
             }
             catch (Exception)
             {
                 await context.RollbackTransactionAsync();
-                logger.LogInformation("Rollback Transaction: " + request.GetType().ToString());
+                logger.LogInformation("Rollback Transaction: " + request.GetType().Name);
                 
                 throw;
             }
