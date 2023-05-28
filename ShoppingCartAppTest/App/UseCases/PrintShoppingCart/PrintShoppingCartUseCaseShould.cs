@@ -38,7 +38,7 @@ namespace ShoppingCartAppTest.App.UseCases.PrintShoppingCart
         [Test]
         public void RaiseExWhenPrintShoppingCartRequestIsNull()
         {
-            var ex = Assert.Throws<Exception>(() => printShoppingCartUseCase.ExecuteAsync(null));
+            var ex = Assert.ThrowsAsync<Exception>(() => printShoppingCartUseCase.ExecuteAsync(null));
 
             Assert.That(ex.Message, Does.Contain(string.Format("Error: {0} can't be null", nameof(PrintShoppingCartRequest))));
         }

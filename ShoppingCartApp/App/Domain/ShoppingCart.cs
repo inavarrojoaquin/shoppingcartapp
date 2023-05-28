@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using ShoppingCartApp.Shared.Domain;
 
 namespace ShoppingCartApp.App.Domain
 {

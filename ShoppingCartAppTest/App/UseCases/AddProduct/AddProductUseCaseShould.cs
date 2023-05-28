@@ -65,7 +65,7 @@ namespace ShoppingCartAppTest.App.UseCases.AddProduct
         [Test]
         public void RaiseExWhenProductRequestIsNull()
         {
-            var ex = Assert.Throws<Exception>(() => addProductUseCase.ExecuteAsync(null));
+            var ex = Assert.ThrowsAsync<Exception>(() => addProductUseCase.ExecuteAsync(null));
 
             Assert.That(ex.Message, Does.Contain(string.Format("Error: {0} can't be null", typeof(AddProductRequest))));
         }

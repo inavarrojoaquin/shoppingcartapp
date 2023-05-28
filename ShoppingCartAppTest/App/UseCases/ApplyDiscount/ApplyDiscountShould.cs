@@ -65,7 +65,7 @@ namespace ShoppingCartAppTest.App.UseCases.ApplyDiscount
                 DiscountQuantity = quantity.Value(),
             };
 
-            var ex = Assert.Throws<Exception>(() => applyDiscountUseCase.ExecuteAsync(new DiscountRequest(discountDTO)));
+            var ex = Assert.ThrowsAsync<Exception>(() => applyDiscountUseCase.ExecuteAsync(new DiscountRequest(discountDTO)));
 
             Assert.That(ex.Message, Does.Contain("Error: Can not apply discount to an empty ShoppingCart"));
         }
@@ -73,7 +73,7 @@ namespace ShoppingCartAppTest.App.UseCases.ApplyDiscount
         [Test]
         public void RaiseExWhenDiscountRequestIsNull()
         {
-            var ex = Assert.Throws<Exception>(() => applyDiscountUseCase.ExecuteAsync(null));
+            var ex = Assert.ThrowsAsync<Exception>(() => applyDiscountUseCase.ExecuteAsync(null));
 
             Assert.That(ex.Message, Does.Contain(string.Format("Error: {0} can't be null", typeof(DiscountRequest))));
         }
@@ -89,7 +89,7 @@ namespace ShoppingCartAppTest.App.UseCases.ApplyDiscount
                 DiscountQuantity = Quantity.Create().Value(),
             };
 
-            var ex = Assert.Throws<Exception>(() => applyDiscountUseCase.ExecuteAsync(new DiscountRequest(discountDTO)));
+            var ex = Assert.ThrowsAsync<Exception>(() => applyDiscountUseCase.ExecuteAsync(new DiscountRequest(discountDTO)));
 
             Assert.That(ex.Message, Does.Contain(string.Format("Error: There is no discount for id: {0}", discountDTO.DiscountId)));
         }
@@ -110,7 +110,7 @@ namespace ShoppingCartAppTest.App.UseCases.ApplyDiscount
                 DiscountQuantity = quantity.Value(),
             };
 
-            var ex = Assert.Throws<Exception>(() => applyDiscountUseCase.ExecuteAsync(new DiscountRequest(discountDTO)));
+            var ex = Assert.ThrowsAsync<Exception>(() => applyDiscountUseCase.ExecuteAsync(new DiscountRequest(discountDTO)));
 
             Assert.That(ex.Message, Does.Contain(string.Format("Error: There is no shoppingCart for id: {0}", discountDTO.ShoppingCartId)));
         }

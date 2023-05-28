@@ -22,10 +22,10 @@ namespace ShoppingCartAppTest.Api.Acceptance
             var client = application.CreateClient();
             var newProduct = new { ProductId = Guid.NewGuid().ToString(), ShoppingCartId = Guid.NewGuid().ToString() };
 
-            var response = await client.PostAsJsonAsync("api/DeleteProduct", newProduct);
+            var response = await client.PostAsJsonAsync("api/ShoppingCart/product/delete", newProduct);
 
-            deleteProductRequest.Received(1).ExecuteAsync(Arg.Is<DeleteProductRequest>(x => x.ProductId.Value() == newProduct.ProductId
-                                                                                 && x.ShoppingCartId.Value() == newProduct.ShoppingCartId));
+            await deleteProductRequest.Received(1).ExecuteAsync(Arg.Is<DeleteProductRequest>(x => x.ProductId.Value() == newProduct.ProductId
+                && x.ShoppingCartId.Value() == newProduct.ShoppingCartId));
         }
     }
 }

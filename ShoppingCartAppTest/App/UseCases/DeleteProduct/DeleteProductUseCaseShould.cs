@@ -48,7 +48,7 @@ namespace ShoppingCartAppTest.App.UseCases.DeleteProduct
         [Test]
         public void RaiseExWhenDeleteProductRequestIsNull()
         {
-            var ex = Assert.Throws<Exception>(() => deleteProductUseCase.ExecuteAsync(null));
+            var ex = Assert.ThrowsAsync<Exception>(() => deleteProductUseCase.ExecuteAsync(null));
 
             Assert.That(ex.Message, Does.Contain(string.Format("Error: {0} can't be null", typeof(DeleteProductRequest))));
         }
@@ -68,7 +68,7 @@ namespace ShoppingCartAppTest.App.UseCases.DeleteProduct
                 ShoppingCartId = shoppingCartId.Value(),
             };
 
-            var ex = Assert.Throws<Exception>(() => deleteProductUseCase.ExecuteAsync(new DeleteProductRequest(productDTO)));
+            var ex = Assert.ThrowsAsync<Exception>(() => deleteProductUseCase.ExecuteAsync(new DeleteProductRequest(productDTO)));
 
             Assert.That(ex.Message, Does.Contain(string.Format("Error: The product with id: {0} does not exists in shoppingCart with id: {1}",
                                                   productDTO.ProductId,
