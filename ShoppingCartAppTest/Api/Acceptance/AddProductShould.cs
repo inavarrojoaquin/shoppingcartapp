@@ -29,9 +29,9 @@ namespace ShoppingCartAppTest.Api.Acceptance
             var client = application.CreateClient();
             var newProduct = new { ProductId = Guid.NewGuid().ToString(), ShoppingCartId = Guid.NewGuid().ToString() };
 
-            var response = await client.PostAsJsonAsync("api/AddProduct", newProduct);
+            var response = await client.PostAsJsonAsync("api/ShoppingCart/product/add", newProduct);
 
-            addProductRequest.Received(1).ExecuteAsync(Arg.Is<AddProductRequest>(x => x.ProductId.Value() == newProduct.ProductId
+            await addProductRequest.Received(1).ExecuteAsync(Arg.Is<AddProductRequest>(x => x.ProductId.Value() == newProduct.ProductId
                                                                                  && x.ShoppingCartId.Value() == newProduct.ShoppingCartId));
         }
 
@@ -48,16 +48,16 @@ namespace ShoppingCartAppTest.Api.Acceptance
             var client = application.CreateClient();
             
             var newProduct1 = new { ProductId = Guid.NewGuid().ToString(), ShoppingCartId = Guid.NewGuid().ToString() };
-            var response1 = await client.PostAsJsonAsync("api/AddProduct", newProduct1);
+            var response1 = await client.PostAsJsonAsync("api/ShoppingCart/product/add", newProduct1);
 
             var newProduct2 = new { ProductId = Guid.NewGuid().ToString(), ShoppingCartId = Guid.NewGuid().ToString() };
-            var response2 = await client.PostAsJsonAsync("api/AddProduct", newProduct2);
+            var response2 = await client.PostAsJsonAsync("api/ShoppingCart/product/add", newProduct2);
 
-            addProductRequest.Received(1).ExecuteAsync(Arg.Is<AddProductRequest>(x => x.ProductId.Value() == newProduct1.ProductId
-                                                                                 && x.ShoppingCartId.Value() == newProduct1.ShoppingCartId));
+            await addProductRequest.Received(1).ExecuteAsync(Arg.Is<AddProductRequest>(x => x.ProductId.Value() == newProduct1.ProductId
+                && x.ShoppingCartId.Value() == newProduct1.ShoppingCartId));
 
-            addProductRequest.Received(1).ExecuteAsync(Arg.Is<AddProductRequest>(x => x.ProductId.Value() == newProduct2.ProductId
-                                                                                 && x.ShoppingCartId.Value() == newProduct2.ShoppingCartId));
+            await addProductRequest.Received(1).ExecuteAsync(Arg.Is<AddProductRequest>(x => x.ProductId.Value() == newProduct2.ProductId
+                && x.ShoppingCartId.Value() == newProduct2.ShoppingCartId));
 
         }
     }

@@ -11,10 +11,6 @@ namespace ShoppingCartApp.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>("Stock", "Products", defaultValue: 20);
-            /*
-            migrationBuilder.Sql(
-                @"UPDATE Products SET Stock = 20 ");
-        */
         }
 
         /// <inheritdoc />
