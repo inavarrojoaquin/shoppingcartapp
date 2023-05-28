@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using ShoppingCartApp.Shared.Domain;
+using ShoppingCartApp.Shared.Events;
 
 namespace ShoppingCartApp.App.Domain
 {
@@ -150,6 +151,7 @@ namespace ShoppingCartApp.App.Domain
         public void Close()
         {
             IsClosed = true;
+            AddEvent(new CloseShoppingCartEvent(shoppingCartData));
         }
     }
 

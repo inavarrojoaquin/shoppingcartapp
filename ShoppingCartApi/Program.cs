@@ -8,7 +8,10 @@ using ShoppingCartApp.Shared.Infrastructure;
 using ShoppingCartApp.Shared.UseCases;
 using ShoppingCartAppTest.App.UseCases.AddProduct;
 using System.Net;
+using System.Runtime.CompilerServices;
+using ShoppingCartApp.App.Modules.Product.UseCases;
 using ShoppingCartApp.App.UseCases.Close;
+using ShoppingCartApp.Shared.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,7 +52,11 @@ builder.Services.Decorate<IBaseUseCase<DeleteProductRequest>, DbTransactionDecor
 // Queries Decorator
 builder.Services.Decorate<IBaseUseCase<PrintShoppingCartRequest, string>, QueryLoggingDecorator<PrintShoppingCartRequest, string>>();
 
+var servicesConfigurator = new ServicesConfigurator();
+servicesConfigurator.ConfigureEventBus(builder.Services);
+
 var app = builder.Build();
+servicesConfigurator.Configure(app);
 
 app.UseExceptionHandler(handler => handler.Run(async context => 
     { 
@@ -74,4 +81,22 @@ app.MapControllers();
 
 app.Run();
 
-public partial class Program { }
+public partial class Program
+{
+}
+
+public class ServicesConfigurator
+{
+    public void ConfigureEventBus(IServiceCollection services)
+    {
+        services.AddSingleton<IEventBus, InMemoryEventBus>();
+        services.AddSingleton<CheckStockUseCase>();
+    }
+    
+    public void Configure(IApplicationBuilder app)
+    {
+        var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+        var checkStockUseCase = app.ApplicationServices.GetRequiredService<CheckStockUseCase>();
+        eventBus.Subscribe<CloseShoppingCartEvent>(checkStockUseCase.Handle);
+    }
+}
