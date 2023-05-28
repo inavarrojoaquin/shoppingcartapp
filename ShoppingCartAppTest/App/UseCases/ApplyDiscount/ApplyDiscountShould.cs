@@ -101,7 +101,7 @@ namespace ShoppingCartAppTest.App.UseCases.ApplyDiscount
             Quantity quantity = Quantity.Create();
             Discount discount = new Discount(discountId, Name.Create(), quantity);
             discountRepository.GetDiscountById(Arg.Any<DiscountId>()).Returns(discount);
-            shoppingCartRepository.GetShoppingCartByIdAsync(Arg.Any<ShoppingCartId>()).Returns(x => null);
+            shoppingCartRepository.GetShoppingCartByIdAsync(Arg.Any<ShoppingCartId>()).Returns(x => (ShoppingCart)null);
 
             DiscountDTO discountDTO = new DiscountDTO
             {
