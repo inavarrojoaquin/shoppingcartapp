@@ -9,6 +9,7 @@ namespace ShoppingCartApp.App.Domain
         private ShoppingCartName shoppingCartName;
         private List<OrderItem> orderItems;
         private Discount discount;
+        private bool IsClosed;
         private ShoppingCartData shoppingCartData;
 
         public ShoppingCartId GetShoppingCartId() => shoppingCartId;
@@ -18,6 +19,7 @@ namespace ShoppingCartApp.App.Domain
             this.shoppingCartId = id;
             this.shoppingCartName = ShoppingCartName.Create();
             this.orderItems = new List<OrderItem>();
+            IsClosed = false;
             shoppingCartData = new();
         }
 
@@ -25,12 +27,14 @@ namespace ShoppingCartApp.App.Domain
         {
             this.shoppingCartName = shoppingCartName;
             this.orderItems = orderItems;
+            IsClosed = false;
         }
 
         public ShoppingCartData ToPrimitives()
         {
             shoppingCartData.ShoppingCartId = this.shoppingCartId.Value();
             shoppingCartData.ShoppingCartName = this.shoppingCartName.Value();
+            shoppingCartData.IsClosed = IsClosed;
             shoppingCartData.OrderItems = this.orderItems.Select(x => x.ToPrimitives()).ToList();
             return shoppingCartData;
         }
@@ -40,6 +44,7 @@ namespace ShoppingCartApp.App.Domain
             var shoppingCart = new ShoppingCart(new ShoppingCartId(data.ShoppingCartId),
                 new ShoppingCartName(data.ShoppingCartName),
                 new List<OrderItem>(data.OrderItems.Select(x => OrderItem.FromPrimitives(x))));
+            shoppingCart.IsClosed = data.IsClosed;
             shoppingCart.shoppingCartData = data;
             return shoppingCart;
         }
@@ -141,6 +146,11 @@ namespace ShoppingCartApp.App.Domain
         {
             return orderItems.Sum(x => x.GetQuantity());
         }
+
+        public void Close()
+        {
+            IsClosed = true;
+        }
     }
 
     public class ShoppingCartData
@@ -148,5 +158,6 @@ namespace ShoppingCartApp.App.Domain
         public string ShoppingCartId { get; set; }
         public string ShoppingCartName { get; set; }
         public List<OrderItemData> OrderItems { get; set; }
+        public bool IsClosed { get; set; }
     }
 }
