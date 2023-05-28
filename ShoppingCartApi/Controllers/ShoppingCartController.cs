@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShoppingCartApp.App.UseCases.AddProduct;
+using ShoppingCartApp.App.UseCases.Close;
 using ShoppingCartApp.App.UseCases.DeleteProduct;
 using ShoppingCartApp.App.UseCases.PrintShoppingCart;
 using ShoppingCartApp.DTOs;
@@ -25,6 +26,14 @@ namespace ShoppingCartApi.Controllers
         public async Task PostAddProduct([FromBody] ProductDTO productDTO)
         {
             AddProductCommand command = new AddProductCommand { ProductDTO = productDTO };
+            await commandBus.SendAsync(command);
+        }
+
+        // POST api/ShoppingCart/close
+        [HttpPost("close")]
+        public async Task PostAddProduct([FromBody] ShoppingCartDTO shoppingCartDTO)
+        {
+            CloseShoppingCartCommand command = new CloseShoppingCartCommand() { ShoppingCartId = shoppingCartDTO.ShoppingCartId };
             await commandBus.SendAsync(command);
         }
 
