@@ -8,7 +8,7 @@ namespace ShoppingCartAppTest.App.Infrastructure;
 public class ShoppingCartRepositoryShould
 {
     [Test]
-    public void CreateANewShoppingCart()
+    public async Task CreateANewShoppingCart()
     {
         var shoppingCartContext = new ShoppingCartDbContext();
         var shoppingCartRepository = new ShoppingCartRepository(shoppingCartContext);
@@ -18,16 +18,16 @@ public class ShoppingCartRepositoryShould
         shoppingCart.AddProduct(Product.FromPrimitives(productData1));
         shoppingCart.AddProduct(Product.FromPrimitives(productData1));
         
-        shoppingCartRepository.SaveAsync(shoppingCart);
+        await shoppingCartRepository.SaveAsync(shoppingCart);
 
-        var storedShoppingCartData = shoppingCartRepository.GetShoppingCartByIdAsync(shoppingCartId).ToPrimitives();
+        var storedShoppingCartData = (await shoppingCartRepository.GetShoppingCartByIdAsync(shoppingCartId)).ToPrimitives();
         
         Assert.That(storedShoppingCartData.OrderItems.Count, Is.EqualTo(1));
         Assert.That(storedShoppingCartData.OrderItems[0].Quantity, Is.EqualTo(2));
     }
 
     [Test]
-    public void CanCreateAndDeleteAProduct()
+    public async Task CanCreateAndDeleteAProduct()
     {
         var shoppingCartId = new ShoppingCartId(Guid.NewGuid().ToString());
         ShoppingCart shoppingCart = new ShoppingCart(shoppingCartId,
@@ -44,7 +44,7 @@ public class ShoppingCartRepositoryShould
         shoppingCart.DeleteProduct(Product.FromPrimitives(productData2));
         repository.SaveAsync(shoppingCart);
 
-        ShoppingCart updatedShoppingCart = repository.GetShoppingCartByIdAsync(shoppingCartId);
+        ShoppingCart updatedShoppingCart = await repository.GetShoppingCartByIdAsync(shoppingCartId);
         
         var expected = shoppingCart.ToPrimitives();
         var current = updatedShoppingCart.ToPrimitives();
@@ -56,34 +56,34 @@ public class ShoppingCartRepositoryShould
     }
 
     [Test]
-    public void GetNullWhenRequestIdIsNull()
+    public async Task GetNullWhenRequestIdIsNull()
     {
         var dbContext = new ShoppingCartDbContext();
         var repository = new ShoppingCartRepository(dbContext);
-        ShoppingCart shoppingCart = repository.GetShoppingCartByIdAsync(null);
+        ShoppingCart shoppingCart = await repository.GetShoppingCartByIdAsync(null);
         
         Assert.That(shoppingCart, Is.Null);
     }
 
     [Test]
-    public void GetNullWhenDoesNotExistsAShoppingCart()
+    public async Task GetNullWhenDoesNotExistsAShoppingCart()
     {
         var dbContext = new ShoppingCartDbContext();
         var repository = new ShoppingCartRepository(dbContext);
-        ShoppingCart shoppingCart = repository.GetShoppingCartByIdAsync(ShoppingCartId.Create());
+        ShoppingCart shoppingCart = await repository.GetShoppingCartByIdAsync(ShoppingCartId.Create());
 
         Assert.That(shoppingCart, Is.Null);
     }
 
     [Test]
-    public void IncreaseOrderItemQuantityIfProductExists()
+    public async Task IncreaseOrderItemQuantityIfProductExists()
     {
         var dbContext = new ShoppingCartDbContext();
         var repository = new ShoppingCartRepository(dbContext);
         var shoppingCartId = new ShoppingCartId("9DFB1807-521F-4F21-B9E2-408F1A03B853");
         var productId = new ProductId("5CBF54BA-BF19-40BF-B97D-4827A11720A2");
         var product = new Product(productId, new Name("Product one"), new ProductPrice(20));
-        var shoppingCart = repository.GetShoppingCartByIdAsync(shoppingCartId); 
+        var shoppingCart = await repository.GetShoppingCartByIdAsync(shoppingCartId); 
         if (shoppingCart == null)
         {
             shoppingCart = new ShoppingCart(shoppingCartId);
