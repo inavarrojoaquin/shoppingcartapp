@@ -3,7 +3,7 @@ using ShoppingCartApp.Shared.Domain;
 
 namespace ShoppingCartApp.App.Domain
 {
-    public class ShoppingCart
+    public class ShoppingCart : AggregateRoot
     {
         private ShoppingCartId shoppingCartId;
         private ShoppingCartName shoppingCartName;
