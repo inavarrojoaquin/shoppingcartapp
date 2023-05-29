@@ -1,6 +1,7 @@
 using ShoppingCartApi.Decorators;
 using ShoppingCartApp.App.Infrastructure;
 using ShoppingCartApp.App.UseCases.AddProduct;
+using ShoppingCartApp.App.UseCases.CloseShoppingCart;
 using ShoppingCartApp.App.UseCases.DeleteProduct;
 using ShoppingCartApp.App.UseCases.PrintShoppingCart;
 using ShoppingCartApp.Shared.Domain;
@@ -28,10 +29,12 @@ builder.Services.AddTransient<IShoppingCartRepository, ShoppingCartRepository>()
 builder.Services.AddTransient<IBaseUseCase<AddProductRequest>, AddProductUseCase>();
 builder.Services.AddTransient<IBaseUseCase<DeleteProductRequest>, DeleteProductUseCase>();
 builder.Services.AddTransient<IBaseUseCase<PrintShoppingCartRequest, string>, PrintShoppingCartUseCase>();
+builder.Services.AddTransient<IBaseUseCase<CloseShoppingCartRequest>, CloseShoppingCartUseCase>();
 
 builder.Services.AddTransient<ICommandBus, InMemoryCommandBus>();
 builder.Services.AddTransient<ICommandHandler<AddProductCommand>, AddProductCommandHandler>();
 builder.Services.AddTransient<ICommandHandler<DeleteProductCommand>, DeleteProductCommandHandler>();
+builder.Services.AddTransient<ICommandHandler<CloseShoppingCartCommand>, CloseShoppingCartCommandHandler>();
 
 builder.Services.AddTransient<IQueryBus, InMemoryQueryBus>();
 builder.Services.AddTransient<IQueryHandler<PrintShoppingCartQuery, string>, PrintShoppingCartQueryHandler>();

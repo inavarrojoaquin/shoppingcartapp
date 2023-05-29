@@ -97,6 +97,11 @@ namespace ShoppingCartApp.App.Domain
             return shoppingCartAdministratorBuilder.ToString();
         }
 
+        public void Close()
+        {
+            this.isClosed = true;
+        }
+
         private double GetTotalPrice()
         {
             return orderItems.Sum(x => x.CalculatePrice());
