@@ -2,24 +2,21 @@
 
 #nullable disable
 
-namespace ShoppingCartApp.Migrations
+namespace ShoppingCartApp.Migrations.ProductDb
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitProductDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>("Stock", "Products", defaultValue: 20);
-            /*
-            migrationBuilder.Sql(
-                @"UPDATE Products SET Stock = 20 ");
-        */
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn("Stock", "Products");
         }
     }
 }

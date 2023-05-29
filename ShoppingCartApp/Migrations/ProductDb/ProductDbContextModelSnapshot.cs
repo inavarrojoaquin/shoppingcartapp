@@ -2,20 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShoppingCartApp.App.Modules.Product.Infrastructure;
 
 #nullable disable
 
-namespace ShoppingCartApp.Migrations
+namespace ShoppingCartApp.Migrations.ProductDb
 {
     [DbContext(typeof(ProductDbContext))]
-    [Migration("20230528144301_Initial")]
-    partial class Initial
+    partial class ProductDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

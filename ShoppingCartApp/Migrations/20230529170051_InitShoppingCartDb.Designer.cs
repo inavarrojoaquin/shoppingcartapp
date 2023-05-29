@@ -11,8 +11,8 @@ using ShoppingCartApp.App.Infrastructure;
 namespace ShoppingCartApp.Migrations
 {
     [DbContext(typeof(ShoppingCartDbContext))]
-    [Migration("20230508045703_Init DB")]
-    partial class InitDB
+    [Migration("20230529170051_InitShoppingCartDb")]
+    partial class InitShoppingCartDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

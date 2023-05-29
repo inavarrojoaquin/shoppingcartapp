@@ -9,6 +9,7 @@ namespace ShoppingCartApp.App.Domain
         private List<OrderItem> orderItems;
         private Discount discount;
         private ShoppingCartData shoppingCartData;
+        private bool isClosed;
 
         public ShoppingCartId GetShoppingCartId() => shoppingCartId;
         
@@ -17,6 +18,7 @@ namespace ShoppingCartApp.App.Domain
             this.shoppingCartId = id;
             this.shoppingCartName = ShoppingCartName.Create();
             this.orderItems = new List<OrderItem>();
+            this.isClosed = false;
             shoppingCartData = new();
         }
 
@@ -30,6 +32,7 @@ namespace ShoppingCartApp.App.Domain
         {
             shoppingCartData.ShoppingCartId = this.shoppingCartId.Value();
             shoppingCartData.ShoppingCartName = this.shoppingCartName.Value();
+            shoppingCartData.IsClosed = this.isClosed;
             shoppingCartData.OrderItems = this.orderItems.Select(x => x.ToPrimitives()).ToList();
             return shoppingCartData;
         }
@@ -40,6 +43,7 @@ namespace ShoppingCartApp.App.Domain
                 new ShoppingCartName(data.ShoppingCartName),
                 new List<OrderItem>(data.OrderItems.Select(x => OrderItem.FromPrimitives(x))));
             shoppingCart.shoppingCartData = data;
+            shoppingCart.isClosed = data.IsClosed;
             return shoppingCart;
         }
 
@@ -146,6 +150,7 @@ namespace ShoppingCartApp.App.Domain
     {
         public string ShoppingCartId { get; set; }
         public string ShoppingCartName { get; set; }
+        public bool IsClosed { get; set; }
         public List<OrderItemData> OrderItems { get; set; }
     }
 }

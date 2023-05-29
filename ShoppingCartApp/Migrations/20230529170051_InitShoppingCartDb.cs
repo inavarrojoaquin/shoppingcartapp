@@ -7,7 +7,7 @@
 namespace ShoppingCartApp.Migrations
 {
     /// <inheritdoc />
-    public partial class InitDB : Migration
+    public partial class InitShoppingCartDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
