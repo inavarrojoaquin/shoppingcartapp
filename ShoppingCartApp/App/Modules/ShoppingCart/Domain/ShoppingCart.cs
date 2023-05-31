@@ -103,7 +103,7 @@ namespace ShoppingCartApp.App.Modules.ShoppingCartModule.Domain
         {
             isClosed = true;
 
-            AddEvent(new ShoppingCartClosed(shoppingCartData));
+            AddEvent(new ShoppingCartClosed { ShoppingCartData = shoppingCartData });
         }
 
         private double GetTotalPrice()

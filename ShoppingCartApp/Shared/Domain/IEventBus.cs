@@ -1,10 +1,10 @@
-﻿namespace ShoppingCartApp.Shared.Domain
+﻿using ShoppingCartApp.App.Modules.ProductModule.UseCases.CheckStock;
+
+namespace ShoppingCartApp.Shared.Domain
 {
     public interface IEventBus
     {
-        void Publish(IReadOnlyCollection<IDomainEvent> domainEvents);
-        
-        void Execute(IDomainEvent domainEvent);
-        void Register(IEventHandler<IDomainEvent> eventHandler);
+        Task Publish(IReadOnlyCollection<IDomainEvent> domainEvents);
+        void Subscribe<T>(IEventHandler<T> eventHandler) where T : IDomainEvent;
     }
 }

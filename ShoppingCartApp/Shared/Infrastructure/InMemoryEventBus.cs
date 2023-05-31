@@ -1,32 +1,55 @@
 ﻿using ShoppingCartApp.Shared.Domain;
-using System.Reflection;
 
 namespace ShoppingCartApp.Shared.Infrastructure
 {
     public class InMemoryEventBus : IEventBus
     {
-        private IDictionary<Type, object> handlers;
+        private IDictionary<Type, List<object>> handlers;
 
         public InMemoryEventBus()
         {
-            handlers = new Dictionary<Type, object>();
+            handlers = new Dictionary<Type, List<object>>();
         }
 
-        public void Publish(IReadOnlyCollection<IDomainEvent> domainEvents)
+        public async Task Publish(IReadOnlyCollection<IDomainEvent> domainEvents)
         {
-            throw new NotImplementedException();
-        }
-        
-        public void Execute(IDomainEvent domainEvent)
-        {
-            ((IEventHandler<IDomainEvent>)handlers[domainEvent.GetType()]).Handle(domainEvent);
+            //    var handlerType = typeof(ICommandHandler<>).MakeGenericType(command.GetType());
+            //    ICommandHandler<T>? handler = (ICommandHandler<T>)serviceProvider.GetService(handlerType);
+            //    if (handler != null)
+            //        await handler.Handle(command);
+
+            try
+            {
+                foreach (var domainEvent in domainEvents)
+                {
+                    List<object> eventHandlers = handlers[domainEvent.GetType()];
+                    foreach(var eventHandler in eventHandlers)
+                    {
+                        IEventHandler<IDomainEvent> internalEventHandler = (IEventHandler<IDomainEvent>)eventHandler;
+                        await internalEventHandler.Handle(domainEvent);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
-        public void Register(IEventHandler<IDomainEvent> eventHandler)
+        public void Subscribe<T>(IEventHandler<T> eventHandler) where T : IDomainEvent
         {
-            //get type of IDomainEvent
-            //handlers.Add(eventHandler.GetType().GetNestedType("IDomainEvent"), eventHandler);
-            //handlers.Add(typeof(T), eventHandler);
+            if(!handlers.ContainsKey(typeof(T)))
+                handlers.Add(typeof(T), new List<object>());
+
+            handlers[typeof(T)].Add(eventHandler);
         }
+
+        //public async Task SendAsync<T>(T command) where T : ICommand
+        //{
+        //    var handlerType = typeof(ICommandHandler<>).MakeGenericType(command.GetType());
+        //    ICommandHandler<T>? handler = (ICommandHandler<T>)serviceProvider.GetService(handlerType);
+        //    if (handler != null)
+        //        await handler.Handle(command);
+        //}
     }
 }

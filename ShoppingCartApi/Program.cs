@@ -8,6 +8,10 @@ using ShoppingCartApp.Shared.Domain;
 using ShoppingCartApp.Shared.Infrastructure;
 using ShoppingCartApp.Shared.UseCases;
 using System.Net;
+using ShoppingCartApp.Shared.Events;
+using ShoppingCartApp.App.Modules.ProductModule.UseCases.CheckStock;
+using Microsoft.Extensions.DependencyInjection;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +33,7 @@ builder.Services.AddTransient<IBaseUseCase<AddProductRequest>, AddProductUseCase
 builder.Services.AddTransient<IBaseUseCase<DeleteProductRequest>, DeleteProductUseCase>();
 builder.Services.AddTransient<IBaseUseCase<PrintShoppingCartRequest, string>, PrintShoppingCartUseCase>();
 builder.Services.AddTransient<IBaseUseCase<CloseShoppingCartRequest>, CloseShoppingCartUseCase>();
+builder.Services.AddTransient<IBaseUseCase<CheckStockRequest>, CheckStockUseCase>();
 
 builder.Services.AddTransient<ICommandBus, InMemoryCommandBus>();
 builder.Services.AddTransient<ICommandHandler<AddProductCommand>, AddProductCommandHandler>();
@@ -37,6 +42,9 @@ builder.Services.AddTransient<ICommandHandler<CloseShoppingCartCommand>, CloseSh
 
 builder.Services.AddTransient<IQueryBus, InMemoryQueryBus>();
 builder.Services.AddTransient<IQueryHandler<PrintShoppingCartQuery, string>, PrintShoppingCartQueryHandler>();
+
+builder.Services.AddSingleton<IEventBus, InMemoryEventBus>();
+builder.Services.AddTransient<IEventHandler<ShoppingCartClosed>, CheckStockOnShoppingCartClosedHandler>();
 
 // Commands Decorator
 builder.Services.Decorate<IBaseUseCase<AddProductRequest>, CommandLoggingDecorator<AddProductRequest>>();
@@ -49,6 +57,9 @@ builder.Services.Decorate<IBaseUseCase<DeleteProductRequest>, DbTransactionDecor
 builder.Services.Decorate<IBaseUseCase<PrintShoppingCartRequest, string>, QueryLoggingDecorator<PrintShoppingCartRequest, string>>();
 
 var app = builder.Build();
+
+// Configure EventBus
+new BusConfigurator().Subscribe(app);
 
 app.UseExceptionHandler(handler => handler.Run(async context => 
     { 
@@ -74,3 +85,14 @@ app.MapControllers();
 app.Run();
 
 public partial class Program { }
+public class BusConfigurator 
+{ 
+    public void Subscribe(IApplicationBuilder applicationBuilder)
+    {
+        var eventBus =  applicationBuilder.ApplicationServices.GetService<IEventBus>();
+        var checkStockUseCase = applicationBuilder.ApplicationServices.GetService<IBaseUseCase<CheckStockRequest>>();
+
+        // Aqui checkStockUseCase ya viene con informacion faltaria completar el .Subscribe
+        eventBus.Subscribe<ShoppingCartClosed>((IEventHandler<ShoppingCartClosed>)checkStockUseCase);
+    }
+}
