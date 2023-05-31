@@ -30,7 +30,7 @@ namespace ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.CloseShoppingC
 
             await shoppingCartRepository.SaveAsync(shoppingCart);
 
-            eventBus.Publish(shoppingCart.GetEvents());
+            await eventBus.Publish(shoppingCart.GetEvents());
 
             //use case nuevo  
         }

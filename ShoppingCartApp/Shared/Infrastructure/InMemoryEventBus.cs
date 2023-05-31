@@ -23,10 +23,11 @@ namespace ShoppingCartApp.Shared.Infrastructure
                 foreach (var domainEvent in domainEvents)
                 {
                     List<object> eventHandlers = handlers[domainEvent.GetType()];
-                    foreach(var eventHandler in eventHandlers)
+
+                    foreach (var eventHandler in eventHandlers)
                     {
-                        IEventHandler<IDomainEvent> internalEventHandler = (IEventHandler<IDomainEvent>)eventHandler;
-                        await internalEventHandler.Handle(domainEvent);
+                        IEventHandler<IDomainEvent> concreteEventHandler = (IEventHandler<IDomainEvent>)eventHandler;
+                        await concreteEventHandler.Handle(domainEvent);
                     }
                 }
             }

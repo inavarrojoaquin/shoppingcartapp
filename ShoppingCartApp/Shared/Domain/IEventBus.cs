@@ -1,6 +1,4 @@
-﻿using ShoppingCartApp.App.Modules.ProductModule.UseCases.CheckStock;
-
-namespace ShoppingCartApp.Shared.Domain
+﻿namespace ShoppingCartApp.Shared.Domain
 {
     public interface IEventBus
     {

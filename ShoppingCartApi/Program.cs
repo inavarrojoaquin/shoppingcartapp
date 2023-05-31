@@ -90,9 +90,8 @@ public class BusConfigurator
     public void Subscribe(IApplicationBuilder applicationBuilder)
     {
         var eventBus =  applicationBuilder.ApplicationServices.GetService<IEventBus>();
-        var checkStockUseCase = applicationBuilder.ApplicationServices.GetService<IBaseUseCase<CheckStockRequest>>();
+        var checkStockUseCase = applicationBuilder.ApplicationServices.GetService<IEventHandler<ShoppingCartClosed>>();
 
-        // Aqui checkStockUseCase ya viene con informacion faltaria completar el .Subscribe
         eventBus.Subscribe<ShoppingCartClosed>((IEventHandler<ShoppingCartClosed>)checkStockUseCase);
     }
 }
