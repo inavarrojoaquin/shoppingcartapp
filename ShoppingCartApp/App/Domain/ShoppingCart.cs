@@ -1,8 +1,9 @@
-﻿using System.Text;
+﻿using ShoppingCartApp.Shared.Domain;
+using System.Text;
 
 namespace ShoppingCartApp.App.Domain
 {
-    public class ShoppingCart
+    public class ShoppingCart : AggregateRoot
     {
         private ShoppingCartId shoppingCartId;
         private ShoppingCartName shoppingCartName;
@@ -100,6 +101,8 @@ namespace ShoppingCartApp.App.Domain
         public void Close()
         {
             this.isClosed = true;
+
+            AddEvent(new ShoppingCartClosed(shoppingCartData));
         }
 
         private double GetTotalPrice()

@@ -8,7 +8,7 @@ namespace ShoppingCartApp.App.UseCases.CloseShoppingCart
     {
         private readonly IShoppingCartRepository shoppingCartRepository;
 
-        public CloseShoppingCartUseCase(IShoppingCartRepository shoppingCartRepository)
+        public CloseShoppingCartUseCase(IShoppingCartRepository shoppingCartRepository, IEventBus eventBus)
         {
             this.shoppingCartRepository = shoppingCartRepository;
         }
@@ -26,6 +26,10 @@ namespace ShoppingCartApp.App.UseCases.CloseShoppingCart
             shoppingCart.Close();
 
             await shoppingCartRepository.SaveAsync(shoppingCart);
+
+            //eventBus.Publish(shoppingCart.GetEvents());
+
+            //use case nuevo  
         }
     }
 }
