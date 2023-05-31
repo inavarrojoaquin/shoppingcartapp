@@ -1,5 +1,5 @@
-﻿using ShoppingCartApp.App.Domain;
-using ShoppingCartApp.App.Infrastructure;
+﻿using ShoppingCartApp.App.Modules.ShoppingCartModule.Domain;
+using ShoppingCartApp.App.Modules.ShoppingCartModule.Infrastructure;
 using ShoppingCartApp.Shared.UseCases;
 
 namespace ShoppingCartApp.App.UseCases.CloseShoppingCart
@@ -8,10 +8,10 @@ namespace ShoppingCartApp.App.UseCases.CloseShoppingCart
     {
         private readonly IShoppingCartRepository shoppingCartRepository;
 
-        public CloseShoppingCartUseCase(IShoppingCartRepository shoppingCartRepository, IEventBus eventBus)
-        {
-            this.shoppingCartRepository = shoppingCartRepository;
-        }
+        //public CloseShoppingCartUseCase(IShoppingCartRepository shoppingCartRepository, IEventBus eventBus)
+        //{
+        //    this.shoppingCartRepository = shoppingCartRepository;
+        //}
 
         public async Task ExecuteAsync(CloseShoppingCartRequest closeRequest)
         {
@@ -25,7 +25,7 @@ namespace ShoppingCartApp.App.UseCases.CloseShoppingCart
             
             shoppingCart.Close();
 
-            await shoppingCartRepository.SaveAsync(shoppingCart);
+            //await shoppingCartRepository.SaveAsync(shoppingCart);
 
             //eventBus.Publish(shoppingCart.GetEvents());
 

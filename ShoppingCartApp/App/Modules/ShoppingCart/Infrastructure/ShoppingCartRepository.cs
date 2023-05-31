@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using ShoppingCartApp.App.Domain;
+using ShoppingCartApp.App.Modules.ShoppingCartModule.Domain;
 
-namespace ShoppingCartApp.App.Infrastructure;
+namespace ShoppingCartApp.App.Modules.ShoppingCartModule.Infrastructure;
 
 public class ShoppingCartRepository : IShoppingCartRepository
 {
@@ -31,7 +31,7 @@ public class ShoppingCartRepository : IShoppingCartRepository
             context.Add(shoppingCartData);
         else
             context.Entry(shoppingCartData).State = EntityState.Modified;
-        
+
         await context.SaveChangesAsync();
     }
 }

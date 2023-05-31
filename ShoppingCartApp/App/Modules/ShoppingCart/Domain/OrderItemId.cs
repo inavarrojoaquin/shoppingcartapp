@@ -1,4 +1,4 @@
-﻿namespace ShoppingCartApp.App.Domain
+﻿namespace ShoppingCartApp.App.Modules.ShoppingCartModule.Domain
 {
     public class OrderItemId
     {
@@ -6,7 +6,7 @@
 
         public OrderItemId(string id)
         {
-            this.guid = Guid.Parse(id);
+            guid = Guid.Parse(id);
         }
 
         public static OrderItemId Create()

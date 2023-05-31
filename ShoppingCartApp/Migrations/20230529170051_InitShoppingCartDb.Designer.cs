@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ShoppingCartApp.App.Infrastructure;
+using ShoppingCartApp.App.Modules.ShoppingCartModule.Infrastructure;
 
 #nullable disable
 

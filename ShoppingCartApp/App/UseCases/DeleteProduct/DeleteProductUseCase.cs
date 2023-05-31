@@ -1,7 +1,6 @@
-﻿using ShoppingCartApp.App.Domain;
-using ShoppingCartApp.App.Infrastructure;
+﻿using ShoppingCartApp.App.Modules.ShoppingCartModule.Domain;
+using ShoppingCartApp.App.Modules.ShoppingCartModule.Infrastructure;
 using ShoppingCartApp.Shared.UseCases;
-using ShoppingCartAppTest.App.UseCases.AddProduct;
 
 namespace ShoppingCartApp.App.UseCases.DeleteProduct
 {

@@ -1,4 +1,4 @@
-﻿using ShoppingCartApp.App.Domain;
+﻿using ShoppingCartApp.App.Modules.ShoppingCartModule.Domain;
 using ShoppingCartApp.Shared.Domain;
 
 namespace ShoppingCartApp.Shared.Events

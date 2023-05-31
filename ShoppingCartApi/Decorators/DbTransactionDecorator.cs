@@ -1,4 +1,4 @@
-﻿using ShoppingCartApp.App.Infrastructure;
+﻿using ShoppingCartApp.App.Modules.ShoppingCartModule.Infrastructure;
 using ShoppingCartApp.Shared.Domain;
 using ShoppingCartApp.Shared.UseCases;
 

@@ -1,6 +1,6 @@
 ﻿using System.Xml.Linq;
 
-namespace ShoppingCartApp.App.Domain
+namespace ShoppingCartApp.App.Modules.ShoppingCartModule.Domain
 {
     public class ProductId
     {
@@ -11,18 +11,18 @@ namespace ShoppingCartApp.App.Domain
             if (string.IsNullOrEmpty(id))
                 throw new Exception(string.Format("Error: {0} can not be null or empty", "ProductId"));
 
-            this.guid = Guid.ParseExact(id, "D");
+            guid = Guid.ParseExact(id, "D");
         }
 
         public static ProductId Create()
         {
-            return new ProductId(Guid.NewGuid().ToString());   
+            return new ProductId(Guid.NewGuid().ToString());
         }
 
         public string Value()
         {
-            return this.guid.ToString();
+            return guid.ToString();
         }
-        
+
     }
 }

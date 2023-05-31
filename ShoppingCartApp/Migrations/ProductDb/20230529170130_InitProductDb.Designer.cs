@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ShoppingCartApp.App.Modules.Product.Infrastructure;
+using ShoppingCartApp.App.Modules.ProductModule.Infrastructure;
 
 #nullable disable
 
@@ -24,7 +24,7 @@ namespace ShoppingCartApp.Migrations.ProductDb
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ShoppingCartApp.App.Modules.Product.Domain.ProductData", b =>
+            modelBuilder.Entity("ShoppingCartApp.App.Modules.ProductModule.Domain.ProductData", b =>
                 {
                     b.Property<string>("ProductId")
                         .HasColumnType("nvarchar(450)");

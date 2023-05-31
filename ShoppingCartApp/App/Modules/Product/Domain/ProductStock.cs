@@ -1,4 +1,4 @@
-namespace ShoppingCartApp.App.Domain;
+namespace ShoppingCartApp.App.Modules.ProductModule.Domain;
 
 public class ProductStock
 {

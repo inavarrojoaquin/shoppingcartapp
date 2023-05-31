@@ -1,4 +1,4 @@
-﻿using ShoppingCartApp.App.Domain;
+﻿using ShoppingCartApp.App.Modules.ShoppingCartModule.Domain;
 using ShoppingCartApp.DTOs;
 using ShoppingCartApp.Shared.Domain;
 

@@ -1,7 +1,5 @@
-using ShoppingCartApp.App.Domain;
-using ShoppingCartApp.App.Infrastructure;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using ShoppingCartApp.App.Modules.ShoppingCartModule.Domain;
+using ShoppingCartApp.App.Modules.ShoppingCartModule.Infrastructure;
 
 namespace ShoppingCartAppTest.App.Infrastructure;
 

@@ -1,10 +1,9 @@
 ﻿using NSubstitute;
-using ShoppingCartApp.App.Domain;
-using ShoppingCartApp.App.Infrastructure;
+using ShoppingCartApp.App.Modules.ShoppingCartModule.Domain;
+using ShoppingCartApp.App.Modules.ShoppingCartModule.Infrastructure;
 using ShoppingCartApp.App.UseCases.DeleteProduct;
 using ShoppingCartApp.DTOs;
 using ShoppingCartApp.Shared.UseCases;
-using ShoppingCartAppTest.App.UseCases.AddProduct;
 
 namespace ShoppingCartAppTest.App.UseCases.DeleteProduct
 {

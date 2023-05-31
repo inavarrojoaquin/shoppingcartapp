@@ -1,6 +1,6 @@
 ﻿using NSubstitute;
-using ShoppingCartApp.App.Domain;
-using ShoppingCartApp.App.Infrastructure;
+using ShoppingCartApp.App.Modules.ShoppingCartModule.Domain;
+using ShoppingCartApp.App.Modules.ShoppingCartModule.Infrastructure;
 using ShoppingCartApp.App.UseCases.ApplyDiscount;
 using ShoppingCartApp.DTOs;
 using ShoppingCartApp.Shared.UseCases;

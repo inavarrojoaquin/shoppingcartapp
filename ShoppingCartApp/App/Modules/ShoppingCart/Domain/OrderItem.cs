@@ -1,4 +1,4 @@
-﻿namespace ShoppingCartApp.App.Domain
+﻿namespace ShoppingCartApp.App.Modules.ShoppingCartModule.Domain
 {
     public class OrderItem
     {
@@ -7,7 +7,7 @@
         private ProductPrice productPrice;
         private Quantity quantity;
         private OrderItemData orderItemData;
-        
+
         public OrderItem(OrderItemId orderItemId, ProductId productId, ProductPrice productPrice, Quantity quantity)
         {
             this.orderItemId = orderItemId;
@@ -18,15 +18,15 @@
         }
 
         public static OrderItem Create(Product product)
-        { 
+        {
             return new OrderItem(OrderItemId.Create(), product.GetProductId(), new ProductPrice(product.GetPrice()),
                 Quantity.Create());
         }
 
         public OrderItemData ToPrimitives()
         {
-            orderItemData.OrderItemId = this.orderItemId.Value();
-            orderItemData.Quantity = this.quantity.Value();
+            orderItemData.OrderItemId = orderItemId.Value();
+            orderItemData.Quantity = quantity.Value();
             orderItemData.ProductId = productId.Value();
             orderItemData.ProductPrice = productPrice.Value();
             return orderItemData;
@@ -76,8 +76,8 @@
         public double ProductPrice { get; set; }
         public int Quantity { get; set; }
 
-        
+
         public string ShoppingCartId { get; set; }
-        public ShoppingCartData ShoppingCartData { get; set; }  
+        public ShoppingCartData ShoppingCartData { get; set; }
     }
 }

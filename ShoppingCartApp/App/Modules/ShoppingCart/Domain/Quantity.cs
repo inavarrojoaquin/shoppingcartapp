@@ -1,4 +1,4 @@
-﻿namespace ShoppingCartApp.App.Domain
+﻿namespace ShoppingCartApp.App.Modules.ShoppingCartModule.Domain
 {
     public class Quantity
     {

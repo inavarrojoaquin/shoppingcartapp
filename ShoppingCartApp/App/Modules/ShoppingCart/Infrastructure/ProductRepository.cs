@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using ShoppingCartApp.App.Domain;
-using ShoppingCartAppTest.App.UseCases.AddProduct;
+using ShoppingCartApp.App.Modules.ShoppingCartModule.Domain;
 
-namespace ShoppingCartApp.App.Infrastructure;
+namespace ShoppingCartApp.App.Modules.ShoppingCartModule.Infrastructure;
 
 public class ProductRepository : IProductRepository
 {
@@ -18,9 +17,9 @@ public class ProductRepository : IProductRepository
         if (id == null) return null;
 
         var productData = context.Products.FirstOrDefault((product) => product.ProductId.Equals(id.Value()));
-        
+
         if (productData == null) return null;
-        
+
         return Product.FromPrimitives(productData);
     }
 

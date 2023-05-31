@@ -1,4 +1,4 @@
-﻿namespace ShoppingCartApp.App.Domain
+﻿namespace ShoppingCartApp.App.Modules.ShoppingCartModule.Domain
 {
     public class OrderItems
     {
@@ -17,13 +17,13 @@
         {
             List<OrderItem> orderItems = new List<OrderItem>();
             orderItemsData.ForEach(x => orderItems.Add(OrderItem.FromPrimitives(x)));
-            
+
             return new OrderItems(orderItems);
         }
 
-        public List<OrderItemData> ToPrimitives() 
+        public List<OrderItemData> ToPrimitives()
         {
-            return this.orderItems.Select(x => x.ToPrimitives()).ToList();
+            return orderItems.Select(x => x.ToPrimitives()).ToList();
         }
 
         internal void AddProduct(ProductId productId)

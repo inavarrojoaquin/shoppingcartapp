@@ -1,11 +1,11 @@
-﻿namespace ShoppingCartApp.App.Domain
+﻿namespace ShoppingCartApp.App.Modules.ShoppingCartModule.Domain
 {
     public class Discount
     {
         private DiscountId id;
         private Name name;
         private Quantity quantity;
-        
+
         public Discount(DiscountId id, Name name, Quantity quantity)
         {
             this.id = id;

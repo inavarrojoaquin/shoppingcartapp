@@ -1,6 +1,4 @@
-using ShoppingCartApp.App.Domain;
-
-namespace ShoppingCartApp.App.Modules.Product.Domain;
+namespace ShoppingCartApp.App.Modules.ProductModule.Domain;
 
 public class Product
 {

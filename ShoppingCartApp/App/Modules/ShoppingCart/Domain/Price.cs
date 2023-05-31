@@ -1,6 +1,4 @@
-﻿using ShoppingCartApp.DTOs;
-
-namespace ShoppingCartApp.App.Domain
+﻿namespace ShoppingCartApp.App.Modules.ShoppingCartModule.Domain
 {
     public class ProductPrice
     {

@@ -1,6 +1,6 @@
-﻿using ShoppingCartApp.App.Domain;
+﻿using ShoppingCartApp.App.Modules.ShoppingCartModule.Domain;
 
-namespace ShoppingCartApp.App.Infrastructure
+namespace ShoppingCartApp.App.Modules.ShoppingCartModule.Infrastructure
 {
     public interface IShoppingCartRepository
     {

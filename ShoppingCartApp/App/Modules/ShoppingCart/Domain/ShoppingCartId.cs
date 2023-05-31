@@ -1,4 +1,4 @@
-﻿namespace ShoppingCartApp.App.Domain
+﻿namespace ShoppingCartApp.App.Modules.ShoppingCartModule.Domain
 {
     public class ShoppingCartId
     {
@@ -9,7 +9,7 @@
             if (string.IsNullOrEmpty(id))
                 throw new Exception(string.Format("Error: {0} can not be null or empty", "ShoppingCartId"));
 
-            this.guid = Guid.Parse(id);
+            guid = Guid.Parse(id);
         }
 
         public static ShoppingCartId Create()

@@ -1,4 +1,4 @@
-﻿namespace ShoppingCartApp.App.Domain
+﻿namespace ShoppingCartApp.App.Modules.ShoppingCartModule.Domain
 {
     public class Name
     {
@@ -11,7 +11,7 @@
 
             this.name = name;
         }
-        
+
         public static Name Create()
         {
             return new Name(Guid.NewGuid().ToString());

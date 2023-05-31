@@ -1,7 +1,8 @@
 ﻿using ShoppingCartApp.Shared.Domain;
+using ShoppingCartApp.Shared.Events;
 using System.Text;
 
-namespace ShoppingCartApp.App.Domain
+namespace ShoppingCartApp.App.Modules.ShoppingCartModule.Domain
 {
     public class ShoppingCart : AggregateRoot
     {
@@ -13,13 +14,13 @@ namespace ShoppingCartApp.App.Domain
         private bool isClosed;
 
         public ShoppingCartId GetShoppingCartId() => shoppingCartId;
-        
+
         public ShoppingCart(ShoppingCartId id)
         {
-            this.shoppingCartId = id;
-            this.shoppingCartName = ShoppingCartName.Create();
-            this.orderItems = new List<OrderItem>();
-            this.isClosed = false;
+            shoppingCartId = id;
+            shoppingCartName = ShoppingCartName.Create();
+            orderItems = new List<OrderItem>();
+            isClosed = false;
             shoppingCartData = new();
         }
 
@@ -31,10 +32,10 @@ namespace ShoppingCartApp.App.Domain
 
         public ShoppingCartData ToPrimitives()
         {
-            shoppingCartData.ShoppingCartId = this.shoppingCartId.Value();
-            shoppingCartData.ShoppingCartName = this.shoppingCartName.Value();
-            shoppingCartData.IsClosed = this.isClosed;
-            shoppingCartData.OrderItems = this.orderItems.Select(x => x.ToPrimitives()).ToList();
+            shoppingCartData.ShoppingCartId = shoppingCartId.Value();
+            shoppingCartData.ShoppingCartName = shoppingCartName.Value();
+            shoppingCartData.IsClosed = isClosed;
+            shoppingCartData.OrderItems = orderItems.Select(x => x.ToPrimitives()).ToList();
             return shoppingCartData;
         }
 
@@ -59,7 +60,7 @@ namespace ShoppingCartApp.App.Domain
 
             orderItems.Add(OrderItem.Create(product));
         }
-        
+
         public void DeleteProduct(Product product)
         {
             OrderItem? findedOrderItem = orderItems.FirstOrDefault(x => x.GetProductId().Value() == product.GetProductId().Value());
@@ -100,7 +101,7 @@ namespace ShoppingCartApp.App.Domain
 
         public void Close()
         {
-            this.isClosed = true;
+            isClosed = true;
 
             AddEvent(new ShoppingCartClosed(shoppingCartData));
         }
@@ -114,8 +115,8 @@ namespace ShoppingCartApp.App.Domain
         {
             double totalPrice = GetTotalPrice();
 
-            if(this.discount != null)
-                totalPrice -= totalPrice * this.discount.GetCalculatedDiscount();
+            if (discount != null)
+                totalPrice -= totalPrice * discount.GetCalculatedDiscount();
 
             return Math.Round(totalPrice, 2);
         }

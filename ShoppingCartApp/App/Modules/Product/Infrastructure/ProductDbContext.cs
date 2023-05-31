@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using ShoppingCartApp.App.Modules.Product.Domain;
+using ShoppingCartApp.App.Modules.ProductModule.Domain;
 
-namespace ShoppingCartApp.App.Modules.Product.Infrastructure;
+namespace ShoppingCartApp.App.Modules.ProductModule.Infrastructure;
 
 public class ProductDbContext : DbContext
 {

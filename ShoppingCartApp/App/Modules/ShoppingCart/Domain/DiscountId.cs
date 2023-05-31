@@ -1,4 +1,4 @@
-﻿namespace ShoppingCartApp.App.Domain
+﻿namespace ShoppingCartApp.App.Modules.ShoppingCartModule.Domain
 {
     public class DiscountId
     {
@@ -8,11 +8,11 @@
         {
             if (string.IsNullOrEmpty(id))
                 throw new Exception(string.Format("Error: {0} can not be null or empty", "DiscountId"));
-            
-            this.guid = Guid.Parse(id);
+
+            guid = Guid.Parse(id);
         }
 
-        public static DiscountId Create() 
+        public static DiscountId Create()
         {
             return new DiscountId(Guid.NewGuid().ToString());
         }

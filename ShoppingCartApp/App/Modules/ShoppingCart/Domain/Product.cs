@@ -1,4 +1,4 @@
-﻿namespace ShoppingCartApp.App.Domain
+﻿namespace ShoppingCartApp.App.Modules.ShoppingCartModule.Domain
 {
     public class Product
     {
@@ -18,8 +18,8 @@
         public Product(ProductId productId)
         {
             this.productId = productId;
-            this.name = Name.Create();
-            this.price = ProductPrice.Create();            
+            name = Name.Create();
+            price = ProductPrice.Create();
         }
 
         public ProductData ToPrimitives()
@@ -44,7 +44,7 @@
 
         public double GetPrice()
         {
-            return this.price.Value();
+            return price.Value();
         }
 
         public void UpdateName(Name name)
