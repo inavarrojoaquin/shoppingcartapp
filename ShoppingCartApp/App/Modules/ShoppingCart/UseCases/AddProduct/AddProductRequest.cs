@@ -2,7 +2,7 @@
 using ShoppingCartApp.DTOs;
 using ShoppingCartApp.Shared.Domain;
 
-namespace ShoppingCartApp.App.UseCases.AddProduct
+namespace ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.AddProduct
 {
     public class AddProductRequest : IBaseRequest
     {

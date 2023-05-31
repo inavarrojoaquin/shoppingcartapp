@@ -1,6 +1,6 @@
 ﻿using ShoppingCartApp.Shared.Domain;
 
-namespace ShoppingCartApp.App.UseCases.PrintShoppingCart
+namespace ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.PrintShoppingCart
 {
     public class PrintShoppingCartQuery : IQuery<string>
     {

@@ -2,7 +2,7 @@
 using ShoppingCartApp.App.Modules.ShoppingCartModule.Infrastructure;
 using ShoppingCartApp.Shared.UseCases;
 
-namespace ShoppingCartApp.App.UseCases.PrintShoppingCart
+namespace ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.PrintShoppingCart
 {
     public class PrintShoppingCartUseCase : IBaseUseCase<PrintShoppingCartRequest, string>
     {

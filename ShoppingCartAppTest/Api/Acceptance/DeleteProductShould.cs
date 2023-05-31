@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
-using ShoppingCartApp.App.UseCases.DeleteProduct;
+using ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.DeleteProduct;
 using ShoppingCartApp.Shared.UseCases;
 using System.Net.Http.Json;
 

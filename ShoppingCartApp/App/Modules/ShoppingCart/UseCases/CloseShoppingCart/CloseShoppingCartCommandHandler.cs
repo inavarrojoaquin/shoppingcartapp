@@ -1,7 +1,7 @@
 ﻿using ShoppingCartApp.Shared.Domain;
 using ShoppingCartApp.Shared.UseCases;
 
-namespace ShoppingCartApp.App.UseCases.CloseShoppingCart
+namespace ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.CloseShoppingCart
 {
     public class CloseShoppingCartCommandHandler : ICommandHandler<CloseShoppingCartCommand>
     {

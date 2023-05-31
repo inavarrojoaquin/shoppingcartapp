@@ -2,7 +2,7 @@
 using ShoppingCartApp.App.Modules.ShoppingCartModule.Infrastructure;
 using ShoppingCartApp.Shared.UseCases;
 
-namespace ShoppingCartApp.App.UseCases.DeleteProduct
+namespace ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.DeleteProduct
 {
     public class DeleteProductUseCase : IBaseUseCase<DeleteProductRequest>
     {

@@ -1,7 +1,7 @@
 ﻿using ShoppingCartApp.Shared.Domain;
 using ShoppingCartApp.Shared.UseCases;
 
-namespace ShoppingCartApp.App.UseCases.PrintShoppingCart
+namespace ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.PrintShoppingCart
 {
     public class PrintShoppingCartQueryHandler : IQueryHandler<PrintShoppingCartQuery, string>
     {

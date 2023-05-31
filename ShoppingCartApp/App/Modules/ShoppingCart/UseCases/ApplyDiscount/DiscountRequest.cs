@@ -2,7 +2,7 @@
 using ShoppingCartApp.DTOs;
 using ShoppingCartApp.Shared.Domain;
 
-namespace ShoppingCartApp.App.UseCases.ApplyDiscount
+namespace ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.ApplyDiscount
 {
     public class DiscountRequest : IBaseRequest
     {

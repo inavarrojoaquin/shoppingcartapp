@@ -3,7 +3,7 @@ using ShoppingCartApp.App.Modules.ShoppingCartModule.Domain;
 using ShoppingCartApp.App.Modules.ShoppingCartModule.Infrastructure;
 using ShoppingCartApp.Shared.UseCases;
 
-namespace ShoppingCartApp.App.UseCases.AddProduct
+namespace ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.AddProduct
 {
     public class AddProductUseCase : IBaseUseCase<AddProductRequest>
     {
@@ -23,14 +23,14 @@ namespace ShoppingCartApp.App.UseCases.AddProduct
                 throw new Exception(string.Format("Error: {0} can't be null", typeof(AddProductRequest)));
 
             Product product = productRepository.GetProductById(productRequest.ProductId);
-            
+
             if (product == null) throw new Exception("Error: Product is null");
 
             ShoppingCart shoppingCart = await shoppingCartRepository.GetShoppingCartByIdAsync(productRequest.ShoppingCartId);
-            
-            if(shoppingCart == null)
+
+            if (shoppingCart == null)
                 shoppingCart = new ShoppingCart(productRequest.ShoppingCartId);
-            
+
             shoppingCart.AddProduct(product);
 
             await shoppingCartRepository.SaveAsync(shoppingCart);

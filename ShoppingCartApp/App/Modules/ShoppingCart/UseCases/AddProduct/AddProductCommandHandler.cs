@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShoppingCartApp.App.UseCases.AddProduct
+namespace ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.AddProduct
 {
     public class AddProductCommandHandler : ICommandHandler<AddProductCommand>
     {

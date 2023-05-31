@@ -2,7 +2,7 @@
 using ShoppingCartApp.App.Modules.ShoppingCartModule.Infrastructure;
 using ShoppingCartApp.Shared.UseCases;
 
-namespace ShoppingCartApp.App.UseCases.ApplyDiscount
+namespace ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.ApplyDiscount
 {
     public class ApplyDiscountUseCase : IBaseUseCase<DiscountRequest>
     {

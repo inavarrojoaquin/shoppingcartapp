@@ -1,9 +1,9 @@
 using ShoppingCartApi.Decorators;
+using ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.AddProduct;
+using ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.CloseShoppingCart;
+using ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.DeleteProduct;
+using ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.PrintShoppingCart;
 using ShoppingCartApp.App.Modules.ShoppingCartModule.Infrastructure;
-using ShoppingCartApp.App.UseCases.AddProduct;
-using ShoppingCartApp.App.UseCases.CloseShoppingCart;
-using ShoppingCartApp.App.UseCases.DeleteProduct;
-using ShoppingCartApp.App.UseCases.PrintShoppingCart;
 using ShoppingCartApp.Shared.Domain;
 using ShoppingCartApp.Shared.Infrastructure;
 using ShoppingCartApp.Shared.UseCases;

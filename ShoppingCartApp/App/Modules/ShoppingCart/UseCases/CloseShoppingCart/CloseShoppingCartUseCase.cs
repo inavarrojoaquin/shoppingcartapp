@@ -2,7 +2,7 @@
 using ShoppingCartApp.App.Modules.ShoppingCartModule.Infrastructure;
 using ShoppingCartApp.Shared.UseCases;
 
-namespace ShoppingCartApp.App.UseCases.CloseShoppingCart
+namespace ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.CloseShoppingCart
 {
     public class CloseShoppingCartUseCase : IBaseUseCase<CloseShoppingCartRequest>
     {
@@ -19,10 +19,10 @@ namespace ShoppingCartApp.App.UseCases.CloseShoppingCart
                 throw new Exception(string.Format("Error: {0} can't be null", typeof(CloseShoppingCartRequest)));
 
             ShoppingCart shoppingCart = await shoppingCartRepository.GetShoppingCartByIdAsync(closeRequest.ShoppingCartId);
-            
-            if(shoppingCart == null)
+
+            if (shoppingCart == null)
                 shoppingCart = new ShoppingCart(closeRequest.ShoppingCartId);
-            
+
             shoppingCart.Close();
 
             //await shoppingCartRepository.SaveAsync(shoppingCart);

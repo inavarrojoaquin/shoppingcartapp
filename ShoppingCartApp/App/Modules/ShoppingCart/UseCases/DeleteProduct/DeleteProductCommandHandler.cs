@@ -1,7 +1,7 @@
 ﻿using ShoppingCartApp.Shared.Domain;
 using ShoppingCartApp.Shared.UseCases;
 
-namespace ShoppingCartApp.App.UseCases.DeleteProduct
+namespace ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.DeleteProduct
 {
     public class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand>
     {

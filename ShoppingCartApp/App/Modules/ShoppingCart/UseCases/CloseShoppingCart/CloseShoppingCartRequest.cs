@@ -2,7 +2,7 @@
 using ShoppingCartApp.DTOs;
 using ShoppingCartApp.Shared.Domain;
 
-namespace ShoppingCartApp.App.UseCases.CloseShoppingCart
+namespace ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.CloseShoppingCart
 {
     public class CloseShoppingCartRequest : IBaseRequest
     {

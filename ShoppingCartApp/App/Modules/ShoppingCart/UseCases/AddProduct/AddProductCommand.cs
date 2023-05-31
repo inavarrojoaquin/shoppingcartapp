@@ -1,9 +1,9 @@
 ﻿using ShoppingCartApp.DTOs;
 using ShoppingCartApp.Shared.Domain;
 
-namespace ShoppingCartApp.App.UseCases.DeleteProduct
+namespace ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.AddProduct
 {
-    public class DeleteProductCommand : ICommand
+    public class AddProductCommand : ICommand
     {
         public ProductDTO ProductDTO { get; set; }
     }

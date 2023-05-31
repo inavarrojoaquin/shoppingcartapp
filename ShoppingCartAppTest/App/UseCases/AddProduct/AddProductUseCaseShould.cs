@@ -1,7 +1,7 @@
 ﻿using NSubstitute;
+using ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.AddProduct;
 using ShoppingCartApp.App.Modules.ShoppingCartModule.Domain;
 using ShoppingCartApp.App.Modules.ShoppingCartModule.Infrastructure;
-using ShoppingCartApp.App.UseCases.AddProduct;
 using ShoppingCartApp.DTOs;
 using ShoppingCartApp.Shared.UseCases;
 
