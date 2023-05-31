@@ -1,5 +1,6 @@
 ﻿using ShoppingCartApp.App.Modules.ShoppingCartModule.Domain;
 using ShoppingCartApp.App.Modules.ShoppingCartModule.Infrastructure;
+using ShoppingCartApp.Shared.Domain;
 using ShoppingCartApp.Shared.UseCases;
 
 namespace ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.CloseShoppingCart
@@ -7,11 +8,13 @@ namespace ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.CloseShoppingC
     public class CloseShoppingCartUseCase : IBaseUseCase<CloseShoppingCartRequest>
     {
         private readonly IShoppingCartRepository shoppingCartRepository;
+        private readonly IEventBus eventBus;
 
-        //public CloseShoppingCartUseCase(IShoppingCartRepository shoppingCartRepository, IEventBus eventBus)
-        //{
-        //    this.shoppingCartRepository = shoppingCartRepository;
-        //}
+        public CloseShoppingCartUseCase(IShoppingCartRepository shoppingCartRepository, IEventBus eventBus)
+        {
+            this.shoppingCartRepository = shoppingCartRepository;
+            this.eventBus = eventBus;
+        }
 
         public async Task ExecuteAsync(CloseShoppingCartRequest closeRequest)
         {
@@ -25,9 +28,9 @@ namespace ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.CloseShoppingC
 
             shoppingCart.Close();
 
-            //await shoppingCartRepository.SaveAsync(shoppingCart);
+            await shoppingCartRepository.SaveAsync(shoppingCart);
 
-            //eventBus.Publish(shoppingCart.GetEvents());
+            eventBus.Publish(shoppingCart.GetEvents());
 
             //use case nuevo  
         }
