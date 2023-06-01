@@ -1,34 +1,50 @@
-﻿using ShoppingCartApp.Shared.Domain;
+﻿using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
+using ShoppingCartApp.Shared.Domain;
 
 namespace ShoppingCartApp.Shared.Infrastructure
 {
     public class InMemoryEventBus : IEventBus
     {
+        private readonly IServiceProvider serviceProvider;
         private IDictionary<Type, List<object>> handlers;
 
-        public InMemoryEventBus()
+        public InMemoryEventBus(IServiceProvider serviceProvider)
         {
+            this.serviceProvider = serviceProvider;
             handlers = new Dictionary<Type, List<object>>();
         }
 
+        public async Task Publish_Sin_Subscribe(IReadOnlyCollection<IDomainEvent> domainEvents)
+        {
+            foreach (var domainEvent in domainEvents)
+            {
+                var eventType = domainEvent.GetType();
+                var handlerType = typeof(IEventHandler<>).MakeGenericType(eventType);
+                var eventHandlers = serviceProvider.GetServices(handlerType);
+                await PublishEvent(domainEvent, eventHandlers);
+            }
+        }
+
+        private async Task PublishEvent(IDomainEvent domainEvent, IEnumerable<object> eventHandlers)
+        {
+            foreach (var eventHandler in eventHandlers)
+            {
+                dynamic concreteEventHandler = eventHandler;
+                dynamic concreteEvent = domainEvent;
+                await concreteEventHandler.Handle(concreteEvent);
+            }
+        }
+
+        
         public async Task Publish(IReadOnlyCollection<IDomainEvent> domainEvents)
         {
-            //    var handlerType = typeof(ICommandHandler<>).MakeGenericType(command.GetType());
-            //    ICommandHandler<T>? handler = (ICommandHandler<T>)serviceProvider.GetService(handlerType);
-            //    if (handler != null)
-            //        await handler.Handle(command);
-
             try
             {
                 foreach (var domainEvent in domainEvents)
                 {
                     List<object> eventHandlers = handlers[domainEvent.GetType()];
-
-                    foreach (var eventHandler in eventHandlers)
-                    {
-                        IEventHandler<IDomainEvent> concreteEventHandler = (IEventHandler<IDomainEvent>)eventHandler;
-                        await concreteEventHandler.Handle(domainEvent);
-                    }
+                    await PublishEvent(domainEvent, eventHandlers);
                 }
             }
             catch (Exception ex)
@@ -44,13 +60,5 @@ namespace ShoppingCartApp.Shared.Infrastructure
 
             handlers[typeof(T)].Add(eventHandler);
         }
-
-        //public async Task SendAsync<T>(T command) where T : ICommand
-        //{
-        //    var handlerType = typeof(ICommandHandler<>).MakeGenericType(command.GetType());
-        //    ICommandHandler<T>? handler = (ICommandHandler<T>)serviceProvider.GetService(handlerType);
-        //    if (handler != null)
-        //        await handler.Handle(command);
-        //}
     }
 }
