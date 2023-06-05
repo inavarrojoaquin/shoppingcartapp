@@ -1,17 +1,17 @@
 using ShoppingCartApi.Decorators;
-using ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.AddProduct;
-using ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.CloseShoppingCart;
-using ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.DeleteProduct;
-using ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.PrintShoppingCart;
-using ShoppingCartApp.App.Modules.ShoppingCartModule.Infrastructure;
 using ShoppingCartApp.Shared.Domain;
 using ShoppingCartApp.Shared.Infrastructure;
 using ShoppingCartApp.Shared.UseCases;
 using System.Net;
 using ShoppingCartApp.Shared.Events;
-using ShoppingCartApp.App.Modules.ProductModule.UseCases.CheckStock;
 using Microsoft.Extensions.DependencyInjection;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using ShoppingCartApp.Modules.ShoppingCartModule.Infrastructure;
+using ShoppingCartApp.Modules.ProductModule.UseCases.CheckStock;
+using ShoppingCartApp.Modules.ShoppingCartModule.UseCases.AddProduct;
+using ShoppingCartApp.Modules.ShoppingCartModule.UseCases.CloseShoppingCart;
+using ShoppingCartApp.Modules.ShoppingCartModule.UseCases.DeleteProduct;
+using ShoppingCartApp.Modules.ShoppingCartModule.UseCases.PrintShoppingCart;
 
 var builder = WebApplication.CreateBuilder(args);
 

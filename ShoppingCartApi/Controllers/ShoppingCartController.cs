@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.AddProduct;
-using ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.CloseShoppingCart;
-using ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.DeleteProduct;
-using ShoppingCartApp.App.Modules.ShoppingCartModule.UseCases.PrintShoppingCart;
 using ShoppingCartApp.DTOs;
+using ShoppingCartApp.Modules.ShoppingCartModule.UseCases.AddProduct;
+using ShoppingCartApp.Modules.ShoppingCartModule.UseCases.CloseShoppingCart;
+using ShoppingCartApp.Modules.ShoppingCartModule.UseCases.DeleteProduct;
+using ShoppingCartApp.Modules.ShoppingCartModule.UseCases.PrintShoppingCart;
 using ShoppingCartApp.Shared.Domain;
 
 namespace ShoppingCartApi.Controllers

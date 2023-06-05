@@ -1,9 +1,9 @@
 ﻿using ShoppingCartApp.Modules.ShoppingCartModule.Domain;
 using ShoppingCartApp.Shared.Domain;
 
-namespace ShoppingCartApp.Shared.Events
+namespace ShoppingCartApp.Modules.ProductModule.UseCases.CheckStock
 {
-    public class ShoppingCartClosed : IDomainEvent
+    public class CheckStockRequest : IBaseRequest
     {
         public ShoppingCartData ShoppingCartData { get; set; }
     }

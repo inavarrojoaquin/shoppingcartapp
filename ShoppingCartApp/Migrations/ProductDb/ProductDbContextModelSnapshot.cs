@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ShoppingCartApp.App.Modules.ProductModule.Infrastructure;
+using ShoppingCartApp.Modules.ProductModule.Infrastructure;
 
 #nullable disable
 
