@@ -45,7 +45,7 @@ namespace ShoppingCartApi.Controllers
             return await queryBus.SendAsync<PrintShoppingCartQuery, string>(query);
         }
 
-        // POST api/ShoppingCart/product/add
+        // POST api/ShoppingCart/close
         [HttpPost("close")]
         public async Task PostClose([FromBody] ShoppingCartDTO shoppingCartDTO)
         {

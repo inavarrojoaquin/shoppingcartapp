@@ -2,7 +2,7 @@
 {
     public interface IEventBus
     {
-        Task Publish(IReadOnlyCollection<IDomainEvent> domainEvents);
+        Task Publish<T>(IReadOnlyCollection<T> domainEvents) where T : IDomainEvent;
         void Subscribe<T>(IEventHandler<T> eventHandler) where T : IDomainEvent;
     }
 }

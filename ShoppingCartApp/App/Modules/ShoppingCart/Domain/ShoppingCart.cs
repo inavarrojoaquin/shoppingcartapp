@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ShoppingCartApp.App.Modules.ShoppingCartModule.Domain
 {
-    public class ShoppingCart : AggregateRoot
+    public class ShoppingCart : AggregateRoot<ShoppingCartClosed>
     {
         private ShoppingCartId shoppingCartId;
         private ShoppingCartName shoppingCartName;

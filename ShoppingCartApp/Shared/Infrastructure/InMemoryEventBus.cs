@@ -11,22 +11,18 @@ namespace ShoppingCartApp.Shared.Infrastructure
             handlers = new Dictionary<Type, List<object>>();
         }
 
-        public async Task Publish(IReadOnlyCollection<IDomainEvent> domainEvents)
+        public async Task Publish<T>(IReadOnlyCollection<T> domainEvents) where T : IDomainEvent
         {
-            //    var handlerType = typeof(ICommandHandler<>).MakeGenericType(command.GetType());
-            //    ICommandHandler<T>? handler = (ICommandHandler<T>)serviceProvider.GetService(handlerType);
-            //    if (handler != null)
-            //        await handler.Handle(command);
-
             try
             {
                 foreach (var domainEvent in domainEvents)
                 {
-                    List<object> eventHandlers = handlers[domainEvent.GetType()];
+                    var typeofT = typeof(T);
+                    List<object> eventHandlers = handlers[typeofT];
 
                     foreach (var eventHandler in eventHandlers)
                     {
-                        IEventHandler<IDomainEvent> concreteEventHandler = (IEventHandler<IDomainEvent>)eventHandler;
+                        IEventHandler<T> concreteEventHandler = (IEventHandler<T>)eventHandler;
                         await concreteEventHandler.Handle(domainEvent);
                     }
                 }
@@ -44,13 +40,5 @@ namespace ShoppingCartApp.Shared.Infrastructure
 
             handlers[typeof(T)].Add(eventHandler);
         }
-
-        //public async Task SendAsync<T>(T command) where T : ICommand
-        //{
-        //    var handlerType = typeof(ICommandHandler<>).MakeGenericType(command.GetType());
-        //    ICommandHandler<T>? handler = (ICommandHandler<T>)serviceProvider.GetService(handlerType);
-        //    if (handler != null)
-        //        await handler.Handle(command);
-        //}
     }
 }

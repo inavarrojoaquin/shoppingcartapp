@@ -1,15 +1,15 @@
 ﻿namespace ShoppingCartApp.Shared.Domain
 {
-    public class AggregateRoot
+    public class AggregateRoot<T> where T : IDomainEvent
     {
-        private List<IDomainEvent> events = new List<IDomainEvent>();
+        private List<T> events = new List<T>();
 
-        public void AddEvent(IDomainEvent domainEvent) 
+        public void AddEvent(T domainEvent) 
         {
             events.Add(domainEvent);
         }
 
-        public IReadOnlyCollection<IDomainEvent> GetEvents()
+        public IReadOnlyCollection<T> GetEvents() 
         {
             return events.AsReadOnly();
         }
