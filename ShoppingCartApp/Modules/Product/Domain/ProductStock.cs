@@ -1,3 +1,5 @@
+using System.Runtime.InteropServices;
+
 namespace ShoppingCartApp.Modules.ProductModule.Domain;
 
 public class ProductStock
@@ -10,6 +12,11 @@ public class ProductStock
             throw new Exception(string.Format("Error: {0} can not be less than 0", "Product stock"));
 
         this.quantity = quantity;
+    }
+
+    public static ProductStock Create()
+    {
+        return new ProductStock(0); 
     }
 
     public int Value() => quantity;

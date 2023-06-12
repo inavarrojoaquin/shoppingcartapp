@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using ShoppingCartApp.Modules.ShoppingCartModule.Domain;
 
 namespace ShoppingCartApp.Modules.ShoppingCartModule.Infrastructure;

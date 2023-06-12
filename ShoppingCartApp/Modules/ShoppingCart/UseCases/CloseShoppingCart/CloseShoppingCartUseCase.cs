@@ -1,6 +1,7 @@
 ﻿using ShoppingCartApp.Modules.ShoppingCartModule.Domain;
 using ShoppingCartApp.Modules.ShoppingCartModule.Infrastructure;
 using ShoppingCartApp.Shared.Domain;
+using ShoppingCartApp.Shared.Events;
 using ShoppingCartApp.Shared.UseCases;
 
 namespace ShoppingCartApp.Modules.ShoppingCartModule.UseCases.CloseShoppingCart
@@ -30,7 +31,7 @@ namespace ShoppingCartApp.Modules.ShoppingCartModule.UseCases.CloseShoppingCart
 
             await shoppingCartRepository.SaveAsync(shoppingCart);
 
-            await eventBus.Publish(shoppingCart.GetEvents());
+            await eventBus.Publish<ShoppingCartClosed>(shoppingCart.GetEvents());
         }
     }
 }
