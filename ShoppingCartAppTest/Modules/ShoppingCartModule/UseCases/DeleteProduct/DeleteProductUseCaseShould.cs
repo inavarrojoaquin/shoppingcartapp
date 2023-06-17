@@ -9,14 +9,14 @@ namespace ShoppingCartAppTest.App.UseCases.DeleteProduct
 {
     internal class DeleteProductUseCaseShould
     {
-        private IProductRepository productRepository;
+        private ISMProductRepository productRepository;
         private IShoppingCartRepository shoppingCartRepository;
         private IBaseUseCase<DeleteProductRequest> deleteProductUseCase;
 
         [SetUp]
         public void SetUp()
         {
-            productRepository = Substitute.For<IProductRepository>();
+            productRepository = Substitute.For<ISMProductRepository>();
             shoppingCartRepository = Substitute.For<IShoppingCartRepository>();
             deleteProductUseCase = new DeleteProductUseCase(productRepository, shoppingCartRepository);
         }

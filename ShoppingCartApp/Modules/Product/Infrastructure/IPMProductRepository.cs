@@ -2,7 +2,7 @@
 
 namespace ShoppingCartApp.Modules.ProductModule.Infrastructure
 {
-    public interface IProductRepository
+    public interface IPMProductRepository
     {
         Product GetProductById(ProductId id);
         Task SaveAsync(Product product);

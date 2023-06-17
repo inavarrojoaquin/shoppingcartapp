@@ -32,6 +32,17 @@
             return orderItemData;
         }
 
+        public OrderItemData ToPrimitivesEvent()
+        {
+            return new OrderItemData
+            {
+                OrderItemId = orderItemId.Value(),
+                Quantity = quantity.Value(),
+                ProductId = productId.Value(),
+                ProductPrice = productPrice.Value()
+            };
+        }
+
         public static OrderItem FromPrimitives(OrderItemData orderItemData)
         {
             return new OrderItem(new OrderItemId(orderItemData.OrderItemId),

@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
-using ShoppingCartApp.Modules.ShoppingCartModule.Domain;
+using ShoppingCartApp.Modules.ProductModule.Domain;
 
-namespace ShoppingCartApp.Modules.ShoppingCartModule.Infrastructure;
+namespace ShoppingCartApp.Modules.ProductModule.Infrastructure;
 
-public class ProductRepository : IProductRepository
+public class PMProductRepository : IPMProductRepository
 {
-    private readonly ShoppingCartDbContext context;
+    private readonly ProductDbContext context;
 
-    public ProductRepository(ShoppingCartDbContext context)
+    public PMProductRepository(ProductDbContext context)
     {
         this.context = context;
     }
@@ -23,7 +23,7 @@ public class ProductRepository : IProductRepository
         return Product.FromPrimitives(productData);
     }
 
-    public void Save(Product product)
+    public async Task SaveAsync(Product product)
     {
         var productInternalData = product.ToPrimitives();
         var state = context.Entry(productInternalData).State;
@@ -32,6 +32,6 @@ public class ProductRepository : IProductRepository
         else
             context.Entry(productInternalData).State = EntityState.Modified;
 
-        context.SaveChanges();
+        await context.SaveChangesAsync();
     }
 }

@@ -1,18 +1,16 @@
 using ShoppingCartApi.Decorators;
-using ShoppingCartApp.Shared.Domain;
-using ShoppingCartApp.Shared.Infrastructure;
-using ShoppingCartApp.Shared.UseCases;
-using System.Net;
-using ShoppingCartApp.Shared.Events;
-using Microsoft.Extensions.DependencyInjection;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using ShoppingCartApp.Modules.ProductModule.Infrastructure;
 using ShoppingCartApp.Modules.ProductModule.UseCases.CheckStock;
+using ShoppingCartApp.Modules.ShoppingCartModule.Infrastructure;
 using ShoppingCartApp.Modules.ShoppingCartModule.UseCases.AddProduct;
 using ShoppingCartApp.Modules.ShoppingCartModule.UseCases.CloseShoppingCart;
 using ShoppingCartApp.Modules.ShoppingCartModule.UseCases.DeleteProduct;
 using ShoppingCartApp.Modules.ShoppingCartModule.UseCases.PrintShoppingCart;
-using PRODUCT_MODULE = ShoppingCartApp.Modules.ProductModule;
-using SHOPCART_MODULE =  ShoppingCartApp.Modules.ShoppingCartModule;
+using ShoppingCartApp.Shared.Domain;
+using ShoppingCartApp.Shared.Events;
+using ShoppingCartApp.Shared.Infrastructure;
+using ShoppingCartApp.Shared.UseCases;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,13 +26,13 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
 // DBContext
-builder.Services.AddDbContext<SHOPCART_MODULE.Infrastructure.ShoppingCartDbContext>();
-builder.Services.AddDbContext<PRODUCT_MODULE.Infrastructure.ProductDbContext>();
+builder.Services.AddDbContext<ProductDbContext>();
+builder.Services.AddDbContext<ShoppingCartDbContext>();
 
 // Repositories
-builder.Services.AddTransient<SHOPCART_MODULE.Infrastructure.IProductRepository, SHOPCART_MODULE.Infrastructure.ProductRepository>();
-builder.Services.AddTransient<PRODUCT_MODULE.Infrastructure.IProductRepository, PRODUCT_MODULE.Infrastructure.ProductRepository>();
-builder.Services.AddTransient<SHOPCART_MODULE.Infrastructure.IShoppingCartRepository, SHOPCART_MODULE.Infrastructure.ShoppingCartRepository>();
+builder.Services.AddTransient<ISMProductRepository, SMProductRepository>();
+builder.Services.AddTransient<IPMProductRepository, PMProductRepository>();
+builder.Services.AddTransient<IShoppingCartRepository, ShoppingCartRepository>();
 
 // UseCases
 builder.Services.AddTransient<IBaseUseCase<AddProductRequest>, AddProductUseCase>();
@@ -64,10 +62,10 @@ builder.Services.Decorate<IBaseUseCase<DeleteProductRequest>, DbTransactionDecor
 builder.Services.Decorate<IBaseUseCase<PrintShoppingCartRequest, string>, QueryLoggingDecorator<PrintShoppingCartRequest, string>>();
 
 // Events
-builder.Services.AddSingleton<IEventBus, InMemoryEventBus>();
-builder.Services.AddTransient<IEventHandler<ShoppingCartClosed>, CheckStockOnShoppingCartClosedHandler>();
+//builder.Services.AddSingleton<IEventBus, InMemoryEventBus>();
 
-//builder.Services.AddSingleton<IEventBus, RabbitMQEventBus>();
+builder.Services.AddSingleton<IEventBus, RabbitMQEventBus>();
+builder.Services.AddTransient<IEventHandler<ShoppingCartClosed>, CheckStockOnShoppingCartClosedHandler>();
 
 var app = builder.Build();
 

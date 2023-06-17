@@ -39,6 +39,16 @@ namespace ShoppingCartApp.Modules.ShoppingCartModule.Domain
             return shoppingCartData;
         }
 
+        public ShoppingCartData ToPrimitivesEvent()
+        {
+            return new ShoppingCartData { 
+                ShoppingCartId = shoppingCartId.Value(),
+                ShoppingCartName = shoppingCartName.Value(),
+                IsClosed = isClosed,
+                OrderItems = orderItems.Select(x => x.ToPrimitivesEvent()).ToList()
+            };
+        }
+
         public static ShoppingCart FromPrimitives(ShoppingCartData data)
         {
             var shoppingCart = new ShoppingCart(new ShoppingCartId(data.ShoppingCartId),
@@ -103,7 +113,7 @@ namespace ShoppingCartApp.Modules.ShoppingCartModule.Domain
         {
             isClosed = true;
 
-            AddEvent(new ShoppingCartClosed { ShoppingCartData = shoppingCartData });
+            AddEvent(new ShoppingCartClosed { ShoppingCartData = this.ToPrimitivesEvent() });
         }
 
         private double GetTotalPrice()

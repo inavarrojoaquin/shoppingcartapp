@@ -6,10 +6,10 @@ namespace ShoppingCartApp.Modules.ShoppingCartModule.UseCases.DeleteProduct
 {
     public class DeleteProductUseCase : IBaseUseCase<DeleteProductRequest>
     {
-        private readonly IProductRepository productRepository;
+        private readonly ISMProductRepository productRepository;
         private readonly IShoppingCartRepository shoppingCartRepository;
 
-        public DeleteProductUseCase(IProductRepository productRepository, IShoppingCartRepository shoppingCartRepository)
+        public DeleteProductUseCase(ISMProductRepository productRepository, IShoppingCartRepository shoppingCartRepository)
         {
             this.productRepository = productRepository;
             this.shoppingCartRepository = shoppingCartRepository;

@@ -9,7 +9,7 @@ namespace ShoppingCartAppTest.Modules.ShoppingCartModule.Infrastructure
         public void GetExistingProduct()
         {
             ShoppingCartDbContext context = new ShoppingCartDbContext();
-            ProductRepository productRepository = new ProductRepository(context);
+            SMProductRepository productRepository = new SMProductRepository(context);
 
             ProductId id = new ProductId("5CBF54BA-BF19-40BF-B97D-4827A11720A2");
             Product targetProduct = productRepository.GetProductById(id);
@@ -29,7 +29,7 @@ namespace ShoppingCartAppTest.Modules.ShoppingCartModule.Infrastructure
         public void GetNullWhenRequestIdIsNull()
         {
             var context = new ShoppingCartDbContext();
-            ProductRepository productRepository = new ProductRepository(context);
+            SMProductRepository productRepository = new SMProductRepository(context);
 
             Product current = productRepository.GetProductById(null);
 
@@ -40,7 +40,7 @@ namespace ShoppingCartAppTest.Modules.ShoppingCartModule.Infrastructure
         public void GetNullWhenProductDoesNotExists()
         {
             ShoppingCartDbContext context = new ShoppingCartDbContext();
-            ProductRepository productRepository = new ProductRepository(context);
+            SMProductRepository productRepository = new SMProductRepository(context);
 
             Product current = productRepository.GetProductById(ProductId.Create());
 
@@ -50,7 +50,7 @@ namespace ShoppingCartAppTest.Modules.ShoppingCartModule.Infrastructure
         [Test]
         public void UpdateProductName()
         {
-            var repository = new ProductRepository(new ShoppingCartDbContext());
+            var repository = new SMProductRepository(new ShoppingCartDbContext());
             var product = new Product(ProductId.Create(), new Name("Product one"), new ProductPrice(33));
 
             repository.Save(product);

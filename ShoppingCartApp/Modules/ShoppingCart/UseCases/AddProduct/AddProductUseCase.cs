@@ -7,10 +7,10 @@ namespace ShoppingCartApp.Modules.ShoppingCartModule.UseCases.AddProduct
 {
     public class AddProductUseCase : IBaseUseCase<AddProductRequest>
     {
-        private readonly IProductRepository productRepository;
+        private readonly ISMProductRepository productRepository;
         private readonly IShoppingCartRepository shoppingCartRepository;
 
-        public AddProductUseCase(IProductRepository productRepository,
+        public AddProductUseCase(ISMProductRepository productRepository,
                                  IShoppingCartRepository shoppingCartRepository)
         {
             this.productRepository = productRepository;

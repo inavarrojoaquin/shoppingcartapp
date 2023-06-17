@@ -9,14 +9,14 @@ namespace ShoppingCartAppTest.App.UseCases.AddProduct
 {
     internal class AddProductUseCaseShould
     {
-        private IProductRepository productRepository;
+        private ISMProductRepository productRepository;
         private IShoppingCartRepository shoppingCartRepository;
         private IBaseUseCase<AddProductRequest> addProductUseCase;
 
         [SetUp]
         public void SetUp()
         {
-            productRepository = Substitute.For<IProductRepository>();
+            productRepository = Substitute.For<ISMProductRepository>();
             shoppingCartRepository = Substitute.For<IShoppingCartRepository>();
             addProductUseCase = new AddProductUseCase(productRepository, shoppingCartRepository);
         }
