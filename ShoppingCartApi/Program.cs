@@ -26,26 +26,26 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
 // DBContext
-builder.Services.AddDbContext<ProductDbContext>();
+//builder.Services.AddDbContext<ProductDbContext>();
 builder.Services.AddDbContext<ShoppingCartDbContext>();
 
 // Repositories
 builder.Services.AddTransient<ISMProductRepository, SMProductRepository>();
-builder.Services.AddTransient<IPMProductRepository, PMProductRepository>();
 builder.Services.AddTransient<IShoppingCartRepository, ShoppingCartRepository>();
+//builder.Services.AddTransient<IPMProductRepository, PMProductRepository>();
 
 // UseCases
 builder.Services.AddTransient<IBaseUseCase<AddProductRequest>, AddProductUseCase>();
 builder.Services.AddTransient<IBaseUseCase<DeleteProductRequest>, DeleteProductUseCase>();
 builder.Services.AddTransient<IBaseUseCase<PrintShoppingCartRequest, string>, PrintShoppingCartUseCase>();
-builder.Services.AddTransient<IBaseUseCase<CloseShoppingCartRequest>, CloseShoppingCartUseCase>();
-builder.Services.AddTransient<IBaseUseCase<CheckStockRequest>, CheckStockUseCase>();
+//builder.Services.AddTransient<IBaseUseCase<CloseShoppingCartRequest>, CloseShoppingCartUseCase>();
+//builder.Services.AddTransient<IBaseUseCase<CheckStockRequest>, CheckStockUseCase>();
 
 // CQRS-Command
 builder.Services.AddTransient<ICommandBus, InMemoryCommandBus>();
 builder.Services.AddTransient<ICommandHandler<AddProductCommand>, AddProductCommandHandler>();
 builder.Services.AddTransient<ICommandHandler<DeleteProductCommand>, DeleteProductCommandHandler>();
-builder.Services.AddTransient<ICommandHandler<CloseShoppingCartCommand>, CloseShoppingCartCommandHandler>();
+//builder.Services.AddTransient<ICommandHandler<CloseShoppingCartCommand>, CloseShoppingCartCommandHandler>();
 
 // CQRS-Queries
 builder.Services.AddTransient<IQueryBus, InMemoryQueryBus>();
@@ -64,15 +64,15 @@ builder.Services.Decorate<IBaseUseCase<PrintShoppingCartRequest, string>, QueryL
 // Events
 //builder.Services.AddSingleton<IEventBus, InMemoryEventBus>();
 
-builder.Services.AddSingleton<IEventBus, RabbitMQEventBus>();
-builder.Services.AddTransient<IEventHandler<ShoppingCartClosed>, CheckStockOnShoppingCartClosedHandler>();
+//builder.Services.AddSingleton<IEventBus, RabbitMQEventBus>();
+//builder.Services.AddTransient<IEventHandler<ShoppingCartClosed>, CheckStockOnShoppingCartClosedHandler>();
 
 var app = builder.Build();
 
 // Configure EventBus
 var eventBusConfigurator = new BusConfigurator();
-eventBusConfigurator.Subscribe(app);
-eventBusConfigurator.StartCosumer(app);
+//eventBusConfigurator.Subscribe(app);
+//eventBusConfigurator.StartCosumer(app);
 
 app.UseExceptionHandler(handler => handler.Run(async context => 
     { 

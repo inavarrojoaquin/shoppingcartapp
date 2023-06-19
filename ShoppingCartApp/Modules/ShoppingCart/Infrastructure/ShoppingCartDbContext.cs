@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
-using ShoppingCartApp.Modules.ShoppingCartModule.Domain;
+using ShoppingCartApp.Modules.ShoppingCartModule.Domain.DBClass;
 
 namespace ShoppingCartApp.Modules.ShoppingCartModule.Infrastructure;
 
 public class ShoppingCartDbContext : DbContext
 {
     public DbSet<ShoppingCartData> ShoppingCarts { get; set; }
-    public DbSet<OrderItemData> OrderItems { get; set; }
     public DbSet<ProductData> Products { get; set; }
+    public DbSet<OrderItemData> OrderItems { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -20,19 +20,27 @@ public class ShoppingCartDbContext : DbContext
     {
         modelBuilder.Entity<ShoppingCartData>()
             .HasKey(sc => sc.ShoppingCartId);
-        modelBuilder.Entity<OrderItemData>()
-            .HasKey(oi => oi.OrderItemId);
-        modelBuilder.Entity<OrderItemData>()
-            .HasOne(oi => oi.ShoppingCartData)
-            .WithMany(oi => oi.OrderItems)
-            .HasForeignKey(oi => oi.ShoppingCartId);
+        
         modelBuilder.Entity<ProductData>()
             .HasKey(prod => prod.ProductId);
+        
+        modelBuilder.Entity<OrderItemData>()
+            .HasKey(oi => new { oi.OrderItemId, oi.ProductId });
+        modelBuilder.Entity<OrderItemData>()
+            .HasOne(x => x.ShoppingCart)
+            .WithMany(x => x.OrderItems)
+            .HasForeignKey(x => x.ShoppingCartId)
+            .IsRequired();
+        modelBuilder.Entity<OrderItemData>()
+            .HasOne(x => x.Product)
+            .WithMany(x => x.OrderItems)
+            .HasForeignKey(x => x.ProductId)
+            .IsRequired();
 
         modelBuilder.Entity<ProductData>()
-                    .HasData(new { ProductId = "5CBF54BA-BF19-40BF-B97D-4827A11720A2", ProductName = "Product one", ProductPrice = 30.0 });
+            .HasData(new ProductData { ProductId = "5CBF54BA-BF19-40BF-B97D-4827A11720A2", ProductName = "Product one", ProductPrice = 30.0 });
         modelBuilder.Entity<ProductData>()
-                    .HasData(new { ProductId = "7478b9ae-2e05-4c6d-afb1-3b8934edc699", ProductName = "Product two", ProductPrice = 40.0 });
+            .HasData(new ProductData { ProductId = "7478b9ae-2e05-4c6d-afb1-3b8934edc699", ProductName = "Product two", ProductPrice = 40.0 });
     }
 
     public async Task StartTransactionAsync()

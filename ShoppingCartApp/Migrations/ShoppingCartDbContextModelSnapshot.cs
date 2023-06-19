@@ -21,14 +21,13 @@ namespace ShoppingCartApp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ShoppingCartApp.App.Domain.OrderItemData", b =>
+            modelBuilder.Entity("ShoppingCartApp.Modules.ShoppingCartModule.Domain.DBClass.OrderItemData", b =>
                 {
                     b.Property<string>("OrderItemId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProductId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("ProductPrice")
                         .HasColumnType("float");
@@ -40,14 +39,16 @@ namespace ShoppingCartApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("OrderItemId");
+                    b.HasKey("OrderItemId", "ProductId");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("ShoppingCartId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
-            modelBuilder.Entity("ShoppingCartApp.App.Domain.ProductData", b =>
+            modelBuilder.Entity("ShoppingCartApp.Modules.ShoppingCartModule.Domain.DBClass.ProductData", b =>
                 {
                     b.Property<string>("ProductId")
                         .HasColumnType("nvarchar(450)");
@@ -59,26 +60,31 @@ namespace ShoppingCartApp.Migrations
                     b.Property<double>("ProductPrice")
                         .HasColumnType("float");
 
+                    b.Property<int>("ProductStock")
+                        .HasColumnType("int");
+
                     b.HasKey("ProductId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
 
                     b.HasData(
                         new
                         {
                             ProductId = "5CBF54BA-BF19-40BF-B97D-4827A11720A2",
                             ProductName = "Product one",
-                            ProductPrice = 30.0
+                            ProductPrice = 30.0,
+                            ProductStock = 0
                         },
                         new
                         {
                             ProductId = "7478b9ae-2e05-4c6d-afb1-3b8934edc699",
                             ProductName = "Product two",
-                            ProductPrice = 40.0
+                            ProductPrice = 40.0,
+                            ProductStock = 0
                         });
                 });
 
-            modelBuilder.Entity("ShoppingCartApp.App.Domain.ShoppingCartData", b =>
+            modelBuilder.Entity("ShoppingCartApp.Modules.ShoppingCartModule.Domain.DBClass.ShoppingCartData", b =>
                 {
                     b.Property<string>("ShoppingCartId")
                         .HasColumnType("nvarchar(450)");
@@ -92,21 +98,34 @@ namespace ShoppingCartApp.Migrations
 
                     b.HasKey("ShoppingCartId");
 
-                    b.ToTable("ShoppingCarts");
+                    b.ToTable("ShoppingCarts", (string)null);
                 });
 
-            modelBuilder.Entity("ShoppingCartApp.App.Domain.OrderItemData", b =>
+            modelBuilder.Entity("ShoppingCartApp.Modules.ShoppingCartModule.Domain.DBClass.OrderItemData", b =>
                 {
-                    b.HasOne("ShoppingCartApp.App.Domain.ShoppingCartData", "ShoppingCartData")
+                    b.HasOne("ShoppingCartApp.Modules.ShoppingCartModule.Domain.DBClass.ProductData", "Product")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ShoppingCartApp.Modules.ShoppingCartModule.Domain.DBClass.ShoppingCartData", "ShoppingCart")
                         .WithMany("OrderItems")
                         .HasForeignKey("ShoppingCartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ShoppingCartData");
+                    b.Navigation("Product");
+
+                    b.Navigation("ShoppingCart");
                 });
 
-            modelBuilder.Entity("ShoppingCartApp.App.Domain.ShoppingCartData", b =>
+            modelBuilder.Entity("ShoppingCartApp.Modules.ShoppingCartModule.Domain.DBClass.ProductData", b =>
+                {
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("ShoppingCartApp.Modules.ShoppingCartModule.Domain.DBClass.ShoppingCartData", b =>
                 {
                     b.Navigation("OrderItems");
                 });

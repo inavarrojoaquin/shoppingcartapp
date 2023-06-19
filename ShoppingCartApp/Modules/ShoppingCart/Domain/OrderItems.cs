@@ -1,4 +1,6 @@
-﻿namespace ShoppingCartApp.Modules.ShoppingCartModule.Domain
+﻿using ShoppingCartApp.Modules.ShoppingCartModule.Domain.DBClass;
+
+namespace ShoppingCartApp.Modules.ShoppingCartModule.Domain
 {
     public class OrderItems
     {

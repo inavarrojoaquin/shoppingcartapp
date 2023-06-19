@@ -30,7 +30,7 @@ namespace ShoppingCartAppTest.Modules.ShoppingCartModule.UseCases.ApplyDiscount
             discountRepository.GetDiscountById(Arg.Any<DiscountId>()).Returns(discount);
             ShoppingCartId shoppingCartId = ShoppingCartId.Create();
             ShoppingCart shoppingCart = Substitute.For<ShoppingCart>(shoppingCartId);
-            shoppingCart.AddProduct(new Product(ProductId.Create(), Name.Create(), new ProductPrice(10)));
+            shoppingCart.AddProduct(new Product(ProductId.Create(), Name.Create(), new ProductPrice(10), ProductStock.Create()));
             shoppingCartRepository.GetShoppingCartByIdAsync(Arg.Any<ShoppingCartId>()).Returns(shoppingCart);
 
             DiscountDTO discountDTO = new DiscountDTO

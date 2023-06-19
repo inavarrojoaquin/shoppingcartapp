@@ -1,4 +1,5 @@
-﻿using ShoppingCartApp.Shared.Domain;
+﻿using ShoppingCartApp.Modules.ShoppingCartModule.Domain.DBClass;
+using ShoppingCartApp.Shared.Domain;
 using ShoppingCartApp.Shared.Events;
 using System.Text;
 
@@ -163,13 +164,5 @@ namespace ShoppingCartApp.Modules.ShoppingCartModule.Domain
         {
             return orderItems.Sum(x => x.GetQuantity());
         }
-    }
-
-    public class ShoppingCartData
-    {
-        public string ShoppingCartId { get; set; }
-        public string ShoppingCartName { get; set; }
-        public bool IsClosed { get; set; }
-        public List<OrderItemData> OrderItems { get; set; }
     }
 }

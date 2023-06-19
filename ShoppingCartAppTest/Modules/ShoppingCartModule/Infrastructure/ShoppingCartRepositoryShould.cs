@@ -21,7 +21,7 @@ public class ShoppingCartRepositoryShould
         var storedShoppingCartData = (await shoppingCartRepository.GetShoppingCartByIdAsync(shoppingCartId)).ToPrimitives();
         
         Assert.That(storedShoppingCartData.OrderItems.Count, Is.EqualTo(1));
-        Assert.That(storedShoppingCartData.OrderItems[0].Quantity, Is.EqualTo(2));
+        Assert.That(storedShoppingCartData.OrderItems.ElementAt(0).Quantity, Is.EqualTo(2));
     }
 
     [Test]
@@ -80,7 +80,7 @@ public class ShoppingCartRepositoryShould
         var repository = new ShoppingCartRepository(dbContext);
         var shoppingCartId = new ShoppingCartId("9DFB1807-521F-4F21-B9E2-408F1A03B853");
         var productId = new ProductId("5CBF54BA-BF19-40BF-B97D-4827A11720A2");
-        var product = new Product(productId, new Name("Product one"), new ProductPrice(20));
+        var product = new Product(productId, new Name("Product one"), new ProductPrice(20), ProductStock.Create());
         var shoppingCart = await repository.GetShoppingCartByIdAsync(shoppingCartId); 
         if (shoppingCart == null)
         {

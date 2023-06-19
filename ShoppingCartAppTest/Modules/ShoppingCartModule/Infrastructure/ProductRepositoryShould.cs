@@ -1,4 +1,5 @@
 ﻿using ShoppingCartApp.Modules.ShoppingCartModule.Domain;
+using ShoppingCartApp.Modules.ShoppingCartModule.Domain.DBClass;
 using ShoppingCartApp.Modules.ShoppingCartModule.Infrastructure;
 
 namespace ShoppingCartAppTest.Modules.ShoppingCartModule.Infrastructure
@@ -51,7 +52,7 @@ namespace ShoppingCartAppTest.Modules.ShoppingCartModule.Infrastructure
         public void UpdateProductName()
         {
             var repository = new SMProductRepository(new ShoppingCartDbContext());
-            var product = new Product(ProductId.Create(), new Name("Product one"), new ProductPrice(33));
+            var product = new Product(ProductId.Create(), new Name("Product one"), new ProductPrice(33), ProductStock.Create());
 
             repository.Save(product);
             product.UpdateName(new Name("Product renamed"));

@@ -24,7 +24,7 @@ namespace ShoppingCartAppTest.App.UseCases.DeleteProduct
         [Test]
         public void DeleteProductFromShoppingCartSuccessfully()
         {
-            Product product = new Product(ProductId.Create(), Name.Create(), ProductPrice.Create());
+            Product product = new Product(ProductId.Create(), Name.Create(), ProductPrice.Create(), ProductStock.Create());
             productRepository.GetProductById(Arg.Any<ProductId>()).Returns(product);
             ShoppingCartId shoppingCartId = ShoppingCartId.Create();
             ShoppingCart shoppingCart = Substitute.For<ShoppingCart>(shoppingCartId);
@@ -56,7 +56,7 @@ namespace ShoppingCartAppTest.App.UseCases.DeleteProduct
         public void RaiseExWhenProductIdDoesNotExistsInShoppingCart()
         {
             ProductId productId = ProductId.Create();
-            productRepository.GetProductById(Arg.Any<ProductId>()).Returns(new Product(productId, Name.Create(), ProductPrice.Create()));
+            productRepository.GetProductById(Arg.Any<ProductId>()).Returns(new Product(productId, Name.Create(), ProductPrice.Create(), ProductStock.Create()));
             ShoppingCartId shoppingCartId = ShoppingCartId.Create();
             ShoppingCart shoppingCart = Substitute.For<ShoppingCart>(shoppingCartId);
             shoppingCartRepository.GetShoppingCartByIdAsync(Arg.Any<ShoppingCartId>()).Returns(shoppingCart);

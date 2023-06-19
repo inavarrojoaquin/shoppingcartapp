@@ -1,4 +1,4 @@
-﻿using ShoppingCartApp.Modules.ShoppingCartModule.Domain;
+﻿using ShoppingCartApp.Modules.ShoppingCartModule.Domain.DBClass;
 using ShoppingCartApp.Shared.Domain;
 
 namespace ShoppingCartApp.Modules.ProductModule.UseCases.CheckStock

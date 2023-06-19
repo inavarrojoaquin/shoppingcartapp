@@ -1,4 +1,6 @@
-﻿namespace ShoppingCartApp.Modules.ShoppingCartModule.Domain
+﻿using ShoppingCartApp.Modules.ShoppingCartModule.Domain.DBClass;
+
+namespace ShoppingCartApp.Modules.ShoppingCartModule.Domain
 {
     public class OrderItem
     {
@@ -78,17 +80,5 @@
         {
             return productId;
         }
-    }
-
-    public class OrderItemData
-    {
-        public string OrderItemId { get; set; }
-        public string ProductId { get; set; }
-        public double ProductPrice { get; set; }
-        public int Quantity { get; set; }
-
-
-        public string ShoppingCartId { get; set; }
-        public ShoppingCartData ShoppingCartData { get; set; }
     }
 }

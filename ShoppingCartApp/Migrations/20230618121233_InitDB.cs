@@ -7,7 +7,7 @@
 namespace ShoppingCartApp.Migrations
 {
     /// <inheritdoc />
-    public partial class InitShoppingCartDb : Migration
+    public partial class InitDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,7 +30,8 @@ namespace ShoppingCartApp.Migrations
                 columns: table => new
                 {
                     ShoppingCartId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ShoppingCartName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ShoppingCartName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsClosed = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,14 +43,20 @@ namespace ShoppingCartApp.Migrations
                 columns: table => new
                 {
                     OrderItemId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProductId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProductPrice = table.Column<double>(type: "float", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     ShoppingCartId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderItems", x => x.OrderItemId);
+                    table.PrimaryKey("PK_OrderItems", x => new { x.OrderItemId, x.ProductId });
+                    table.ForeignKey(
+                        name: "FK_OrderItems_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "ProductId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_OrderItems_ShoppingCarts_ShoppingCartId",
                         column: x => x.ShoppingCartId,
@@ -66,6 +73,11 @@ namespace ShoppingCartApp.Migrations
                     { "5CBF54BA-BF19-40BF-B97D-4827A11720A2", "Product one", 30.0 },
                     { "7478b9ae-2e05-4c6d-afb1-3b8934edc699", "Product two", 40.0 }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_ProductId",
+                table: "OrderItems",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_ShoppingCartId",
