@@ -11,11 +11,11 @@ namespace ShoppingCartApp.Modules.ProductModule.UseCases.CheckStock
         private readonly IPMProductRepository productRepository;
         private readonly IEventBus eventBus;
 
-        public CheckStockUseCase(IPMProductRepository productRepository, IEventBus eventBus)
-        {
-            this.productRepository = productRepository;
-            this.eventBus = eventBus;
-        }
+        //public CheckStockUseCase(IPMProductRepository productRepository, IEventBus eventBus)
+        //{
+        //    this.productRepository = productRepository;
+        //    this.eventBus = eventBus;
+        //}
         public async Task ExecuteAsync(CheckStockRequest request)
         {
             // ir al repo de los productos y restar la cantidad que me han pasado, aunq luego sea negativo y se lanzaria otro evento X
