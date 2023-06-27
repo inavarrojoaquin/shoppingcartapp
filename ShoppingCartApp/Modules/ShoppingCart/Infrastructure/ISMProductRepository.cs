@@ -4,7 +4,7 @@ namespace ShoppingCartApp.Modules.ShoppingCartModule.Infrastructure
 {
     public interface ISMProductRepository
     {
-        Product GetProductById(ProductId id);
-        void Save(Product product);
+        Task<Product> GetProductByIdAsync(ProductId id);
+        Task SaveAsync(Product product);
     }
 }

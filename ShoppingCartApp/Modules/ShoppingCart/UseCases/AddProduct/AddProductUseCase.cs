@@ -22,7 +22,7 @@ namespace ShoppingCartApp.Modules.ShoppingCartModule.UseCases.AddProduct
             if (productRequest == null)
                 throw new Exception(string.Format("Error: {0} can't be null", typeof(AddProductRequest)));
 
-            Product product = productRepository.GetProductById(productRequest.ProductId);
+            Product product = await productRepository.GetProductByIdAsync(productRequest.ProductId);
 
             if (product == null) throw new Exception("Error: Product is null");
 

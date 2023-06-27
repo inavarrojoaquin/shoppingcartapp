@@ -1,8 +1,10 @@
 ﻿using ShoppingCartApp.Modules.ShoppingCartModule.Domain.DBClass;
+using ShoppingCartApp.Shared.Domain;
+using ShoppingCartApp.Shared.Events;
 
 namespace ShoppingCartApp.Modules.ShoppingCartModule.Domain
 {
-    public class Product
+    public class Product : AggregateRoot<StockUpdated>
     {
         private ProductId productId;
         private Name name;
@@ -32,7 +34,19 @@ namespace ShoppingCartApp.Modules.ShoppingCartModule.Domain
             productData.ProductName = name.Value();
             productData.ProductPrice = price.Value();
             productData.ProductStock = stock.Value();
+
             return productData;
+        }
+
+        public ProductData ToPrimitivesEvent()
+        {
+            return new ProductData
+            {
+                ProductId = productId.Value(),
+                ProductName = name.Value(),
+                ProductPrice = price.Value(),
+                ProductStock = stock.Value()
+            };
         }
 
         public static Product FromPrimitives(ProductData productData)
@@ -56,6 +70,16 @@ namespace ShoppingCartApp.Modules.ShoppingCartModule.Domain
         public void UpdateName(Name name)
         {
             this.name = name;
+        }
+
+        public void UpdateStock(int quantity)
+        {
+            this.stock = new ProductStock(stock.Value() - quantity);
+
+            // aqui se podria lanzar dos eventos uno si es agotado en caso que sea negativo y tener un handler que escuche 
+            // y otro para el caso positivo
+            // con el agregateroot actual no podria subscribir mas eventos por ende usar el approach de marcos con subscribe
+            AddEvent(new StockUpdated { ProductData = ToPrimitivesEvent()});
         }
     }
 }

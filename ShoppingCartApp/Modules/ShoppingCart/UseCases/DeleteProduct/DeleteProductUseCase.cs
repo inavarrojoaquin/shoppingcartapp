@@ -20,7 +20,7 @@ namespace ShoppingCartApp.Modules.ShoppingCartModule.UseCases.DeleteProduct
             if (deleteRequest == null)
                 throw new Exception(string.Format("Error: {0} can't be null", typeof(DeleteProductRequest)));
 
-            Product product = productRepository.GetProductById(deleteRequest.ProductId);
+            Product product = await productRepository.GetProductByIdAsync(deleteRequest.ProductId);
             ShoppingCart shoppingCart = await shoppingCartRepository.GetShoppingCartByIdAsync(deleteRequest.ShoppingCartId);
 
             if (shoppingCart == null)

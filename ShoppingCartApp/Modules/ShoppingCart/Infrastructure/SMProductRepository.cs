@@ -12,26 +12,25 @@ public class SMProductRepository : ISMProductRepository
         this.context = context;
     }
 
-    public Product GetProductById(ProductId id)
+    public async Task<Product> GetProductByIdAsync(ProductId id)
     {
         if (id == null) return null;
 
-        var productData = context.Products.FirstOrDefault((product) => product.ProductId.Equals(id.Value()));
+        var productData = await context.Products.FirstOrDefaultAsync((product) => product.ProductId.Equals(id.Value()));
 
         if (productData == null) return null;
-
+        
         return Product.FromPrimitives(productData);
     }
 
-    public void Save(Product product)
+    public async Task SaveAsync(Product product)
     {
         var productInternalData = product.ToPrimitives();
-        var state = context.Entry(productInternalData).State;
-        if (state == EntityState.Detached)
+        if (context.Entry(productInternalData).State == EntityState.Detached)
             context.Add(productInternalData);
         else
             context.Entry(productInternalData).State = EntityState.Modified;
 
-        context.SaveChanges();
+        await context.SaveChangesAsync();
     }
 }

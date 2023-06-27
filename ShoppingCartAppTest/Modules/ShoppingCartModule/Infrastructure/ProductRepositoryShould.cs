@@ -7,13 +7,13 @@ namespace ShoppingCartAppTest.Modules.ShoppingCartModule.Infrastructure
     internal class ProductRepositoryShould
     {
         [Test]
-        public void GetExistingProduct()
+        public async Task GetExistingProduct()
         {
             ShoppingCartDbContext context = new ShoppingCartDbContext();
             SMProductRepository productRepository = new SMProductRepository(context);
 
             ProductId id = new ProductId("5CBF54BA-BF19-40BF-B97D-4827A11720A2");
-            Product targetProduct = productRepository.GetProductById(id);
+            Product targetProduct = await productRepository.GetProductByIdAsync(id);
 
             ProductData expectedProductData = context.Products
                 .First(p => p.ProductId == "5CBF54BA-BF19-40BF-B97D-4827A11720A2");
@@ -27,38 +27,38 @@ namespace ShoppingCartAppTest.Modules.ShoppingCartModule.Infrastructure
         }
 
         [Test]
-        public void GetNullWhenRequestIdIsNull()
+        public async Task GetNullWhenRequestIdIsNull()
         {
             var context = new ShoppingCartDbContext();
             SMProductRepository productRepository = new SMProductRepository(context);
 
-            Product current = productRepository.GetProductById(null);
+            Product current = await productRepository.GetProductByIdAsync(null);
 
             Assert.That(current, Is.Null);
         }
 
         [Test]
-        public void GetNullWhenProductDoesNotExists()
+        public async Task GetNullWhenProductDoesNotExists()
         {
             ShoppingCartDbContext context = new ShoppingCartDbContext();
             SMProductRepository productRepository = new SMProductRepository(context);
 
-            Product current = productRepository.GetProductById(ProductId.Create());
+            Product current = await productRepository.GetProductByIdAsync(ProductId.Create());
 
             Assert.That(current, Is.Null);
         }
 
         [Test]
-        public void UpdateProductName()
+        public async Task UpdateProductName()
         {
             var repository = new SMProductRepository(new ShoppingCartDbContext());
             var product = new Product(ProductId.Create(), new Name("Product one"), new ProductPrice(33), ProductStock.Create());
 
-            repository.Save(product);
+            await repository.SaveAsync(product);
             product.UpdateName(new Name("Product renamed"));
-            repository.Save(product);
+            await repository.SaveAsync(product);
 
-            var existingProduct = repository.GetProductById(product.GetProductId());
+            var existingProduct = await repository.GetProductByIdAsync(product.GetProductId());
             Assert.That(existingProduct.ToPrimitives().ProductName, Is.EqualTo("Product renamed"));
         }
     }

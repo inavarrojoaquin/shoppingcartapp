@@ -1,3 +1,4 @@
+using ShoppingCartApp.Modules.ProductModule.Domain.DBClass;
 using ShoppingCartApp.Shared.Domain;
 using ShoppingCartApp.Shared.Events;
 
@@ -26,8 +27,7 @@ public class Product : AggregateRoot<ProductStockUpdated>
             new ProductId(productData.ProductId),
             new Name(productData.ProductName),
             new ProductPrice(productData.ProductPrice),
-            new ProductStock(productData.Stock)
-            );
+            new ProductStock(productData.ProductStock));
     }
 
     public ProductData ToPrimitives()
@@ -37,7 +37,7 @@ public class Product : AggregateRoot<ProductStockUpdated>
             ProductId = productId.Value(),
             ProductPrice = price.Value(),
             ProductName = name.Value(),
-            Stock = stock.Value()
+            ProductStock = stock.Value()
         };
     }
 
@@ -50,12 +50,4 @@ public class Product : AggregateRoot<ProductStockUpdated>
         // con el agregateroot actual no podria subscribir mas eventos por ende usar el approach de marcos con subscribe
         AddEvent(new ProductStockUpdated { ProductData = this.productData });
     }
-}
-
-public class ProductData
-{
-    public string ProductId { get; set; }
-    public string ProductName { get; set; }
-    public double ProductPrice { get; set; }
-    public int Stock { get; set; }
 }

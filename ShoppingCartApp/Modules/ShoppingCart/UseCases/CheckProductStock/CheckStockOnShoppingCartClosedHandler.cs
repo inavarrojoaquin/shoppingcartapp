@@ -2,7 +2,7 @@
 using ShoppingCartApp.Shared.Events;
 using ShoppingCartApp.Shared.UseCases;
 
-namespace ShoppingCartApp.Modules.ProductModule.UseCases.CheckStock
+namespace ShoppingCartApp.Modules.ShoppingCartModule.UseCases.CheckProductStock
 {
     public class CheckStockOnShoppingCartClosedHandler : IEventHandler<ShoppingCartClosed>
     {
@@ -14,7 +14,7 @@ namespace ShoppingCartApp.Modules.ProductModule.UseCases.CheckStock
         }
         public async Task Handle(ShoppingCartClosed domainEvent)
         {
-            await useCase.ExecuteAsync(new CheckStockRequest { ShoppingCartData = domainEvent.ShoppingCartData });
+            await useCase.ExecuteAsync(new CheckStockRequest(domainEvent.ShoppingCartData));
         }
     }
 }

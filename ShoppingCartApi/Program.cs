@@ -1,11 +1,12 @@
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using ShoppingCartApi.Decorators;
-using ShoppingCartApp.Modules.ProductModule.Infrastructure;
-using ShoppingCartApp.Modules.ProductModule.UseCases.CheckStock;
 using ShoppingCartApp.Modules.ShoppingCartModule.Infrastructure;
 using ShoppingCartApp.Modules.ShoppingCartModule.UseCases.AddProduct;
+using ShoppingCartApp.Modules.ShoppingCartModule.UseCases.CheckProductStock;
 using ShoppingCartApp.Modules.ShoppingCartModule.UseCases.CloseShoppingCart;
 using ShoppingCartApp.Modules.ShoppingCartModule.UseCases.DeleteProduct;
 using ShoppingCartApp.Modules.ShoppingCartModule.UseCases.PrintShoppingCart;
+using ShoppingCartApp.Modules.ShoppingCartModule.UseCases.UpdateProductStock;
 using ShoppingCartApp.Shared.Domain;
 using ShoppingCartApp.Shared.Events;
 using ShoppingCartApp.Shared.Infrastructure;
@@ -26,13 +27,14 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
 // DBContext
-//builder.Services.AddDbContext<ProductDbContext>();
 builder.Services.AddDbContext<ShoppingCartDbContext>();
+//builder.Services.AddDbContext<ProductDbContext>();
 
 // Repositories
-builder.Services.AddTransient<ISMProductRepository, SMProductRepository>();
 builder.Services.AddTransient<IShoppingCartRepository, ShoppingCartRepository>();
+builder.Services.AddTransient<ISMProductRepository, SMProductRepository>();
 //builder.Services.AddTransient<IPMProductRepository, PMProductRepository>();
+
 
 // UseCases
 builder.Services.AddTransient<IBaseUseCase<AddProductRequest>, AddProductUseCase>();
@@ -40,6 +42,7 @@ builder.Services.AddTransient<IBaseUseCase<DeleteProductRequest>, DeleteProductU
 builder.Services.AddTransient<IBaseUseCase<PrintShoppingCartRequest, string>, PrintShoppingCartUseCase>();
 builder.Services.AddTransient<IBaseUseCase<CloseShoppingCartRequest>, CloseShoppingCartUseCase>();
 builder.Services.AddTransient<IBaseUseCase<CheckStockRequest>, CheckStockUseCase>();
+builder.Services.AddTransient<IBaseUseCase<UpdatetSockRequest>, UpdateStockUseCase>();
 
 // CQRS-Command
 builder.Services.AddTransient<ICommandBus, InMemoryCommandBus>();
@@ -61,12 +64,13 @@ builder.Services.Decorate<IBaseUseCase<DeleteProductRequest>, DbTransactionDecor
 // Queries Decorator
 builder.Services.Decorate<IBaseUseCase<PrintShoppingCartRequest, string>, QueryLoggingDecorator<PrintShoppingCartRequest, string>>();
 
-// Event Bus Service -> They can not work at the same time its one or the other
-//builder.Services.AddSingleton<IEventBus, InMemoryEventBus>();
+// Event Bus Service -> The last in order is going to be the one ejecuting de eventBus.Publish
+builder.Services.AddSingleton<IEventBus, InMemoryEventBus>();
 builder.Services.AddSingleton<IEventBus, RabbitMQEventBus>();
 
 // Events
 builder.Services.AddTransient<IEventHandler<ShoppingCartClosed>, CheckStockOnShoppingCartClosedHandler>();
+builder.Services.AddTransient<IEventHandler<StockUpdated>, UpdateStockOnStockUpdatedHandler>();
 
 var app = builder.Build();
 
@@ -103,15 +107,29 @@ public class BusConfigurator
 { 
     public void Subscribe(IApplicationBuilder applicationBuilder)
     {
-        var eventBus =  applicationBuilder.ApplicationServices.GetService<IEventBus>();
-        var checkStockUseCase = applicationBuilder.ApplicationServices.GetService<IEventHandler<ShoppingCartClosed>>();
+        var scope = applicationBuilder.ApplicationServices.CreateScope();
+        var eventBuses = scope.ServiceProvider.GetServices<IEventBus>();
+        var shoppingCartClosedHandler = scope.ServiceProvider.GetService<IEventHandler<ShoppingCartClosed>>();
+        var stockUpdatedHandler = scope.ServiceProvider.GetService<IEventHandler<StockUpdated>>();
 
-        eventBus.Subscribe<ShoppingCartClosed>((IEventHandler<ShoppingCartClosed>)checkStockUseCase);
+        foreach (var eventBus in eventBuses)
+        {
+            eventBus.Subscribe(shoppingCartClosedHandler);
+            eventBus.Subscribe(stockUpdatedHandler);
+        }
     }
 
     public void StartCosumer(IApplicationBuilder applicationBuilder)
     {
-        var eventBus = applicationBuilder.ApplicationServices.GetService<IEventBus>();
-        ((RabbitMQEventBus)eventBus).StartConsuming("products.checkStatus_on_shoppingCart_closed", typeof(ShoppingCartClosed));
+        var eventBuses = applicationBuilder.ApplicationServices.GetServices<IEventBus>();
+        
+        foreach(var eventBus in eventBuses)
+        {
+            if(eventBus.GetType() == typeof(RabbitMQEventBus))
+            {
+                ((RabbitMQEventBus)eventBus).StartConsuming("products.checkStock_on_shoppingCartClosed", typeof(ShoppingCartClosed));
+                ((RabbitMQEventBus)eventBus).StartConsuming("products.updatedStock_on_stockUpdated", typeof(StockUpdated));
+            }
+        }
     }
 }
